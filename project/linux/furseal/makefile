@@ -6,7 +6,7 @@ BASE_DIR = ../../..
 
 CXX         = g++
 CXXFLAGS    = -O2 -fno-strict-aliasing -Wall -s
-DEFINES     = -DNDEBUG -DCK_LINUX
+DEFINES     = -DNDEBUG -DFS_LINUX
 INCLUDES    = -I$(BASE_DIR)/include -I$(BASE_DIR)/sources
 
 AR          = ar
