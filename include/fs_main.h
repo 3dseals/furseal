@@ -31,6 +31,8 @@
 #define furseal() \
     int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) \
     { \
+        fsMgr::setInitialDirectoryForEngine(__argc, __argv); \
+    \
         extern void fsMain_(); \
         fsMain_(); \
     \
@@ -41,6 +43,8 @@
 #define furseal() \
     int main(int argc, char* argv[]) \
     { \
+        fsMgr::setInitialDirectoryForEngine(argc, argv); \
+    \
         extern void fsMain_(); \
         fsMain_(); \
     \

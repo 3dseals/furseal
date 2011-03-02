@@ -30,31 +30,31 @@
     @ingroup fsDef
     引擎的基本数据类型.
 */
-namespace ckBasicType
+namespace fsBasicType
 {
-    typedef signed char s8; //!< 8-bit signed type.
-    typedef signed short s16; //!< 16-bit signed type.
-    typedef signed int s32; //!< 32-bit signed type.
+    typedef signed char s8; //!< 8位有符号数据.
+    typedef signed short s16; //!< 16位有符号数据.
+    typedef signed int s32; //!< 32位有符号数据.
 
-    typedef unsigned char u8; //!< 8-bit unsigned type.
-    typedef unsigned short u16; //!< 16-bit unsigned type.
-    typedef unsigned int u32; //!< 32-bit unsigned type.
+    typedef unsigned char u8; //!< 8位无符号数据.
+    typedef unsigned short u16; //!< 16位无符号数据.
+    typedef unsigned int u32; //!< 32位无符号数据.
 
-    typedef float r32; //!< 32-bit floating point type.
-    typedef double r64; //!< 64-bit floating point type.
+    typedef float r32; //!< 32位浮点数据.
+    typedef double r64; //!< 64位浮点数据.
 
 #if defined(__GNUC__)
-    typedef signed long long s64; //!< 64-bit signed type.
-    typedef unsigned long long u64; //!< 64-bit unsigned type.
+    typedef signed long long s64; //!< 64位有符号数据.
+    typedef unsigned long long u64; //!< 64位无符号数据.
 #elif defined(_MSC_VER)
-    typedef signed __int64 s64; //!< 64-bit signed type.
-    typedef unsigned __int64 u64; //!< 64-bit unsigned type.
+    typedef signed __int64 s64; //!< 64位有符号数据.
+    typedef unsigned __int64 u64; //!< 64位无符号数据.
 #else
 #error
 #endif
 }
 
-using namespace ckBasicType;
+using namespace fsBasicType;
 
 /*!
     @ingroup fsDef
@@ -67,5 +67,6 @@ const u32 FURSEAL_VERSION = 2; // 0.0.2
     提供控制管理引擎的功能.
 */
 #include "kernel/fs_mgr.h"
+#include "kernel/fs_core.h"
 
 #endif // !FS_H_
