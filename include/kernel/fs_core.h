@@ -36,5 +36,13 @@ FS_API void fsStartFurseal();
 */
 FS_API void fsStopFurseal();
 
+/*!
+    @ingroup fsKen
+    发出furseal错误.
+    @param msg 错误信息.
+    @param ... 附加参数.
+*/
+FS_API void fsError(const char* msg, ...);
+
 
 #endif // !FS_CORE_H_

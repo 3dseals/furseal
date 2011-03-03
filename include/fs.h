@@ -6,6 +6,7 @@
 #ifndef FS_H_
 #define FS_H_
 
+
 /*!
     @defgroup fsDef fsDef -- 全局宏定义
     定义furseal引擎全局宏.
@@ -22,9 +23,11 @@
 #endif
 #endif
 
+
 #ifndef NULL
 #define NULL 0
 #endif
+
 
 /*!
     @ingroup fsDef
@@ -54,13 +57,118 @@ namespace fsBasicType
 #endif
 }
 
+
 using namespace fsBasicType;
+
 
 /*!
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 2; // 0.0.2
+const u32 FURSEAL_VERSION = 4; // 0.0.4
+
+
+/*!
+    @ingroup fsDef
+    furseal引擎异常处理.
+*/
+class fsException
+{
+public:
+    /*!
+        异常的结构.
+        @param[in] exception 异常名称.
+        @param[in] file 抛出异常的文件名.
+        @param[in] line 抛出异常的行号位置.
+    */
+    fsException(const char* exception, const char* file, u32 line)
+    {
+        m_exception = exception;
+        m_file = file;
+        m_line = line;
+    }
+
+    /*!
+        获取异常名称.
+        @return 异常名称.
+    */
+    const char* getException() const
+    {
+        return m_exception;
+    }
+
+    /*!
+        获取异常文件名.
+        @return 异常文件名.
+    */
+    const char* getFile() const
+    {
+        return m_file;
+    }
+
+    /*!
+        获取异常行号位置.
+        @return 异常行号位置.
+    */
+    u32 getLine() const
+    {
+        return m_line;
+    }
+
+private:
+    const char* m_exception;
+    const char* m_file;
+    u32 m_line;
+};
+
+
+#ifdef FS_NO_THROW_EXCEPTION
+
+FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line);
+
+#define fsDefineException(e)
+#define fsTry if (true)
+#define fsThrow(e) fsSubstituteThrow(#e, __FILE__, __LINE__)
+#define fsCatch(...) if (false)
+
+#else
+
+/*!
+    @ingroup fsDef
+    定义一个异常.
+    @param[in] 异常类型名称.
+*/
+#define fsDefineException(e) \
+    class e : public fsException \
+    { \
+    public: \
+        e(const char* exception, const char* file, u32 line) : fsException(exception, file, line) {} \
+    }
+
+
+/*!
+    @ingroup fsDef
+    捕获异常.
+*/
+#define fsTry try
+
+
+/*!
+    @ingroup fsDef
+    抛出异常.
+    @param[in] e 异常类型名称.
+*/
+#define fsThrow(e) throw e(#e, __FILE__, __LINE__)
+
+
+/*!
+    @ingroup fsDef
+    异常处理.
+    @param[in] ... 异常参数.
+*/
+#define fsCatch(...) catch (__VA_ARGS__)
+
+#endif // FS_NO_THROW_EXCEPTION
 
 /*!
     @defgroup fsKen fsKen -- 引擎内核
