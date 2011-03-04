@@ -19,7 +19,7 @@
     @param[in] width 创建窗口的宽度.
     @param[in] height 创建窗口的高度.
     @param[in] aim_fps 每秒保持的帧频.
-    @param[in] sys_flag 系统标志位,默认为0.
+    @param[in] sys_flag 系统标志位,默认为0,1 全屏模式,2 可拉伸窗口模式,4 禁用openGL阴影模式.
 */
 FS_API void fsCreateFurseal(const char* title, u16 width, u16 height, u16 aim_fps, u16 sys_flag = 0);
 

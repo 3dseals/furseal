@@ -56,6 +56,17 @@ const void* fsMemHelper::getFirstMemoryBlockN()
 }
 
 
+u32 fsMemHelper::getMemoryBlockArraySize(const void* ptr)
+{
+    if (!ptr)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    return (reinterpret_cast<const MemoryBlockHeader*>(ptr) - 1)->array_size;
+}
+
+
 void* fsMemHelper::mallocForEngine(u32 size, u32 array_size, const char* name)
 {
 	fsMemHelper* ins = instance();

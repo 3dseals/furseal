@@ -12,6 +12,9 @@
 #define FS_PRIVATE_MACRO_H_
 
 
+#define FS_DEFINE_COPY_CONSTRUCTOR(name) name::name(const name&) {}
+
+
 #define FS_DEFINE_OPERATOR_EQUAL(name) void name::operator=(const name&) {}
 
 
@@ -19,6 +22,17 @@
     bool name::isCreated() \
     { \
         return m_instance ? true : false; \
+    }
+
+
+#define FS_DEFINE_MANAGER_DESTROY(name, suffix) \
+    void name::destroy##suffix() \
+    { \
+        if (m_instance) \
+        { \
+            fsDelete(m_instance, name); \
+            m_instance = NULL; \
+        } \
     }
 
 

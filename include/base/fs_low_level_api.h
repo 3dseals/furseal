@@ -27,9 +27,13 @@ public:
     static bool createApplication(const char* title, u16 width, u16 height, u16 sys_flag);
     static void destroyApplication();
     static void startApplication(bool (*update_func)(void));
-    static void setInitialDirectory(s32 argc, char** argv);
+    static void updateFramebufferSize();
+    static void swapFramebuffer();
+    static u64 getUsecTime();
+    static void sleepUsec(u64 usec);
     static void exit(s32 status);
     static void error(const char* msg);
+    static void setInitialDirectory(s32 argc, char** argv);
     static void printf(const char* msg);
     static void vsprintf(char* buf, u32 buf_size, const char* format, void* arg);
 };

@@ -21,6 +21,7 @@ class FS_API fsMemHelper
 public:
     //! @cond
 	 fsDefineException(ExceptionInvalidArgument);
+	 fsDefineException(ExceptionInvalidCall);
     fsDefineException(ExceptionInvalidSizeOfType);
     //! @endcond
 
@@ -49,6 +50,14 @@ public:
         @return 第一块内存块地址,没有内存块时返回NULL.
     */
     static const void* getFirstMemoryBlockN();
+
+
+    /*!
+        Returns the size of the specified memory block array.
+        @param[in] ptr The pointer to a memory block array.
+        @return The size of the specified memory block array.
+    */
+    static u32 getMemoryBlockArraySize(const void* ptr);
 
 
     /*!

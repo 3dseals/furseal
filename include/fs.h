@@ -75,7 +75,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 5; // 0.0.5
+const u32 FURSEAL_VERSION = 6; // 0.0.6
 
 
 /*!
@@ -180,6 +180,24 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 
 #endif // FS_NO_THROW_EXCEPTION
 
+
+/*!
+    @defgroup fsMem fsMem -- 内存管理
+    管理程序的内存.
+*/
+#include "mem/fs_mem_helper.h"
+#include "mem/fs_mem_util.h"
+
+
+/*!
+    @defgroup fsGen fsGen -- 引擎通用模块
+    引擎通用类型.
+*/
+#include "gen/fs_flag.h"
+#include "gen/fs_tree.h"
+#include "gen/fs_type.h"
+
+
 /*!
     @defgroup fsKen fsKen -- 引擎内核
     提供控制管理引擎的功能.
@@ -189,11 +207,19 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 
 
 /*!
-    @defgroup ckMem ckMem -- 内存管理
-    管理程序的内存.
+    @defgroup fsTask fsTask -- 任务管理
+    管理程序的任务.
 */
-#include "mem/fs_mem_helper.h"
-#include "mem/fs_mem_util.h"
+#include "task/fs_task.h"
+#include "task/fs_task_mgr.h"
+#include "task/fs_task_util.h"
+
+
+/*!
+    @defgroup fsDraw fsDraw -- 绘图管理
+    管理程序的绘图.
+*/
+#include "draw/fs_draw_mgr.h"
 
 
 #endif // !FS_H_

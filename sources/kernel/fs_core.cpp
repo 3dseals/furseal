@@ -15,21 +15,68 @@
 #include "base/fs_low_level_api.h"
 
 
+static u64 s_one_frame_time;
+static u64 s_next_update_time = 0;
+static u64 s_last_render_time = 0;
+
+
 void fsCreateFurseal(const char* title, u16 width, u16 height, u16 aim_fps, u16 sys_flag)
 {
     fsMemHelper::createFirst();
+    fsMgr::createAfterMem(title, width, height, sys_flag);
+    fsTaskMgr::createAfterSys(aim_fps);
+    fsDrawMgr::createAfterRes();
 }
 
 
 void fsDestroyFurseal()
 {
+    fsTaskMgr::destroyFirst();
+    fsDrawMgr::destroyBeforeRes();
+	 fsMgr::destroyBeforeMem();
     fsMemHelper::destroyLast();
 }
 
 
 static bool loop()
 {
-    return true;
+    u64 cur_time = fsMgr::getUsecTime();
+
+    if ((fsTaskMgr::isFrameSkipResetForEngine() && cur_time > s_next_update_time) || //
+        cur_time - s_last_render_time >= fsDrawMgr::MAX_RENDER_INTERVAL_MSEC_TIME * 1000)
+    {
+        s_next_update_time = cur_time;
+    }
+
+    if (cur_time <= s_next_update_time + s_one_frame_time)
+    {
+        while (cur_time < s_next_update_time)
+        {
+            fsLowLevelAPI::sleepUsec((s_next_update_time - cur_time) / 4);
+
+            cur_time = fsMgr::getUsecTime();
+        }
+
+        fsMgr::updateForEngine();
+        fsTaskMgr::updateForEngine();
+
+        fsTaskMgr::measureRenderTimeForEngine(fsDrawMgr::renderForEngine);
+        fsLowLevelAPI::swapFramebuffer();
+
+        s_last_render_time = cur_time;
+        s_next_update_time += s_one_frame_time;
+
+        return true;
+    }
+    else
+    {
+        fsMgr::updateForEngine();
+        fsTaskMgr::updateForEngine();
+
+        s_next_update_time += s_one_frame_time;
+
+        return false;
+    }
 }
 
 

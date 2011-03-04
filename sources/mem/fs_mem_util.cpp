@@ -15,3 +15,5 @@ void* operator new(size_t, void* ptr, fsException*)
 {
     return ptr;
 }
+
+void operator delete(void*, void*, fsException*) {}
