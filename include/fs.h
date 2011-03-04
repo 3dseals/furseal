@@ -1,5 +1,10 @@
 /*
-    Copyright (c) 2011 netsurfers
+ * fs.h
+ *
+ *  Created on: 2011-3-1
+ *      Author: Lional King
+ *
+ *  Copyright (c) 2011 netsurfers
 */
 
 
@@ -26,6 +31,11 @@
 
 #ifndef NULL
 #define NULL 0
+#endif
+
+
+#ifdef __GNUC__
+typedef __SIZE_TYPE__ size_t;
 #endif
 
 
@@ -65,7 +75,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 4; // 0.0.4
+const u32 FURSEAL_VERSION = 5; // 0.0.5
 
 
 /*!
@@ -176,5 +186,14 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 */
 #include "kernel/fs_mgr.h"
 #include "kernel/fs_core.h"
+
+
+/*!
+    @defgroup ckMem ckMem -- 内存管理
+    管理程序的内存.
+*/
+#include "mem/fs_mem_helper.h"
+#include "mem/fs_mem_util.h"
+
 
 #endif // !FS_H_

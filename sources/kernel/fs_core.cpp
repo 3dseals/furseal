@@ -1,5 +1,10 @@
 /*
-    Copyright (c) 2011 netsurfers
+ * fs_core.cpp
+ *
+ *  Created on: 2011-3-2
+ *      Author: Lional King
+ *
+ *  Copyright (c) 2011 netsurfers
 */
 
 
@@ -12,13 +17,13 @@
 
 void fsCreateFurseal(const char* title, u16 width, u16 height, u16 aim_fps, u16 sys_flag)
 {
-
+    fsMemHelper::createFirst();
 }
 
 
 void fsDestroyFurseal()
 {
-
+    fsMemHelper::destroyLast();
 }
 
 

@@ -1,5 +1,10 @@
 /*
-    Copyright (c) 2011 netsurfers
+ * fs_low_level_api.h
+ *
+ *  Created on: 2011-3-2
+ *      Author: Lional King
+ *
+ *  Copyright (c) 2011 netsurfers
 */
 
 
@@ -10,9 +15,15 @@
 #include "fs.h"
 
 
+/*!
+    @ingroup fsBase
+    夸平台低级接口.
+*/
 class fsLowLevelAPI
 {
 public:
+    static void* malloc(u32 size);
+    static void free(void* ptr);
     static bool createApplication(const char* title, u16 width, u16 height, u16 sys_flag);
     static void destroyApplication();
     static void startApplication(bool (*update_func)(void));

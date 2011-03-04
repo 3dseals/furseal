@@ -1,5 +1,10 @@
 /*
-    Copyright (c) 2011 netsurfers
+ * fs_low_level_linux.cpp
+ *
+ *  Created on: 2011-3-2
+ *      Author: Lional King
+ *
+ *   Copyright (c) 2011 netsurfers
 */
 
 
@@ -58,7 +63,7 @@ void fsLowLevelAPI::setInitialDirectory(s32 argc, char** argv)
     {
         if (chdir(dirname(argv[0])) != 0)
         {
-            return; // to avoid gcc warning
+            return; // 阻止GCC警告
         }
     }
 }

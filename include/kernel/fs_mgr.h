@@ -1,5 +1,10 @@
 /*
-    Copyright (c) 2011 netsurfers
+ * fs_mgr.h
+ *
+ *  Created on: 2011-3-2
+ *      Author: Lional King
+ *
+ *  Copyright (c) 2011 netsurfers
 */
 
 
@@ -15,7 +20,9 @@ class FS_API fsMgr
 {
 public:
     //! @cond
+    fsDefineException(ExceptionCreateFramebufferFailed);
     fsDefineException(ExceptionEndCatcake);
+    fsDefineException(ExceptionInvalidArgument);
     //! @endcond
 
 
@@ -41,6 +48,11 @@ public:
 private:
     fsMgr(const char* title, u16 width, u16 height, u16 sys_flag);
     ~fsMgr();
+    void operator=(const fsMgr&);
+
+    static fsMgr* instance();
+
+    static fsMgr* m_instance;
 };
 
 #endif // !FS_MGR_H_
