@@ -2,7 +2,7 @@
  * fs_draw_mgr.h
  *
  *  Created on: 2011-3-4
- *      Author: administrator
+ *      Author: Lional King
  *
  *  Copyright (c) 2011 netsurfers
  */
@@ -33,19 +33,19 @@ public:
 
 
     /*!
-        Creates ckDrawMgr singleton.
+        创建绘图管理器,该方法只被引擎自己调用.
     */
     static void createAfterRes();
 
 
     /*!
-        Destroys ckDrawMgr singleton.
+        销毁绘图管理器,该方法只被引擎自己调用.
     */
     static void destroyBeforeRes();
 
 
     /*!
-        Updates the framebuffer. This methos is only for system.
+        更新图帧缓存进行渲染,该方法只被引擎自己调用.
     */
     static void renderForEngine();
 

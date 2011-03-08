@@ -38,14 +38,14 @@ public:
 
 
     /*!
-        Returns the current time in usec.
+        返回当前时间.
     */
     static u64 getUsecTime();
 
 
     /*!
-        Sleeps for the specified time.
-        @param[in] usec The period to sleep in usec.
+        睡眠一段时间.
+        @param[in] usec 睡眠时间.
     */
     static void sleepUsec(u64 usec);
 

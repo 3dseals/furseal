@@ -17,6 +17,28 @@
 fsMemHelper* fsMemHelper::m_instance = NULL;
 
 
+void fsMemHelper::memset(void* buf, u8 value, u32 size)
+{
+    if (!buf || size == 0)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::memset(buf, value, size);
+}
+
+
+void fsMemHelper::memcpy(void* dest, const void* src, u32 size)
+{
+    if (!dest || !src || size == 0)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::memcpy(dest, src, size);
+}
+
+
 FS_DEFINE_MANAGER_IS_CREATED(fsMemHelper)
 
 

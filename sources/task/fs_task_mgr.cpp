@@ -2,7 +2,7 @@
  * fs_task_mgr.cpp
  *
  *  Created on: 2011-3-4
- *      Author: administrator
+ *      Author: Lional King
  *
  *  Copyright (c) 2011 netsurfers
  */
@@ -146,6 +146,27 @@ void fsTaskMgr::updateForEngine()
     ins->m_next_task = NULL;
 
     ins->m_frame_count++;
+}
+
+
+u32 fsTaskMgr::setNextTaskNameForEngine(const char* name)
+{
+    fsTaskMgr* ins = instance();
+
+    if (!name)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    if (ins->m_is_in_destructor)
+    {
+        ins->m_is_in_destructor = false;
+        fsThrow(ExceptionNewTaskInDestructor);
+    }
+
+    ins->m_next_task_name = name;
+
+    return 0;
 }
 
 

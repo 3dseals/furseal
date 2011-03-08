@@ -39,3 +39,15 @@ void fsLowLevelAPI::free(void* ptr)
 {
     ::free(ptr);
 }
+
+
+void fsLowLevelAPI::memset(void* buf, u8 value, u32 size)
+{
+    ::memset(buf, value, size);
+}
+
+
+void fsLowLevelAPI::memcpy(void* dest, const void* src, u32 size)
+{
+    ::memcpy(dest, src, size);
+}

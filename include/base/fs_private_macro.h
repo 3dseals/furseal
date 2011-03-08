@@ -25,6 +25,15 @@
     }
 
 
+#define FS_DEFINE_MANAGER_CREATE(name, create_suffix, destroy_suffix) \
+    void name::create##create_suffix() \
+    { \
+        destroy##destroy_suffix(); \
+    \
+        m_instance = fsNew(name); \
+    }
+
+
 #define FS_DEFINE_MANAGER_DESTROY(name, suffix) \
     void name::destroy##suffix() \
     { \

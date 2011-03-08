@@ -27,6 +27,23 @@ public:
 
 
     /*!
+        填充内存块.
+        @param[out] buf 内存块首地址.
+        @param[in] value 填充的值.
+        @param[in] size 填充的大小.
+    */
+    static void memset(void* buf, u8 value, u32 size);
+
+    /*!
+        复制源内存块到目的内存块.
+        @param[out] dest 目的内存块首指针.
+        @param[in] src 源内存块首指针.
+        @param[in] size 复制的大小.
+    */
+    static void memcpy(void* dest, const void* src, u32 size);
+
+
+    /*!
         判断内存管理器是否创建.
         @return 内存管理器是否创建.
     */
@@ -53,9 +70,9 @@ public:
 
 
     /*!
-        Returns the size of the specified memory block array.
-        @param[in] ptr The pointer to a memory block array.
-        @return The size of the specified memory block array.
+        返回内存块数组的尺寸.
+        @param[in] ptr 指向内存块数组的指针.
+        @return 内存块数组的尺寸.
     */
     static u32 getMemoryBlockArraySize(const void* ptr);
 

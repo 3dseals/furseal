@@ -21,6 +21,12 @@
 
 #include "base/fs_low_level_api.h"
 #include "kernel/fs_mgr.h"
+#include "input/fs_input_mgr.h"
+
+
+static fsLowLevelAPI::KeyEventHandler s_key_event_handler = NULL;
+static fsLowLevelAPI::MouseEventHandler s_mouse_event_handler = NULL;
+static fsLowLevelAPI::ExtraEventHandler s_extra_event_handler = NULL;
 
 
 static const char* s_app_name;
@@ -38,6 +44,100 @@ static GLXContext s_ctx;
 static int s_scr;
 static XF86VidModeModeInfo s_video_mode_info;
 static bool s_is_double_buffered;
+
+
+static void callKeyEventHandler(KeyCode keycode, bool is_down)
+{
+    KeySym keysym = XKeycodeToKeysym(s_dpy, keycode, 0);
+    fsInputMgr::KeyType key_type = fsInputMgr::KEY_NONE;
+
+    if (keysym >= XK_0 && keysym <= XK_9)
+    {
+        key_type = static_cast<fsInputMgr::KeyType>(fsInputMgr::KEY_0 + keysym - XK_0);
+    }
+    else if (keysym >= XK_A && keysym <= XK_Z)
+    {
+        key_type = static_cast<fsInputMgr::KeyType>(fsInputMgr::KEY_A + keysym - XK_A);
+    }
+    else if (keysym >= XK_a && keysym <= XK_z)
+    {
+        key_type = static_cast<fsInputMgr::KeyType>(fsInputMgr::KEY_A + keysym - XK_a);
+    }
+    else if (keysym >= XK_F1 && keysym <= XK_F12)
+    {
+        key_type = static_cast<fsInputMgr::KeyType>(fsInputMgr::KEY_F1 + keysym - XK_F1);
+    }
+    else if (keysym >= XK_KP_0 && keysym <= XK_KP_9)
+    {
+        key_type = static_cast<fsInputMgr::KeyType>(fsInputMgr::KEY_NUMPAD0 + keysym - XK_KP_0);
+    }
+    else if (keysym >= XK_Home && keysym <= XK_End)
+    {
+        static const fsInputMgr::KeyType s_keycode_table[] =
+        {
+            fsInputMgr::KEY_HOME, fsInputMgr::KEY_LEFT, fsInputMgr::KEY_UP, fsInputMgr::KEY_RIGHT, //
+            fsInputMgr::KEY_DOWN, fsInputMgr::KEY_PAGEUP, fsInputMgr::KEY_PAGEDOWN, fsInputMgr::KEY_END
+        };
+
+        key_type = s_keycode_table[keysym - XK_Home];
+    }
+    else if (keysym >= XK_KP_Multiply && keysym <= XK_KP_Divide)
+    {
+        static const fsInputMgr::KeyType s_keycode_table[] =
+        {
+            fsInputMgr::KEY_MULTIPLY, fsInputMgr::KEY_ADD, fsInputMgr::KEY_NONE, //
+            fsInputMgr::KEY_SUBTRACT, fsInputMgr::KEY_DECIMAL, fsInputMgr::KEY_DIVIDE
+        };
+
+        key_type = s_keycode_table[keysym - XK_KP_Multiply];
+    }
+    else if (keysym == XK_BackSpace)
+    {
+        key_type = fsInputMgr::KEY_BACKSPACE;
+    }
+    else if (keysym == XK_Tab)
+    {
+        key_type = fsInputMgr::KEY_TAB;
+    }
+    else if (keysym == XK_Return)
+    {
+        key_type = fsInputMgr::KEY_ENTER;
+    }
+    else if (keysym == XK_Escape)
+    {
+        key_type = fsInputMgr::KEY_ESCAPE;
+    }
+    else if (keysym == XK_space)
+    {
+        key_type = fsInputMgr::KEY_SPACE;
+    }
+    else if (keysym == XK_Insert)
+    {
+        key_type = fsInputMgr::KEY_INSERT;
+    }
+    else if (keysym == XK_Delete)
+    {
+        key_type = fsInputMgr::KEY_DELETE;
+    }
+    else if (keysym == XK_KP_Enter)
+    {
+        key_type = fsInputMgr::KEY_SEPARATOR;
+    }
+    else if (keysym == XK_Shift_L || keysym == XK_Shift_R)
+    {
+        key_type = fsInputMgr::KEY_SHIFT;
+    }
+    else if (keysym == XK_Control_L || keysym == XK_Control_R)
+    {
+        key_type = fsInputMgr::KEY_CTRL;
+    }
+    else if (keysym == XK_Alt_L || keysym == XK_Alt_R)
+    {
+        key_type = fsInputMgr::KEY_ALT;
+    }
+
+    (*s_key_event_handler)(key_type, is_down);
+}
 
 
 static void destroyFramebuffer()
@@ -242,6 +342,79 @@ void fsLowLevelAPI::startApplication(bool (*update_func)(void))
 {
     while (true)
     {
+        while (XPending(s_dpy) > 0)
+        {
+            XEvent event;
+            XNextEvent(s_dpy, &event);
+
+            switch (event.type)
+            {
+            case KeyPress:
+                callKeyEventHandler(event.xkey.keycode, true);
+                break;
+
+            case KeyRelease:
+                callKeyEventHandler(event.xkey.keycode, false);
+                break;
+
+            case ButtonPress:
+                if (event.xbutton.button == Button1)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_LBUTTON, true);
+                }
+                else if (event.xbutton.button == Button2)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_MBUTTON, true);
+                }
+                else if (event.xbutton.button == Button3)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_RBUTTON, true);
+                }
+                else if (event.xbutton.button == Button4)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_WHEELUP, true);
+                }
+                else if (event.xbutton.button == Button5)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_WHEELDOWN, true);
+                }
+                break;
+
+            case ButtonRelease:
+                if (event.xbutton.button == Button1)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_LBUTTON, false);
+                }
+                else if (event.xbutton.button == Button2)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_MBUTTON, false);
+                }
+                else if (event.xbutton.button == Button3)
+                {
+                    (*s_key_event_handler)(fsInputMgr::KEY_RBUTTON, false);
+                }
+                break;
+
+            case ClientMessage:
+                if (*XGetAtomName(s_dpy, event.xclient.message_type) == *"WM_PROTOCOLS")
+                {
+                    return;
+                }
+                break;
+
+            default:
+                break; // TODO
+            }
+        }
+
+        Window root, child;
+        int root_x, root_y;
+        int win_x, win_y;
+        unsigned int mask;
+
+        XQueryPointer(s_dpy, s_win, &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
+        (*s_mouse_event_handler)(static_cast<s16>(win_x), static_cast<s16>(win_y));
+
         (*update_func)();
     }
 }
@@ -275,6 +448,52 @@ void fsLowLevelAPI::swapFramebuffer()
     if (s_is_double_buffered)
     {
         glXSwapBuffers(s_dpy, s_win);
+    }
+}
+
+
+void fsLowLevelAPI::setKeyEventHandler(KeyEventHandler handler)
+{
+    s_key_event_handler = handler;
+}
+
+
+void fsLowLevelAPI::setMouseEventHandler(MouseEventHandler handler)
+{
+    s_mouse_event_handler = handler;
+}
+
+
+void fsLowLevelAPI::setExtraEventHandler(ExtraEventHandler handler)
+{
+    s_extra_event_handler = handler;
+}
+
+
+void fsLowLevelAPI::setMouseVisible(bool is_visible)
+{
+    if (is_visible != s_is_mouse_visible)
+    {
+        s_is_mouse_visible = is_visible;
+
+        if (s_is_mouse_visible)
+        {
+            // TODO
+        }
+        else
+        {
+            Cursor cursor;
+            XColor xcol;
+            Pixmap pixmap;
+            char bitmap_bits[1] = /**/ { /**/ 0 /**/ };
+
+            pixmap = XCreateBitmapFromData(s_dpy, s_win, bitmap_bits, 1, 1);
+            cursor = XCreatePixmapCursor(s_dpy, pixmap, pixmap, &xcol, &xcol, 0, 0);
+            XDefineCursor(s_dpy, s_win, cursor);
+
+            XFreeCursor(s_dpy, cursor);
+            XFreePixmap(s_dpy, pixmap);
+        }
     }
 }
 

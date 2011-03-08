@@ -23,6 +23,7 @@ public:
     //! @cond
     fsDefineException(ExceptionDeleteTaskInDestructor);
 	 fsDefineException(ExceptionInvalidArgument);
+	 fsDefineException(ExceptionNewTaskInDestructor);
     //! @endcond
 
     /*!
@@ -33,56 +34,63 @@ public:
 
 
     /*!
-        Creates the task manager singleton.
+        创建任务管理器,该方法只被引擎自己调用.
         @param[in] aim_fps An aim fps.
     */
     static void createAfterSys(u16 aim_fps);
 
 
     /*!
-        Destroys the task manager singleton.
+        销毁任务管理器,该方法只被引擎自己调用.
     */
     static void destroyFirst();
 
 
     /*!
-        Returns the first task of the specified order. If the first task doesn't exist, returns NULL.
+        返回第一个任务的命令,如果不存在则返回NULL.
         @return The first task of the specified order.
     */
     static fsTask* getFirstTaskN(fsTask::TaskOrder order);
 
 
     /*!
-        Deletes all the tasks of the specified order.
-        @param[in] from The first task order.
-        @param[in] to The last task order.
+        删除某一段任务命令.
+        @param[in] from 第一个任务命令.
+        @param[in] to 最后一个任务命令.
     */
     static void deleteOrder(fsTask::TaskOrder from, fsTask::TaskOrder to);
 
 
     /*!
-        Deletes the specified task. This method is only for system.
+        删除任务,该方法只被引擎自己调用.
         @param[in] task A task.
     */
     static void deleteTaskForEngine(fsTask* task);
 
 
     /*!
-        Updates the frame. This method is only for system.
+        更新任务管理器,该方法只被引擎自己调用.
     */
     static void updateForEngine();
 
 
     /*!
-        Returns whether frame-skipping is on.
-        @return Whether frame-skipping is on.
+        设置下一个任务的名字.
+        @param[in] name 下一个任务的名字.
+    */
+    static u32 setNextTaskNameForEngine(const char* name);
+
+
+    /*!
+        判断是否忽略当前帧.
+        @return 是否忽略当前帧.
     */
     static bool isFrameSkipResetForEngine();
 
 
     /*!
-        Measures the rendering time. This method is only for system.
-        @param[in] render_func A rendering function.
+        对绘图进行布局,该方法只被引擎自己调用.
+        @param[in] 渲染的函数指针.
     */
     static void measureRenderTimeForEngine(void (*render_func)());
 

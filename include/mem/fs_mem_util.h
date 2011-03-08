@@ -2,7 +2,7 @@
  * fs_mem_util.h
  *
  *  Created on: 2011-3-3
- *      Author: administrator
+ *      Author: Lional King
  *
 *  Copyright (c) 2011 netsurfers
  */
@@ -65,16 +65,16 @@
 
 /*!
     @ingroup fsMem
-    新建一块内存块.
-    @param[in] ptr 这块内存块的首地址.
-    @return 这块内存块.
+    重载furseal引擎的new操作符.
+    @param[in] ptr 新建内存块的首地址.
+    @return 新建的这块内存块.
 */
 FS_API void* operator new(size_t, void* ptr, fsException*);
 
 
 /*!
     @ingroup fsMem
-    The dummy operator delete for system.
+    重载furseal引擎的delete操作符.
 */
 FS_API void operator delete(void*, void*, fsException*);
 

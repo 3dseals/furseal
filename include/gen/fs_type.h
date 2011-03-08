@@ -2,7 +2,7 @@
  * fs_type.h
  *
  *  Created on: 2011-3-4
- *      Author: administrator
+ *      Author: Lional King
  *
  *  Copyright (c) 2011 netsurfers
  */
@@ -13,15 +13,15 @@
 
 /*!
     @ingroup fsGen
-    An enum type with specified size.
-    @tparam D The data type to store a value of the enum type.
-    @tparam T The enum type stored in the data type.
+    枚举类型的数据结构.
+    @tparam D 存储枚举类型的数据类型.
+    @tparam T 枚举的类型.
 */
 template<class D, class T> class fsType
 {
 public:
     /*!
-        Constructs and initializes a fsType to zero.
+        构建fsType并初始化置为0.
     */
     fsType()
     {
@@ -29,8 +29,8 @@ public:
     }
 
     /*!
-        Constructs and initializes a fsType from the specified type.
-        @param[in] type A type.
+        从枚举的类型构建fsType并初始化.
+        @param[in] type 一个枚举的值.
     */
     fsType(T type)
     {
@@ -38,9 +38,9 @@ public:
     }
 
     /*!
-        Assigns the right hand side type to this fsType.
-        @param[in] type The right hand side type.
-        @return A reference to this fsType.
+        重载=运算符,是得fsType值等于枚举的类型.
+        @param[in] type 一个枚举的值.
+        @return 这个fsType值.
     */
     fsType<D, T>& operator=(T type)
     {
@@ -50,9 +50,9 @@ public:
     }
 
     /*!
-        Returns whether this fsType is equal to the right hand side fsType.
-        @param[in] type The right hand side fsType.
-        @return Whether this fsType is equal to the right hand side fsType.
+        重载==运算符,判断是否是相等的fsType类型.
+        @param[in] type 一个枚举的类型.
+        @return 是否是相等的fsType类型.
     */
     bool operator==(fsType<D, T> type) const
     {
@@ -60,9 +60,9 @@ public:
     }
 
     /*!
-        Returns whether this fsType is equal to the right hand side type.
-        @param[in] type The right hand side type.
-        @return Whether this fsType is equal to the right hand side type.
+        重载==运算符,判断是否是相等的fsType值.
+        @param[in] type 一个枚举的值.
+        @return 是否是相等的fsType值.
     */
     bool operator==(T type) const
     {
@@ -70,10 +70,10 @@ public:
     }
 
     /*!
-        Returns whether the left hand side type is equal to the right hand side fsType.
-        @param[in] type1 The left hand side type.
-        @param[in] type2 The right hand side fsType.
-        @return Whether the left hand side type is equal to the right hand side fsType.
+        重载==运算符,判断左值是否是等于右边的fsType类型.
+        @param[in] type1 左边的fsType值.
+        @param[in] type2 右边的fsType值类型.
+        @return 左值是否是等于右边的fsType类型.
     */
     friend bool operator==(T type1, fsType<D, T> type2)
     {
@@ -81,9 +81,9 @@ public:
     }
 
     /*!
-        Returns whether this fsType is unequal to the right hand side fsType.
-        @param[in] type The right hand side fsType.
-        @return Whether this fsType is unequal to the right hand side fsType.
+        重载!=运算符,判断是否是不相等的fsType类型.
+        @param[in] type 一个枚举的类型.
+        @return 是否是不相等的fsType类型.
     */
     bool operator!=(fsType<D, T> type) const
     {
@@ -91,9 +91,9 @@ public:
     }
 
     /*!
-        Returns whether this fsType is unequal to the right hand side type.
-        @param[in] type The right hand side type.
-        @return Whether this fsType is unequal to the right hand side type.
+        重载!=运算符,判断是否是不相等的fsType值.
+        @param[in] type 一个枚举的值.
+        @return 是否是不相等的fsType值.
     */
     bool operator!=(T type) const
     {
@@ -101,10 +101,10 @@ public:
     }
 
     /*!
-        Returns whether the left hand side type is unequal to the right hand side fsType.
-        @param[in] type1 The left hand side type.
-        @param[in] type2 The right hand side fsType.
-        @return Whether the left hand side type is unequal to the right hand side fsType.
+        重载!=运算符,判断左值是否不等于右边的fsType类型.
+        @param[in] type1 左边的fsType值.
+        @param[in] type2 右边的fsType值类型.
+        @return 左值是否不等于右边的fsType类型.
     */
     friend bool operator!=(T type1, fsType<D, T> type2)
     {
@@ -112,8 +112,8 @@ public:
     }
 
     /*!
-        Returns the value of this fsType as the enum type.
-        @return The value of this fsType as the enum type.
+        返回fsType的枚举类型.
+        @return fsType的枚举类型.
     */
     T getType() const
     {
@@ -121,8 +121,8 @@ public:
     }
 
     /*!
-        Returns the value of this fsType as the data type.
-        @return The value of this fsType as the data type.
+        返回fsType的枚举值.
+        @return fsType的枚举值.
     */
     D getValue() const
     {

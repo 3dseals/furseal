@@ -2,7 +2,7 @@
  * fs_flag.h
  *
  *  Created on: 2011-3-4
- *      Author: administrator
+ *      Author: Lional King
  *
  *  Copyright (c) 2011 netsurfers
  */
@@ -13,15 +13,15 @@
 
 /*!
     @ingroup fsGen
-    A set of bits as a data structure.
-    @tparam D The data type to store flag bits.
-    @tparam T The enum type whose constant values mean bit number. The each value of the enum constants must be less than the number of bits of the data type.
+    以一系列的bit作为标志位的数据结构.
+    @tparam D 存储bit的数据类型.
+    @tparam T 表示每个bit位的枚举类型,枚举的数目必须小于bit位数.
 */
 template<class D, class T> class fsFlag
 {
 public:
     /*!
-        Constructs and initializes a fsFlag whose all bits are off.
+        构建初始化fsFlag,清除所有标志位.
     */
     fsFlag()
     {
@@ -29,9 +29,9 @@ public:
     }
 
     /*!
-        Returns whether this fsFlag is equal to the right hand side fsFlag.
-        @param[in] flag The right hand side fsFlag.
-        @return Whether this fsFlag is equal to the right hand side fsFlag.
+        重载==运算,判断右边的标志是否相等.
+        @param[in] flag 右边的标志fsFlag.
+        @return 右边的标志是否相等.
     */
     bool operator==(fsFlag<D, T> flag) const
     {
@@ -39,9 +39,9 @@ public:
     }
 
     /*!
-        Returns whether this fsFlag is unequal to the right hand side fsFlag.
-        @param[in] flag The right hand side fsFlag.
-        @return Whether this fsFlag is unequal to the right hand side fsFlag.
+        重载!=运算,判断右边的标志是否不等.
+        @param[in] flag 右边的标志fsFlag.
+        @return 右边的标志是否不等.
     */
     bool operator!=(fsFlag<D, T> flag) const
     {
@@ -49,8 +49,8 @@ public:
     }
 
     /*!
-        Returns the bits of this fsFlag as the data type.
-        @return The bits of this fsFlag as the data type.
+        返回标志的数据.
+        @return 标志fsFlag的数据.
     */
     D getValue() const
     {
@@ -58,9 +58,9 @@ public:
     }
 
     /*!
-        Returns whether the specified flag is on.
-        @param[in] flag A flag which is a value of the enum constants.
-        @return Whether the specified flag is on.
+        判断某个标志位是否启用.
+        @param[in] flag 一个枚举类型中定义的标志.
+        @return 某个标志位是否启用.
     */
     bool isOn(T flag) const
     {
@@ -68,9 +68,9 @@ public:
     }
 
     /*!
-        Returns whether the specified flag is off.
-        @param[in] flag A flag which is a value of the enum constants.
-        @return Whether the specified flag is off.
+        判断某个标志位是否禁用.
+        @param[in] flag 一个枚举类型中定义的标志.
+        @return 某个标志位是否禁用.
     */
     bool isOff(T flag) const
     {
@@ -78,8 +78,8 @@ public:
     }
 
     /*!
-        Sets the specified flag on.
-        @param[in] flag A flag which is a value of the enum constants.
+        设置某个标志位启用.
+        @param[in] flag 一个枚举类型中定义的标志.
     */
     void setOn(T flag)
     {
@@ -87,8 +87,8 @@ public:
     }
 
     /*!
-        Sets the specified flag off.
-        @param[in] flag A flag which is a value of the enum constants.
+        设置某个标志位禁用.
+        @param[in] flag 一个枚举类型中定义的标志.
     */
     void setOff(T flag)
     {
@@ -96,9 +96,9 @@ public:
     }
 
     /*!
-        Sets the specified flag to the specified value.
-        @param[in] flag A flag which is a value of the enum constants.
-        @param[in] is_on If true, the flag is set on. Otherwise, the flag is set off.
+        设置某个标志位是否启用.
+        @param[in] flag 一个枚举类型中定义的标志.
+        @param[in] is_on 如果值为true, 启用标志否则禁用标志.
     */
     void set(T flag, bool is_on)
     {
@@ -113,7 +113,7 @@ public:
     }
 
     /*!
-        Sets all bits of this fsFlag off.
+        设置所有标志为0.
     */
     void clear()
     {

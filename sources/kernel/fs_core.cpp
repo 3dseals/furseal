@@ -25,6 +25,7 @@ void fsCreateFurseal(const char* title, u16 width, u16 height, u16 aim_fps, u16 
     fsMemHelper::createFirst();
     fsMgr::createAfterMem(title, width, height, sys_flag);
     fsTaskMgr::createAfterSys(aim_fps);
+    fsInputMgr::createAfterTask();
     fsDrawMgr::createAfterRes();
 }
 
@@ -33,6 +34,7 @@ void fsDestroyFurseal()
 {
     fsTaskMgr::destroyFirst();
     fsDrawMgr::destroyBeforeRes();
+    fsInputMgr::destroyBeforeSys();
 	 fsMgr::destroyBeforeMem();
     fsMemHelper::destroyLast();
 }

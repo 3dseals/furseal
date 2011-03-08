@@ -2,7 +2,7 @@
  * fs_tree.h
  *
  *  Created on: 2011-3-4
- *      Author: administrator
+ *      Author: Lional King
  *
  *  Copyright (c) 2011 netsurfers
  */
@@ -13,8 +13,8 @@
 
 /*!
     @ingroup fsGen
-    A tree container which can have a parent and children.
-    @tparam T The type which is stored in the tree.
+    一颗带有父节点和孩子节点的树型数据结构.
+    @tparam T 存储树的数据类型.
 */
 template<class T> class fsTree
 {
@@ -26,7 +26,7 @@ public:
     //! @endcond
 
     /*!
-        Constructs a fsTree.
+        构造一颗树结构fsTree.
     */
     fsTree()
     {
@@ -37,7 +37,7 @@ public:
     }
 
     /*!
-        Destructs this fsTree.
+        销毁这棵树fsTree.
     */
     ~fsTree()
     {
@@ -46,9 +46,9 @@ public:
     }
 
     /*!
-        Initializes this fsTree to have the specified value.
-        This method can be called more than once.
-        @param[in] self The pointer to a value.
+        初始化树fsTree的这个节点.
+        可以进行多次初始化.
+        @param[in] self 树型数据的首地址.
     */
     void init(T* self)
     {
@@ -61,8 +61,8 @@ public:
     }
 
     /*!
-        Returns the value of this fsTree.
-        @return The value of this fsTree.
+        返回这个节点的数据.
+        @return 这个节点的数据.
     */
     T* getSelf() const
     {
@@ -75,8 +75,8 @@ public:
     }
 
     /*!
-        Returns whether this fsTree has a parent fsTree.
-        @return Whether this fsTree has a parent fsTree.
+        判断这个节点是否有父节点.
+        @return 这个节点是否有父节点.
     */
     bool hasParent() const
     {
@@ -84,9 +84,9 @@ public:
     }
 
     /*!
-        Returns the parent fsTree of this fsTree.
-        If this fsTree has no parent fsTree, returns NULL.
-        @return The parent fsTree of this fsTree.
+        返回这个节点的父节点.
+        如果没有父节点则返回NULL.
+        @return 这个节点的父节点.
     */
     fsTree<T>* getParentN() const
     {
@@ -94,10 +94,10 @@ public:
     }
 
     /*!
-        Returns the previous fsTree of this fsTree.
-        If this fsTree has no previous fsTree, returns NULL.
-        This method is used to follow the whole tree as list structure.
-        @return The previous fsTree of this fsTree.
+        返回这个节点的前一个点.
+        如果没有前一个点则返回NULL.
+        这个方法用于有兄弟节点的树结构.
+        @return 这个节点的前一个点.
     */
     fsTree<T>* getPrevAllN() const
     {
@@ -105,10 +105,10 @@ public:
     }
 
     /*!
-        Returns the next fsTree of this fsTree.
-        If this fsTree has no next fsTree, returns NULL.
-        This method is used to follow the whole tree as list structure.
-        @return The next fsTree of this fsTree.
+        返回这个节点的后一个点.
+        如果没有后一个点则返回NULL.
+        这个方法用于有兄弟节点的树结构.
+        @return 这个节点的后一个点.
     */
     fsTree<T>* getNextAllN() const
     {
@@ -116,9 +116,9 @@ public:
     }
 
     /*!
-        Returns the previous sibling fsTree of this fsTree.
-        If this fsTree has no previous sibling fsTree, returns NULL.
-        @return The previous sibling fsTree of this fsTree.
+        返回这个节点的前一个兄弟点.
+        如果没有前一个兄弟点则返回NULL.
+        @return 这个节点的前一个兄弟点.
     */
     fsTree<T>* getPrevSiblingN() const
     {
@@ -145,9 +145,9 @@ public:
     }
 
     /*!
-        Returns the next sibling fsTree of this fsTree.
-        If this fsTree has no next sibling fsTree, returns NULL.
-        @return The next sibling fsTree of this fsTree.
+        返回这个节点的后一个兄弟点.
+        如果没有后一个兄弟点则返回NULL.
+        @return 这个节点的后一个兄弟点.
     */
     fsTree<T>* getNextSiblingN() const
     {
@@ -163,8 +163,8 @@ public:
     }
 
     /*!
-        Insertes this fsTree before the specified fsTree.
-        @param[in] tree A fsTree.
+        将这个节点插入到一个树节点之前.
+        @param[in] tree 一个fsTree树型节点.
     */
     void joinBefore(fsTree<T>* tree)
     {
@@ -194,8 +194,8 @@ public:
     }
 
     /*!
-        Insertes this fsTree after the specified fsTree.
-        @param[in] tree A fsTree.
+        将这个节点插入到一个树节点之后.
+        @param[in] tree 一个fsTree树型节点.
     */
     void joinAfter(fsTree<T>* tree)
     {
@@ -235,7 +235,7 @@ public:
     }
 
     /*!
-        Removes this fsTree from the parent fsTree.
+        从父节点上移除这个节点.
     */
     void leave()
     {
@@ -261,8 +261,8 @@ public:
     }
 
     /*!
-        Returns Whether this fsTree has any child fsTree.
-        @return Whether this fsTree has any child fsTree.
+         判断这个节点是否有孩子节点.
+        @return 这个节点是否有孩子节点.
     */
     bool hasChild() const
     {
@@ -270,9 +270,9 @@ public:
     }
 
     /*!
-        Returns the first child fsTree of this fsTree.
-        If this fsTree has no child fsTree, returns NULL.
-        @return The first child fsTree of this fsTree.
+        返回这个节点的第一个孩子节点.
+        如果这个节点没有孩子节点则返回NULL.
+        @return 第一个孩子节点.
     */
     fsTree<T>* getFirstChildN() const
     {
@@ -280,9 +280,9 @@ public:
     }
 
     /*!
-        Returns the last child fsTree of this fsTree.
-        If this fsTree has no child fsTree, returns NULL.
-        @return The last child fsTree of this fsTree.
+        返回这个节点的最后一个孩子节点.
+        如果这个节点没有孩子节点则返回NULL.
+        @return 最后一个孩子节点.
     */
     fsTree<T>* getLastChildN() const
     {
@@ -290,9 +290,9 @@ public:
     }
 
     /*!
-        Returns the last descendant of this fsTree.
-        If this fsTree has no child, returns itself.
-        @return The last descendant of this fsTree.
+        返回这个节点的最后一个子孙节点.
+        如果这个节点没有孩子节点则这个节点.
+        @return 最后一个子孙节点.
     */
     fsTree<T>* getLastDescendant() const
     {
@@ -307,8 +307,8 @@ public:
     }
 
     /*!
-        Adds the specified fsTree to this fsTree as the first child fsTree.
-        @param[in] child A fsTree.
+        添加一颗子树,根节点作为第一个子节点.
+        @param[in] child 子树fsTree的根节点.
     */
     void addFirst(fsTree<T>* child)
     {
@@ -347,8 +347,8 @@ public:
     }
 
     /*!
-        Adds the specified fsTree to this fsTree as the last child fsTree.
-        @param[in] child A fsTree.
+        添加一颗子树,根节点作为最后一个子节点.
+        @param[in] child 子树fsTree的根节点.
     */
     void addLast(fsTree<T>* child)
     {
@@ -385,7 +385,7 @@ public:
     }
 
     /*!
-        Removes all child fsTrees from this fsTree.
+        移除所有子节点.
     */
     void clear()
     {

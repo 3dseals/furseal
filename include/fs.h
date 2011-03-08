@@ -75,7 +75,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 6; // 0.0.6
+const u32 FURSEAL_VERSION = 7; // 0.0.7
 
 
 /*!
@@ -191,7 +191,7 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 
 /*!
     @defgroup fsGen fsGen -- 引擎通用模块
-    引擎通用类型.
+    引擎通用结构类型.
 */
 #include "gen/fs_flag.h"
 #include "gen/fs_tree.h"
@@ -213,6 +213,13 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 #include "task/fs_task.h"
 #include "task/fs_task_mgr.h"
 #include "task/fs_task_util.h"
+
+
+/*!
+    @defgroup fsInput fsInput -- 输入管理
+    管理程序的鼠标和键盘输入.
+*/
+#include "input/fs_input_mgr.h"
 
 
 /*!
