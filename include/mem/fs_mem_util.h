@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsMem
-    重载new运算符.
+    引擎new运算符.
     @param[in] type 类的类型.
     @return 类的实例.
 */
@@ -21,7 +21,7 @@
 
 /*!
     @ingroup fsMem
-    重载delete运算符.
+    引擎delete运算符.
     @param[in] ptr 要释放的实例.
     @param[in] type 类的类型.
 */
@@ -41,6 +41,58 @@
         } \
     \
         reinterpret_cast<type*>(ptr_)->~type(); \
+        fsMemHelper::freeForEngine(ptr_); \
+    } \
+    while (false)
+
+
+/*!
+    @ingroup fsMem
+    引擎new运算符,new一块数组.
+    @param[out] var 创建的实例.
+    @param[in] type 实例的类型.
+    @param[in] array_size 数组的大小.
+*/
+#define fsNewArray(var, type, array_size) \
+    do \
+    { \
+        var = reinterpret_cast<type*>(fsMemHelper::mallocForEngine(sizeof(type) * array_size, array_size, __FILE__)); \
+    \
+        for (u32 i = 0; i < array_size; i++) \
+        { \
+            new(&var[i], NULL) type; \
+        } \
+    } \
+    while (false)
+
+
+/*!
+    @ingroup fsMem
+    引擎delete运算符,delete一块数组.
+    @param[in] ptr 实例的首地址.
+    @param[in] type 实例的类型.
+*/
+#define fsDeleteArray(ptr, type) \
+    do \
+    { \
+        if (!fsMemHelper::isCreated()) \
+        { \
+            break; \
+        } \
+    \
+        void* ptr_ = ptr; \
+        u32 array_size = fsMemHelper::getMemoryBlockArraySize(ptr_); \
+    \
+        if (array_size == 0) \
+        { \
+            fsThrow(fsMemHelper::ExceptionInvalidCall); \
+        } \
+    \
+        for (u32 i = 0; i < array_size; i++) \
+        { \
+            reinterpret_cast<type*>(ptr_)[i].~type(); \
+        } \
+    \
         fsMemHelper::freeForEngine(ptr_); \
     } \
     while (false)

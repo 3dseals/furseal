@@ -46,8 +46,20 @@ public:
     static void exit(s32 status);
     static void error(const char* msg);
     static void setInitialDirectory(s32 argc, char** argv);
+
+    enum FileMode
+    {
+        FILE_MODE_READ, //
+        FILE_MODE_WRITE
+    };
+
     static void printf(const char* msg);
     static void vsprintf(char* buf, u32 buf_size, const char* format, void* arg);
+    static void* openFile(const char* filename, FileMode file_mode);
+    static s32 getFileSize(void* file_handler);
+    static bool readFile(void* buf, u32 offset, u32 size, void* file_handler);
+    static bool writeFile(u32 offset, const void* buf, u32 size, void* file_handler);
+    static void closeFile(void* file_handler);
 };
 
 #endif // !FS_LOW_LEVEL_API_H_

@@ -75,7 +75,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 7; // 0.0.7
+const u32 FURSEAL_VERSION = 8; // 0.0.8
 
 
 /*!
@@ -183,7 +183,7 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 
 /*!
     @defgroup fsMem fsMem -- 内存管理
-    管理程序的内存.
+    管理引擎的内存.
 */
 #include "mem/fs_mem_helper.h"
 #include "mem/fs_mem_util.h"
@@ -194,6 +194,10 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
     引擎通用结构类型.
 */
 #include "gen/fs_flag.h"
+#include "gen/fs_id.h"
+#include "gen/fs_list.h"
+#include "gen/fs_map.h"
+#include "gen/fs_str.h"
 #include "gen/fs_tree.h"
 #include "gen/fs_type.h"
 
@@ -202,13 +206,13 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
     @defgroup fsKen fsKen -- 引擎内核
     提供控制管理引擎的功能.
 */
-#include "kernel/fs_mgr.h"
 #include "kernel/fs_core.h"
+#include "kernel/fs_mgr.h"
 
 
 /*!
     @defgroup fsTask fsTask -- 任务管理
-    管理程序的任务.
+    管理引擎的任务.
 */
 #include "task/fs_task.h"
 #include "task/fs_task_mgr.h"
@@ -217,14 +221,23 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 
 /*!
     @defgroup fsInput fsInput -- 输入管理
-    管理程序的鼠标和键盘输入.
+    管理引擎的鼠标和键盘输入.
 */
 #include "input/fs_input_mgr.h"
 
 
 /*!
+    @defgroup fsRes fsRes -- 资源管理
+    管理引擎的资源.
+*/
+#include "res/fs_res.h"
+#include "res/fs_res_mgr.h"
+#include "res/fs_util.h"
+
+
+/*!
     @defgroup fsDraw fsDraw -- 绘图管理
-    管理程序的绘图.
+    管理引擎的绘图.
 */
 #include "draw/fs_draw_mgr.h"
 

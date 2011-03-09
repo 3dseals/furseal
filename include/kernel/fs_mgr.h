@@ -20,8 +20,11 @@ class FS_API fsMgr
 {
 public:
     //! @cond
+    fsDefineException(ExceptionCannotOpenFile);
+    fsDefineException(ExceptionCannotReadFile);
+    fsDefineException(ExceptionCannotWriteFile);
     fsDefineException(ExceptionCreateFramebufferFailed);
-    fsDefineException(ExceptionEndCatcake);
+    fsDefineException(ExceptionEndFurseal);
     fsDefineException(ExceptionInvalidArgument);
     //! @endcond
 
@@ -35,6 +38,60 @@ public:
         FLAG_VARIABLE_SIZE = 0x0002, //!< 可拉伸窗口模式.
         FLAG_DISABLE_SHADER = 0x0004 //!< 禁用openGL阴影模式.
     };
+
+
+    /*!
+        文件模式.
+    */
+    enum FileMode
+    {
+        FILE_MODE_READ, //!< Read-only.
+        FILE_MODE_WRITE //!< Read and write.
+    };
+
+
+    /*!
+        打开指定的文件.
+        @param[in] filename 文件路径.
+        @param[in] file_mode 打开模式.
+        @return 文件指针.
+    */
+    static void* openFile(const char* filename, FileMode file_mode);
+
+
+    /*!
+        返回指定的文件大小.
+        @param[in] file_文件的指针.
+        @return 文件的大小.
+    */
+    static u32 getFileSize(void* file_handler);
+
+
+    /*!
+        读取指定的文件.
+        @param[out] buf 读取到的缓存块.
+        @param[in] offset 读取的位置.
+        @param[in] size 读取的大小.
+        @param[in] file_handler 文件指针.
+    */
+    static void readFile(void* buf, u32 offset, u32 size, void* file_handler);
+
+
+    /*!
+        写入指定的文件.
+        @param[in] offset 写入的位置.
+        @param[in] buf 写入的数据缓存.
+        @param[in] size 写入的大小.
+        @param[in] file_handler 文件指针.
+    */
+    static void writeFile(u32 offset, const void* buf, u32 size, void* file_handler);
+
+
+    /*!
+        关闭指定的文件.
+        @param[in] file_handler 文件指针.
+    */
+    static void closeFile(void* file_handler);
 
 
     /*!
@@ -64,7 +121,7 @@ public:
         @param[in] height 创建窗口的高度.
         @param[in] sys_flag 系统标志位,默认为0,1 全屏模式,2 可拉伸窗口模式,4 禁用openGL阴影模式.
     */
-    static void createAfterMem(const char* title, u16 width, u16 height, u16 sys_flag);
+    static void createAfterMem(const char* title, u16 width, u16 height, u16 aim_fps, u16 sys_flag);
 
 
     /*!
@@ -76,7 +133,7 @@ public:
     /*!
         更新引擎管理器,该方法只被引擎自己调用.
     */
-    static void updateForEngine();
+    static void updateForEngine(bool render);
 
 
     /*!

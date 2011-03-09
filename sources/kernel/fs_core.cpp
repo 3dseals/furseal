@@ -23,18 +23,12 @@ static u64 s_last_render_time = 0;
 void fsCreateFurseal(const char* title, u16 width, u16 height, u16 aim_fps, u16 sys_flag)
 {
     fsMemHelper::createFirst();
-    fsMgr::createAfterMem(title, width, height, sys_flag);
-    fsTaskMgr::createAfterSys(aim_fps);
-    fsInputMgr::createAfterTask();
-    fsDrawMgr::createAfterRes();
+    fsMgr::createAfterMem(title, width, height, aim_fps, sys_flag);
 }
 
 
 void fsDestroyFurseal()
 {
-    fsTaskMgr::destroyFirst();
-    fsDrawMgr::destroyBeforeRes();
-    fsInputMgr::destroyBeforeSys();
 	 fsMgr::destroyBeforeMem();
     fsMemHelper::destroyLast();
 }
@@ -42,6 +36,7 @@ void fsDestroyFurseal()
 
 static bool loop()
 {
+    bool render = false;
     u64 cur_time = fsMgr::getUsecTime();
 
     if ((fsTaskMgr::isFrameSkipResetForEngine() && cur_time > s_next_update_time) || //
@@ -59,25 +54,22 @@ static bool loop()
             cur_time = fsMgr::getUsecTime();
         }
 
-        fsMgr::updateForEngine();
-        fsTaskMgr::updateForEngine();
+        render = true;
 
-        fsTaskMgr::measureRenderTimeForEngine(fsDrawMgr::renderForEngine);
-        fsLowLevelAPI::swapFramebuffer();
+        fsMgr::updateForEngine(render);
 
         s_last_render_time = cur_time;
         s_next_update_time += s_one_frame_time;
 
-        return true;
+        return render;
     }
     else
     {
-        fsMgr::updateForEngine();
-        fsTaskMgr::updateForEngine();
+        fsMgr::updateForEngine(render);
 
         s_next_update_time += s_one_frame_time;
 
-        return false;
+        return render;
     }
 }
 
@@ -89,7 +81,7 @@ void fsStartFurseal()
         //开始引擎的循环
         fsLowLevelAPI::startApplication(loop);
     }
-    fsCatch(fsMgr::ExceptionEndCatcake) {}
+    fsCatch(fsMgr::ExceptionEndFurseal) {}
     fsCatch(fsException e)
     {
 #ifndef FS_NO_THROW_EXCEPTION
@@ -104,7 +96,7 @@ void fsStopFurseal()
 #ifdef FS_NO_THROW_EXCEPTION
     fsLowLevelAPI::exit(0);
 #else
-    fsThrow(fsMgr::ExceptionEndCatcake);
+    fsThrow(fsMgr::ExceptionEndFurseal);
 #endif
 }
 
