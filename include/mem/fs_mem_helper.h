@@ -94,6 +94,20 @@ public:
     static void freeForEngine(void* ptr);
 
 
+    /*!
+        Allocates the temporary buffer. This method is only for system.
+        @param[in] size The size of the temporary buffer.
+        @return The temporary buffer.
+    */
+    static void* allocTempBufferForEngine(u32 size);
+
+    /*!
+        Returns the size of the temporary buffer. This method is only for system.
+        @return The size of the temporary buffer.
+    */
+    static u32 getTempBufferSizeForEngine();
+
+
 private:
     static const u32 INITIAL_TEMP_BUFFER_SIZE = 1024;
 

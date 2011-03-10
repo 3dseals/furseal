@@ -420,6 +420,18 @@ void fsLowLevelAPI::startApplication(bool (*update_func)(void))
 }
 
 
+u16 fsLowLevelAPI::getFramebufferWidth()
+{
+    return s_framebuffer_width;
+}
+
+
+u16 fsLowLevelAPI::getFramebufferHeight()
+{
+    return s_framebuffer_height;
+}
+
+
 void fsLowLevelAPI::updateFramebufferSize()
 {
     Window root;

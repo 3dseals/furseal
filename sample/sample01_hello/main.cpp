@@ -10,10 +10,13 @@
 
 #include "fs_main.h"
 
+void newCubeTask();
 
 furseal()
 {
     fsCreateFurseal("Sample01 - Hello", 640, 480, 30);
+
+    newCubeTask();
 
     fsStartFurseal();
     fsDestroyFurseal();

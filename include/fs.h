@@ -75,7 +75,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 8; // 0.0.8
+const u32 FURSEAL_VERSION = 9; // 0.0.9
 
 
 /*!
@@ -197,6 +197,10 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
 #include "gen/fs_id.h"
 #include "gen/fs_list.h"
 #include "gen/fs_map.h"
+#include "gen/fs_vec.h"
+#include "gen/fs_mat.h"
+#include "gen/fs_math.h"
+#include "gen/fs_quat.h"
 #include "gen/fs_str.h"
 #include "gen/fs_tree.h"
 #include "gen/fs_type.h"
@@ -239,6 +243,13 @@ FS_API void ckSubstituteThrow(const char* exception, const char* file, u32 line)
     @defgroup fsDraw fsDraw -- 绘图管理
     管理引擎的绘图.
 */
+#include "draw/fs_col.h"
+#include "draw/fs_draw.h"
+#include "draw/fs_lit.h"
+#include "draw/fs_lts.h"
+#include "draw/fs_rend.h"
+#include "draw/fs_prim.h"
+#include "draw/fs_scr.h"
 #include "draw/fs_draw_mgr.h"
 
 

@@ -147,6 +147,37 @@ void fsMemHelper::freeForEngine(void* ptr)
 }
 
 
+void* fsMemHelper::allocTempBufferForEngine(u32 size)
+{
+	fsMemHelper* ins = instance();
+
+    if (size == 0)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    if (size > ins->m_temp_buf_size)
+    {
+        while (size > ins->m_temp_buf_size)
+        {
+            ins->m_temp_buf_size *= 2;
+        }
+
+        fsFree(ins->m_temp_buf);
+
+        ins->m_temp_buf = fsMalloc(ins->m_temp_buf_size);
+    }
+
+    return ins->m_temp_buf;
+}
+
+
+u32 fsMemHelper::getTempBufferSizeForEngine()
+{
+    return instance()->m_temp_buf_size;
+}
+
+
 fsMemHelper::fsMemHelper()
 {
     m_mbh_start.prev = NULL;

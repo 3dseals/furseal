@@ -131,6 +131,19 @@ public:
 
 
     /*!
+        Returns the width of the framebuffer.
+        @return The width of the framebuffer.
+    */
+    static u16 getFramebufferWidth();
+
+    /*!
+        Returns the height of the framebuffer.
+        @return The height of the framebuffer.
+    */
+    static u16 getFramebufferHeight();
+
+
+    /*!
         更新引擎管理器,该方法只被引擎自己调用.
     */
     static void updateForEngine(bool render);

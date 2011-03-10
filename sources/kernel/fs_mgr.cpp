@@ -138,6 +138,26 @@ void fsMgr::destroyBeforeMem()
 }
 
 
+u16 fsMgr::getFramebufferWidth()
+{
+    instance();
+
+    u16 width = fsLowLevelAPI::getFramebufferWidth();
+
+    return (width > 0) ? width : 1;
+}
+
+
+u16 fsMgr::getFramebufferHeight()
+{
+    instance();
+
+    u16 height = fsLowLevelAPI::getFramebufferHeight();
+
+    return (height > 0) ? height : 1;
+}
+
+
 void fsMgr::updateForEngine(bool render)
 {
     instance();
