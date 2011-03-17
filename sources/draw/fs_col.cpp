@@ -8,7 +8,7 @@
  */
 
 
-#include "fs.h"
+#include "fs_draw_all.h"
 
 
 const fsCol fsCol::ZERO = fsCol(0, 0, 0, 0);

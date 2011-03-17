@@ -95,15 +95,15 @@ public:
 
 
     /*!
-        Allocates the temporary buffer. This method is only for system.
-        @param[in] size The size of the temporary buffer.
-        @return The temporary buffer.
+        申请一块临时缓存,该方法只被引擎自己调用.
+        @param[in] size 缓存大小.
+        @return 这块缓存.
     */
     static void* allocTempBufferForEngine(u32 size);
 
     /*!
-        Returns the size of the temporary buffer. This method is only for system.
-        @return The size of the temporary buffer.
+        返回缓存大小,该方法只被引擎自己调用.
+        @return 缓存大小.
     */
     static u32 getTempBufferSizeForEngine();
 

@@ -11,7 +11,11 @@
 #include <stdarg.h>
 
 
-#include "fs.h"
+#include "fs_mem_all.h"
+#include "fs_kernel_all.h"
+#include "fs_task_all.h"
+#include "fs_draw_all.h"
+
 #include "base/fs_low_level_api.h"
 
 

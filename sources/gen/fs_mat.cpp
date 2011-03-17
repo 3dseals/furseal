@@ -8,7 +8,8 @@
  */
 
 
-#include "fs.h"
+#include "fs_gen_all.h"
+#include "fs_mem_all.h"
 
 
 const fsMat fsMat::ZERO(fsVec(0.0f, 0.0f, 0.0f), fsVec(0.0f, 0.0f, 0.0f), fsVec(0.0f, 0.0f, 0.0f), fsVec(0.0f, 0.0f, 0.0f));

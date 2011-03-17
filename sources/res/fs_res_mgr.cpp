@@ -8,7 +8,8 @@
  */
 
 
-#include "fs.h"
+#include "fs_res_all.h"
+#include "fs_kernel_all.h"
 #include "base/fs_private_macro.h"
 
 

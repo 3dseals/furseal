@@ -8,11 +8,10 @@
  */
 
 
-#include "fs.h"
+#include "fs_draw_all.h"
 
 
-#include "base/fs_low_level_api.h"
-#include "base/fs_private_macro.h"
+#include "fs_base_all.h"
 
 
 fsDraw::~fsDraw()

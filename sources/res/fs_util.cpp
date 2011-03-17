@@ -8,7 +8,10 @@
  */
 
 
-#include "fs.h"
+#include "fs_res_all.h"
+
+
+#include "base/fs_low_level_api.h"
 
 
 const char* fsUtil::getBasename(const char* filename)

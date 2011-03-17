@@ -8,10 +8,9 @@
 */
 
 
-#include "fs.h"
+#include "fs_mem_all.h"
 
-#include "base/fs_low_level_api.h"
-#include "base/fs_private_macro.h"
+#include "fs_base_all.h"
 
 
 fsMemHelper* fsMemHelper::m_instance = NULL;

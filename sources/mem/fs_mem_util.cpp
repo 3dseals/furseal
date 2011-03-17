@@ -8,7 +8,7 @@
  */
 
 
-#include "fs.h"
+#include "fs_mem_all.h"
 
 
 void* operator new(size_t, void* ptr, fsException*)

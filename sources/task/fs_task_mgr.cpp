@@ -7,8 +7,12 @@
  *  Copyright (c) 2011 netsurfers
  */
 
-#include "fs.h"
-#include "base/fs_private_macro.h"
+
+#include "fs_task_all.h"
+#include "fs_kernel_all.h"
+
+
+#include "fs_base_all.h"
 
 
 fsTaskMgr* fsTaskMgr::m_instance = NULL;

@@ -131,14 +131,14 @@ public:
 
 
     /*!
-        Returns the width of the framebuffer.
-        @return The width of the framebuffer.
+        返回帧缓冲区的宽度.
+        @return 帧缓冲区的宽度.
     */
     static u16 getFramebufferWidth();
 
     /*!
-        Returns the height of the framebuffer.
-        @return The height of the framebuffer.
+        返回帧缓冲区的高度.
+        @return 帧缓冲区的高度.
     */
     static u16 getFramebufferHeight();
 

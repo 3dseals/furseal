@@ -8,7 +8,7 @@
  */
 
 
-#include "fs.h"
+#include "fs_gen_all.h"
 
 
 fsQuat::fsQuat() {}

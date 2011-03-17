@@ -26,7 +26,7 @@
 
 #include "base/fs_low_level_api.h"
 
-#include "fs.h" // for fsMat::MulR32x16
+#include "fs_gen_all.h" // for fsMat::MulR32x16
 
 
 #if !defined(FS_GLES1) && (defined(FS_IPHONE) || defined(FS_ANDROID))

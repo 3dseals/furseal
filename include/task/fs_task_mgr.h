@@ -48,7 +48,7 @@ public:
 
     /*!
         返回第一个任务的命令,如果不存在则返回NULL.
-        @return The first task of the specified order.
+        @return 第一个任务的命令.
     */
     static fsTask* getFirstTaskN(fsTask::TaskOrder order);
 

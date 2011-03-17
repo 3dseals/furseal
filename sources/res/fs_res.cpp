@@ -8,7 +8,7 @@
  */
 
 
-#include "fs.h"
+#include "fs_res_all.h"
 
 
 fsRes::fsRes()

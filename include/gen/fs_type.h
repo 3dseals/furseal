@@ -38,7 +38,7 @@ public:
     }
 
     /*!
-        重载=运算符,是得fsType值等于枚举的类型.
+        重载=运算符,使得fsType值等于枚举的类型.
         @param[in] type 一个枚举的值.
         @return 这个fsType值.
     */

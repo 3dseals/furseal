@@ -114,6 +114,12 @@ public:
 
 
     /*!
+        Deletes the all texture objects. This method is only for system.
+    */
+    static void deleteAllVramObjForEngine();
+
+
+    /*!
         更新图帧缓存进行渲染,该方法只被引擎自己调用.
     */
     static void renderForEngine();

@@ -8,9 +8,9 @@
  */
 
 
-#include "fs.h"
-#include "base/fs_low_level_api.h"
-#include "base/fs_private_macro.h"
+#include "fs_input_all.h"
+#include "fs_task_all.h"
+#include "fs_base_all.h"
 
 
 fsInputMgr* fsInputMgr::m_instance = NULL;

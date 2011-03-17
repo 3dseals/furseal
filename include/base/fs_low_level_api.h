@@ -12,7 +12,7 @@
 #define FS_LOW_LEVEL_API_H_
 
 
-#include "fs.h"
+#include "fs_def.h"
 
 
 /*!
@@ -43,7 +43,10 @@ public:
     static u16 getFramebufferWidth();
     static u16 getFramebufferHeight();
     static void updateFramebufferSize();
+    static bool isFramebufferSizeChanged();
     static void swapFramebuffer();
+    static bool isFullScreen();
+    static bool toggleFullScreen(u16 width, u16 height);
 
     typedef void (*KeyEventHandler)(u8 keycode, bool is_down);
     typedef void (*MouseEventHandler)(s16 mouse_x, s16 mouse_y);
@@ -51,13 +54,27 @@ public:
     static void setKeyEventHandler(KeyEventHandler handler);
     static void setMouseEventHandler(MouseEventHandler handler);
     static void setExtraEventHandler(ExtraEventHandler handler);
+    static void setMousePos(s16 mouse_x, s16 mouse_y);
+    static bool isMouseVisible();
     static void setMouseVisible(bool is_visible);
 
     static u64 getUsecTime();
     static void sleepUsec(u64 usec);
     static void exit(s32 status);
     static void error(const char* msg);
+    static void readLittleEndian(void* dest, const void* src, u32 size);
+    static void writeLittleEndian(void* dest, const void* src, u32 size);
+
+    static void* newThread(void (*start_func)(void*), void* user_param);
+    static void deleteThread(void* thread_handler);
+    static void joinThread(void* thread_handler);
+    static void* newMutex();
+    static void deleteMutex(void* mutex_handler);
+    static void lockMutex(void* mutex_handler);
+    static void unlockMutex(void* mutex_handler);
+
     static void setInitialDirectory(s32 argc, char** argv);
+    static void getWindowsFontDirectory(char* buf, u32 buf_size);
 
     enum FileMode
     {

@@ -8,7 +8,8 @@
  */
 
 
-#include "fs.h"
+#include "fs_gen_all.h"
+#include "fs_mem_all.h"
 
 
 const fsVec fsVec::ZERO(0.0f, 0.0f, 0.0f);
@@ -224,7 +225,7 @@ fsVec fsVec::interp(const fsVec& to, r32 ratio) const
 fsVec fsVec::slerp(const fsVec& to, r32 ratio) const
 {
     /*
-        the length of each vector must be 1.0
+        每个向量的长度必须是 1.0
     */
 
     if (ratio < fsMath::EPSILON)

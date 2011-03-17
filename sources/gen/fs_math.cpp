@@ -8,7 +8,7 @@
  */
 
 
-#include "fs.h"
+#include "fs_gen_all.h"
 
 
 #include "base/fs_low_level_api.h"

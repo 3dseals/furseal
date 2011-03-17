@@ -15,13 +15,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <libgen.h>
+#include <pthread.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
 #include <GL/glx.h>
 
 #include "base/fs_low_level_api.h"
-#include "kernel/fs_mgr.h"
-#include "input/fs_input_mgr.h"
+#include "fs_kernel_all.h"
+#include "fs_input_all.h"
 
 
 static fsLowLevelAPI::KeyEventHandler s_key_event_handler = NULL;
@@ -455,12 +456,34 @@ void fsLowLevelAPI::updateFramebufferSize()
 }
 
 
+bool fsLowLevelAPI::isFramebufferSizeChanged()
+{
+    return s_is_framebuffer_size_changed;
+}
+
+
 void fsLowLevelAPI::swapFramebuffer()
 {
     if (s_is_double_buffered)
     {
         glXSwapBuffers(s_dpy, s_win);
     }
+}
+
+
+bool fsLowLevelAPI::isFullScreen()
+{
+    return s_is_fullscreen;
+}
+
+
+bool fsLowLevelAPI::toggleFullScreen(u16 width, u16 height)
+{
+    destroyFramebuffer();
+
+    s_is_fullscreen = !s_is_fullscreen;
+
+    return createFramebuffer(width, height);
 }
 
 
@@ -479,6 +502,31 @@ void fsLowLevelAPI::setMouseEventHandler(MouseEventHandler handler)
 void fsLowLevelAPI::setExtraEventHandler(ExtraEventHandler handler)
 {
     s_extra_event_handler = handler;
+}
+
+
+void fsLowLevelAPI::setMousePos(s16 mouse_x, s16 mouse_y)
+{
+    /*
+        Window root;
+        int win_x, win_y;
+        unsigned int win_width, win_height;
+        unsigned int boarder_width;
+        unsigned int depth;
+
+        XGetGeometry(s_dpy, s_win, &root, &win_x, &win_y, &win_width, &win_height, &boarder_width, &depth);
+
+        x =  mouse_x + win_width  / 2;
+        y = -mouse_y + win_height / 2;
+    */
+
+    XWarpPointer(s_dpy, None, s_win, 0, 0, 0, 0, mouse_x, mouse_y);
+}
+
+
+bool fsLowLevelAPI::isMouseVisible()
+{
+    return s_is_mouse_visible;
 }
 
 
@@ -554,6 +602,112 @@ void fsLowLevelAPI::error(const char* msg)
 }
 
 
+void fsLowLevelAPI::readLittleEndian(void* dest, const void* src, u32 size)
+{
+    memcpy(dest, src, size);
+}
+
+
+void fsLowLevelAPI::writeLittleEndian(void* dest, const void* src, u32 size)
+{
+    memcpy(dest, src, size);
+}
+
+
+struct ThreadStartFuncAndUserParam
+{
+    void (*start_func)(void*);
+    void* user_param;
+};
+
+
+static void* threadStartFunc(void* user_param)
+{
+    ThreadStartFuncAndUserParam* func_and_param = static_cast<ThreadStartFuncAndUserParam*>(user_param);
+
+    func_and_param->start_func(func_and_param->user_param);
+
+    fsLowLevelAPI::free(user_param);
+
+    return NULL;
+}
+
+
+void* fsLowLevelAPI::newThread(void (*start_func)(void*), void* user_param)
+{
+    static pthread_mutex_t s_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+    pthread_mutex_lock(&s_mutex);
+
+    void* thread_handler = malloc(sizeof(pthread_t));
+
+    ThreadStartFuncAndUserParam* func_and_param = static_cast<ThreadStartFuncAndUserParam*>(malloc(sizeof(ThreadStartFuncAndUserParam)));
+    func_and_param->start_func = start_func;
+    func_and_param->user_param = user_param;
+
+    if (pthread_create(static_cast<pthread_t*>(thread_handler), NULL, threadStartFunc, func_and_param))
+    {
+        free(thread_handler);
+        free(func_and_param);
+
+        thread_handler = NULL;
+    }
+
+    pthread_mutex_unlock(&s_mutex);
+
+    return thread_handler;
+}
+
+
+void fsLowLevelAPI::deleteThread(void* thread_handler)
+{
+    free(thread_handler);
+}
+
+
+void fsLowLevelAPI::joinThread(void* thread_handler)
+{
+    pthread_join(*static_cast<pthread_t*>(thread_handler), NULL);
+}
+
+
+void* fsLowLevelAPI::newMutex()
+{
+    void* mutex_handler = malloc(sizeof(pthread_mutex_t));
+
+    if (pthread_mutex_init(static_cast<pthread_mutex_t*>(mutex_handler), NULL))
+    {
+        free(mutex_handler);
+
+        return NULL;
+    }
+    else
+    {
+        return mutex_handler;
+    }
+}
+
+
+void fsLowLevelAPI::deleteMutex(void* mutex_handler)
+{
+    pthread_mutex_destroy(static_cast<pthread_mutex_t*>(mutex_handler));
+
+    free(mutex_handler);
+}
+
+
+void fsLowLevelAPI::lockMutex(void* mutex_handler)
+{
+    pthread_mutex_lock(static_cast<pthread_mutex_t*>(mutex_handler));
+}
+
+
+void fsLowLevelAPI::unlockMutex(void* mutex_handler)
+{
+    pthread_mutex_unlock(static_cast<pthread_mutex_t*>(mutex_handler));
+}
+
+
 void fsLowLevelAPI::setInitialDirectory(s32 argc, char** argv)
 {
     if (argc > 0)
@@ -563,6 +717,12 @@ void fsLowLevelAPI::setInitialDirectory(s32 argc, char** argv)
             return; // 阻止GCC警告
         }
     }
+}
+
+
+void fsLowLevelAPI::getWindowsFontDirectory(char* buf, u32 buf_size)
+{
+    // TODO: Error
 }
 
 

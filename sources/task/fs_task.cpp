@@ -7,7 +7,7 @@
  *  Copyright (c) 2011 netsurfers
  */
 
-#include "fs.h"
+#include "fs_task_all.h"
 #include "base/fs_private_macro.h"
 
 

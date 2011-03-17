@@ -22,7 +22,7 @@ public:
     //! @endcond
 
     /*!
-        Constructs and initializes a fsStr whose length is zero.
+        构建一个长度为零的fsStr.
     */
     fsStr()
     {
@@ -31,8 +31,8 @@ public:
     }
 
     /*!
-        Constructs and initializes a fsStr from the specified character.
-        @param[in] ch A character.
+        构建一个指定的fsStr.
+        @param[in] ch 一个字符或宽字符.
     */
     fsStr(T ch)
     {
@@ -40,8 +40,8 @@ public:
     }
 
     /*!
-        Constructs and initializes a fsStr from the specified string.
-        @param[in] str A string. NULL is allowed.
+        构建一个指定的fsStr.
+        @param[in] str 一个字符串允许为NULL.
     */
     fsStr(const T* str)
     {
@@ -49,8 +49,8 @@ public:
     }
 
     /*!
-        Constructs and initializes a fsStr from the specified fsStr.
-        @param[in] str A fsStr.
+        拷贝构造函数fsStr.
+        @param[in] str 一个fsStr.
     */
     fsStr(const fsStr<T, N>& str)
     {
@@ -58,9 +58,9 @@ public:
     }
 
     /*!
-        Constructs and initializes a fsStr from the specified fsStr with different length.
-        @tparam N2 The length of a fsStr.
-        @param[in] str A fsStr with different length.
+         构建一个指定的不同长度的fsStr.
+        @tparam N2 fsStr的长度.
+        @param[in] str 指定的不同长度的fsStr.
     */
     template<u8 N2> fsStr(const fsStr<T, N2>& str)
     {
@@ -68,9 +68,9 @@ public:
     }
 
     /*!
-        Assigns the right hand side character to this fsStr.
-        @param[in] ch The right hand side character.
-        @return A reference to this fsStr.
+        重载=运算符,使得fsStr值等于字符或宽字符.
+        @param[in] ch 右边的字符或宽字符.
+        @return 这个fsStr.
     */
     fsStr<T, N>& operator=(T ch)
     {
@@ -83,9 +83,9 @@ public:
     }
 
     /*!
-        Assigns the right hand side string to this fsStr.
-        @param[in] str The right hand side string.
-        @return A reference to this fsStr.
+        重载=运算符,使得fsStr值等于字符串.
+        @param[in] ch 右边的字符串.
+        @return 这个fsStr.
     */
     fsStr<T, N>& operator=(const T* str)
     {
@@ -107,9 +107,9 @@ public:
     }
 
     /*!
-        Assigns the right hand side fsStr to this fsStr.
-        @param[in] str The right hand side fsStr.
-        @return A reference to this fsStr.
+        重载=运算符,使得左边的fsStr值等于右边的fsStr值.
+        @param[in] ch 右边的fsStr值.
+        @return 这个fsStr.
     */
     fsStr<T, N>& operator=(const fsStr<T, N>& str)
     {
@@ -121,10 +121,10 @@ public:
     }
 
     /*!
-        Assigns the right hand side fsStr with different length to this fsStr.
-        @tparam N2 The length of the right hand side fsStr.
-        @param[in] str The right hand side fsStr with different length.
-        @return A referenct to this fsStr.
+        重载=运算符,使得左边的fsStr值等于右边不同长度的fsStr.
+        @tparam N2 右边fsStr的长度.
+        @param[in] str 不同长度的fsStr.
+        @return 这个fsStr.
     */
     template<u8 N2> fsStr<T, N>& operator=(const fsStr<T, N2>& str)
     {
@@ -138,9 +138,9 @@ public:
     }
 
     /*!
-        Returns whether this fsStr is equal to the right hand side character.
-        @param[in] ch The right hand side character.
-        @return Whether this fsStr is equal to the right hand side character.
+        重载==运算符,判断fsStr值是否等于右边字符或宽字符.
+        @param[in] ch 右边的字符或宽字符.
+        @return fsStr值是否等于右边字符或宽字符.
     */
     bool operator==(T ch) const
     {
@@ -148,9 +148,9 @@ public:
     }
 
     /*!
-        Returns whether this fsStr is equal to the right hand side string.
-        @param[in] str The right hand side string.
-        @return Whether this fsStr is equal to the right hand side string.
+        重载==运算符,判断fsStr值是否等于右边字符串.
+        @param[in] str 右边的字符串.
+        @return fsStr值是否等于右边字符串.
     */
     bool operator==(const T* str) const
     {
@@ -173,10 +173,10 @@ public:
     }
 
     /*!
-        Returns whether this fsStr is equal to the right hand side fsStr with different length.
-        @tparam N2 The length of the right hand side fsStr.
-        @param[in] str The right hand side fsStr with defferent length.
-        @return Whether this fsStr is equal to the right hand side fsStr.
+        重载==运算符,判断左边的fsStr值是否等于右边不同长度的fsStr.
+        @tparam N2 右边fsStr的长度.
+        @param[in] str 不同长度的fsStr.
+        @return 左边的fsStr值是否等于右边不同长度的fsStr.
     */
     template<u8 N2> bool operator==(const fsStr<T, N2>& str) const
     {
@@ -204,9 +204,9 @@ public:
     }
 
     /*!
-        Returns whether this fsStr is unequal to the right hand side character.
-        @param[in] ch The right hand side character.
-        @return Whether this fsStr is unequal to the right hand side character.
+        重载==运算符,判断fsStr值是否不等于右边字符或宽字符.
+        @param[in] ch 右边的字符或宽字符.
+        @return fsStr值是否不等于右边字符或宽字符.
     */
     bool operator!=(T ch) const
     {
@@ -214,9 +214,9 @@ public:
     }
 
     /*!
-        Returns whether this fsStr is unequal to the right hand side string.
-        @param[in] str The right hand side string.
-        @return Whether this fsStr is unequal to the right hand side string.
+        重载==运算符,判断fsStr值是否不等于右边字符串.
+        @param[in] str 右边的字符串.
+        @return fsStr值是否不等于右边字符串.
     */
     bool operator!=(const T* str) const
     {
@@ -224,10 +224,10 @@ public:
     }
 
     /*!
-        Returns whether this fsStr is unequal to the right hand side fsStr with different length.
-        @tparam N2 The length of the right hand side fsStr.
-        @param[in] str The right hand side fsStr with defferent length.
-        @return Whether this fsStr is unequal to the right hand side fsStr.
+        重载==运算符,判断左边的fsStr值是否不等于右边不同长度的fsStr.
+        @tparam N2 右边fsStr的长度.
+        @param[in] str 不同长度的fsStr.
+        @return 左边的fsStr值是否不等于右边不同长度的fsStr.
     */
     template<u8 N2> bool operator!=(const fsStr<T, N2>& str) const
     {
@@ -235,9 +235,9 @@ public:
     }
 
     /*!
-        Returns a reference to the character of this fsStr at the position specified by the parameter index.
-        @param[in] index The index of the position of the element to be referenced.
-        @return A reference to the character of this fsStr at the position specified by the parameter index.
+       重载[]运算符,返回指定位置的字符或宽字符.
+        @param[in] index 字符或宽字符的位置.
+        @return 指定位置的字符或宽字符.
     */
     T& operator[](u8 index)
     {
@@ -250,9 +250,9 @@ public:
     }
 
     /*!
-        Returns a fsStr which is the concatenation of this fsStr and the right hand side character.
-        @param[in] ch The right hand side character.
-        @return A fsStr which is the concatenation of this fsStr and the right hand side character.
+        重载+运算符,使得fsStr值加上字符或宽字符.
+        @param[in] ch 右边的字符或宽字符.
+        @return 这个fsStr.
     */
     fsStr<T, N> operator+(T ch) const
     {
@@ -264,9 +264,9 @@ public:
     }
 
     /*!
-        Returns a fsStr which is the concatenation of this fsStr and the right hand side string.
-        @param[in] str The right hand side string.
-        @return A fsStr which is the concatenation of this fsStr and the right hand side string.
+        重载+运算符,使得fsStr值加上字符串.
+        @param[in] ch 右边的字符串.
+        @return 这个fsStr.
     */
     fsStr<T, N> operator+(const T* str) const
     {
@@ -278,10 +278,10 @@ public:
     }
 
     /*!
-        Returns a fsStr which is the concatenation of this fsStr and the right hand side fsStr width differenct length.
-        @tparam N2 The length of the right hand side fsStr.
-        @param[in] str The right hand side fsStr with different length.
-        @return A fsStr which is the concatenation of this fsStr and the right hand side fsStr width differenct length.
+        重载+运算符,使得左边的fsStr值加上右边不同长度的fsStr.
+        @tparam N2 右边fsStr的长度.
+        @param[in] str 不同长度的fsStr.
+        @return 这个fsStr.
     */
     template<u8 N2> fsStr<T, N> operator+(const fsStr<T, N2>& str) const
     {
@@ -293,8 +293,8 @@ public:
     }
 
     /*!
-        Concatenates the right hand side character to the end of this fsStr.
-        @param[in] ch The right hand side character.
+        重载+=运算符,使得fsStr值加上右边字符或宽字符.
+        @param[in] ch 右边的字符或宽字符.
     */
     void operator+=(T ch)
     {
@@ -302,8 +302,8 @@ public:
     }
 
     /*!
-        Concatenates the right hand side string to the end of this fsStr.
-        @param[in] str The right hand side string.
+        重载+运算符,使得fsStr值加上右边字符串.
+        @param[in] ch 右边的字符串.
     */
     void operator+=(const T* str)
     {
@@ -323,9 +323,9 @@ public:
     }
 
     /*!
-        Concatenates the right hand side fsStr with different length to the end of this fsStr.
-        @tparam N2 The length of the right hand side fsStr.
-        @param[in] str The right hand side fsStr with different length.
+        重载+=运算符,使得左边的fsStr值加上右边不同长度的fsStr.
+        @tparam N2 右边fsStr的长度.
+        @param[in] str 不同长度的fsStr.
     */
     template<u8 N2> void operator+=(const fsStr<T, N2>& str)
     {
@@ -347,10 +347,10 @@ public:
     }
 
     /*!
-        Returns a hash value which is less than the specified value.
-        This method is used when fsStr is used as the key type of fsMap.
-        @param[in] n A value.
-        @return A hash value.
+        返回一个少于指定的值散列值.
+        这个方法用于fsMap.
+        @param[in] n 指定值.
+        @return 散列值.
     */
     u32 operator%(u32 n) const
     {
@@ -365,8 +365,8 @@ public:
     }
 
     /*!
-        Returns the pointer to the c-string of this fsStr.
-        @return The pointer to the c-string of this fsStr.
+        返回字符串首地址.
+        @return 字符串首地址.
     */
     const T* getString() const
     {
@@ -374,8 +374,8 @@ public:
     }
 
     /*!
-        Returns the length of this fsStr.
-        @return The length of this fsStr.
+        返回字符串长度.
+        @return 字符串长度.
     */
     u8 getLength() const
     {
@@ -383,10 +383,10 @@ public:
     }
 
     /*!
-        Returns the extracted fsStr from this fsStr in the specified range.
-        @param[in] index The index of the position of the element to be extracted.
-        @param[in] length The length of the extracted fsStr. If not specified, the length of this fsStr is used.
-        @return The extracted fsStr from this fsStr in the specified range.
+        从指定的区域提取子字符串.
+        @param[in] index 提取字符串的起始位置.
+        @param[in] length 提取字符串的长度,如果没有指定默认为这个fsStr长度.
+        @return 提取的子字符串.
     */
     fsStr<T, N> getSubStr(u8 index, u8 length = 0) const
     {

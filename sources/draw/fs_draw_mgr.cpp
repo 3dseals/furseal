@@ -7,10 +7,11 @@
  *  Copyright (c) 2011 netsurfers
  */
 
-#include "fs.h"
+#include "fs_draw_all.h"
 
-#include "base/fs_low_level_api.h"
-#include "base/fs_private_macro.h"
+#include "fs_kernel_all.h"
+#include "fs_task_all.h"
+#include "fs_base_all.h"
 
 
 const fsID fsDrawMgr::INVISIBLE_SCREEN_ID = fsID_("INVISIBLE_SCREEN");
@@ -141,6 +142,12 @@ void fsDrawMgr::deleteLightSet(fsID lts_id)
     }
 
     fsDelete(getLightSet(lts_id), fsLts);
+}
+
+
+void fsDrawMgr::deleteAllVramObjForEngine()
+{
+
 }
 
 
