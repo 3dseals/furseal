@@ -33,6 +33,11 @@
 #endif
 
 
+#ifdef _MSC_VER
+#pragma warning(disable:4251)
+#endif
+
+
 #undef min
 #undef max
 
@@ -83,7 +88,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 10; // 0.1.0
+const u32 FURSEAL_VERSION = 11; // 0.1.0
 
 
 /*!

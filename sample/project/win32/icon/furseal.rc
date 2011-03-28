@@ -1,0 +1,9 @@
+/*
+    Copyright (c) 2011 netsurfers
+*/
+
+
+#include "resource.h"
+
+
+IDI_FURSEAL ICON "furseal.ico"
