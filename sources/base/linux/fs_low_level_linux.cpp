@@ -327,7 +327,7 @@ bool fsLowLevelAPI::createApplication(const char* title, u16 width, u16 height, 
         return false;
     }
 
-    //setupShaderAPI((sys_flag & fsMgr::FLAG_DISABLE_SHADER) ? false : true);
+    setupShaderAPI((sys_flag & fsMgr::FLAG_DISABLE_SHADER) ? false : true);
 
     return true;
 }

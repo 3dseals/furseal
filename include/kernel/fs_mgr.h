@@ -26,6 +26,7 @@ public:
     fsDefineException(ExceptionCreateFramebufferFailed);
     fsDefineException(ExceptionEndFurseal);
     fsDefineException(ExceptionInvalidArgument);
+    fsDefineException(ExceptionNotInitialized);
     //! @endcond
 
 
@@ -48,6 +49,42 @@ public:
         FILE_MODE_READ, //!< Read-only.
         FILE_MODE_WRITE //!< Read and write.
     };
+
+
+    /*!
+        Writes a string.
+        @param[in] str A string.
+        @param[in] ... Additional arguments.
+    */
+    static void printf(const char* str, ...);
+
+
+    /*!
+        Writes a wchar string.
+        @param[in] str A string.
+        @param[in] ... Additional arguments.
+    */
+    static void wprintf(const wchar_t* str, ...);
+
+
+    /*!
+        Writes a string to the specified buffer.
+        @param[out] buf A buffer.
+        @param[in] buf_size The size of a buffer.
+        @param[in] str A string.
+        @param[in] ... Additional arguments.
+    */
+    static void sprintf(char* buf, u32 buf_size, const char* str, ...);
+
+
+    /*!
+        Writes a wchar string to the specified buffer.
+        @param[out] buf A buffer.
+        @param[in] buf_size The size of a buffer.
+        @param[in] str A string.
+        @param[in] ... Additional arguments.
+    */
+    static void swprintf(wchar_t* buf, u32 buf_size, const wchar_t* str, ...);
 
 
     /*!

@@ -22,8 +22,9 @@ class FS_API fsTaskMgr
 public:
     //! @cond
     fsDefineException(ExceptionDeleteTaskInDestructor);
-	 fsDefineException(ExceptionInvalidArgument);
-	 fsDefineException(ExceptionNewTaskInDestructor);
+	fsDefineException(ExceptionInvalidArgument);
+	fsDefineException(ExceptionNewTaskInDestructor);
+	fsDefineException(ExceptionNotInitialized);
     //! @endcond
 
     /*!
@@ -66,6 +67,12 @@ public:
         @param[in] task A task.
     */
     static void deleteTaskForEngine(fsTask* task);
+
+
+    /*!
+        Suspends the frame-skipping of the current frame.
+    */
+    static void resetFrameSkip();
 
 
     /*!

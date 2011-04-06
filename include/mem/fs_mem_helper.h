@@ -20,9 +20,10 @@ class FS_API fsMemHelper
 {
 public:
     //! @cond
-	 fsDefineException(ExceptionInvalidArgument);
-	 fsDefineException(ExceptionInvalidCall);
+	fsDefineException(ExceptionInvalidArgument);
+	fsDefineException(ExceptionInvalidCall);
     fsDefineException(ExceptionInvalidSizeOfType);
+    fsDefineException(ExceptionNotInitialized);
     //! @endcond
 
 
@@ -85,6 +86,16 @@ public:
         @return 这块内存块.
     */
     static void* mallocForEngine(u32 size, u32 array_size, const char* name);
+
+
+    /*!
+        Resizes the specified memory. This method is only for system.
+        @param[in,out] ptr The pointer to a memory.
+        @param[in] size The size of a memory.
+        @param[in] array_size The size of an array.
+        @param[in] name The name of a memory.
+    */
+    static void* reallocForEngine(void* ptr, u32 size, u32 array_size, const char* name);
 
 
     /*!

@@ -144,10 +144,73 @@ fsMat& fsScr::view()
 }
 
 
+bool fsScr::hasScreenTexture() const
+{
+    return m_scr_tex ? true : false;
+}
+
+
+fsID fsScr::getScreenTextureID() const
+{
+    if (!hasScreenTexture())
+    {
+        fsThrow(ExceptionInvalidCall);
+    }
+
+    return m_scr_tex->getID();
+}
+
+
+void fsScr::attachScreenTexture(fsTex::TexFormat format)
+{
+    if (hasScreenTexture())
+    {
+        detachScreenTexture();
+    }
+
+    if (m_width_in_framebuffer > fsDrawMgr::getMaxTextureLength() || m_height_in_framebuffer > fsDrawMgr::getMaxTextureLength())
+    {
+        fsThrow(ExceptionInvalidCall);
+    }
+
+    if (format != fsTex::FORMAT_RGB && format != fsTex::FORMAT_RGBA)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    m_scr_tex = fsNew(fsTex)(fsID::genID(), m_width_in_framebuffer, m_height_in_framebuffer, format, fsTex::MODE_FRAMEBUFFER, NULL, 0);
+
+    m_flag.setOn(FLAG_COPY_SCREEN);
+}
+
+
 void fsScr::detachScreenTexture()
 {
+    if (hasScreenTexture())
+    {
+        fsDelete(m_scr_tex, fsTex);
+        m_scr_tex = NULL;
 
+        m_flag.setOff(FLAG_COPY_SCREEN);
+    }
 }
+
+
+void fsScr::updateScreenTexture(bool is_frame_skip_reset)
+{
+    if (!hasScreenTexture())
+    {
+        fsThrow(ExceptionInvalidCall);
+    }
+
+    if (is_frame_skip_reset)
+    {
+        fsTaskMgr::resetFrameSkip();
+    }
+
+    m_flag.setOn(FLAG_COPY_SCREEN);
+}
+
 
 
 fsScr::fsScr(fsID scr_id)
@@ -156,6 +219,7 @@ fsScr::fsScr(fsID scr_id)
     m_view = fsMat::UNIT.translate(0.0f, 0.0f, static_cast<r32>(DEFAULT_FOCUS_DIST));
     m_root_draw.m_private_flag.setOn(fsDraw::FLAG_INITIALIZED);
     m_root_draw.m_scr_id = m_id;
+    m_scr_tex = NULL;
 
     m_flag.clear();
 
@@ -325,5 +389,21 @@ bool fsScr::canBoundClip_noCalcProjection(const fsMat& world, const fsVec& bound
 
 void fsScr::copyScreenTexture()
 {
+    if (hasScreenTexture() && m_flag.isOn(fsScr::FLAG_COPY_SCREEN))
+    {
+        if (m_scr_tex->m_tex_obj == 0)
+        {
+            m_scr_tex->m_tex_obj = fsLowLevelAPI::registerTexture( //
+                fsDrawMgr::getValidTextureLength(m_scr_tex->m_width), fsDrawMgr::getValidTextureLength(m_scr_tex->m_height), //
+                static_cast<fsLowLevelAPI::TextureFormat>(m_scr_tex->m_format.getType()), NULL);
+        }
 
+        fsLowLevelAPI::copyImageFromFramebufferToTexture( //
+            m_scr_tex->m_tex_obj, //
+            fsDrawMgr::getValidTextureLength(m_scr_tex->m_width), fsDrawMgr::getValidTextureLength(m_scr_tex->m_height), //
+            static_cast<fsLowLevelAPI::TextureFormat>(m_scr_tex->m_format.getType()), //
+            m_left_in_framebuffer, m_top_in_framebuffer);
+
+        m_flag.setOff(fsScr::FLAG_COPY_SCREEN);
+    }
 }

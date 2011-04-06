@@ -107,6 +107,69 @@ void fsDraw::setParent(fsDraw* parent)
 }
 
 
+fsDraw* fsDraw::getPrevAllN() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsTree<fsDraw>* prev = m_tree.getPrevAllN();
+
+    return (prev && prev->hasParent()) ? prev->getSelf() : NULL;
+}
+
+
+fsDraw* fsDraw::getNextAllN() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsTree<fsDraw>* next = m_tree.getNextAllN();
+
+    return next ? next->getSelf() : NULL;
+}
+
+
+fsDraw* fsDraw::getPrevSiblingN() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsTree<fsDraw>* sibling = m_tree.getPrevSiblingN();
+
+    return sibling ? sibling->getSelf() : NULL;
+}
+
+
+fsDraw* fsDraw::getNextSiblingN() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsTree<fsDraw>* sibling = m_tree.getNextSiblingN();
+
+    return sibling ? sibling->getSelf() : NULL;
+}
+
+
+fsDraw* fsDraw::getLastDescendant() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_tree.getLastDescendant()->getSelf();
+}
+
+
 bool fsDraw::hasChild() const
 {
     if (m_private_flag.isOff(FLAG_INITIALIZED))
@@ -131,6 +194,84 @@ fsDraw* fsDraw::getFirstChildN() const
 }
 
 
+fsDraw* fsDraw::getLastChildN() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsTree<fsDraw>* child = m_tree.getLastChildN();
+
+    return child ? child->getSelf() : NULL;
+}
+
+
+void fsDraw::moveFirst()
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_tree.getParentN()->addFirst(&m_tree);
+}
+
+
+void fsDraw::moveLast()
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_tree.getParentN()->addLast(&m_tree);
+}
+
+
+void fsDraw::moveBefore(fsDraw* draw)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    if (!draw || !draw->getParentN())
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    m_tree.joinBefore(&draw->m_tree);
+}
+
+
+void fsDraw::moveAfter(fsDraw* draw)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    if (!draw || !draw->getParentN())
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    m_tree.joinAfter(&draw->m_tree);
+}
+
+
+fsDraw::DrawType fsDraw::getType() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_type.getType();
+}
+
+
 bool fsDraw::isVisible() const
 {
     if (m_private_flag.isOff(FLAG_INITIALIZED))
@@ -150,6 +291,28 @@ void fsDraw::setVisible(bool is_visible)
     }
 
     m_private_flag.set(FLAG_VISIBLE, is_visible);
+}
+
+
+fsCol fsDraw::getColor() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_local_col;
+}
+
+
+void fsDraw::setColor(fsCol col)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_local_col = col;
 }
 
 
@@ -246,6 +409,190 @@ void fsDraw::setDrawFlag(DrawFlag draw_flag, bool is_on)
     }
 
     m_draw_flag.set(draw_flag, is_on);
+}
+
+
+void fsDraw::clearDrawFlag()
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_draw_flag.clear();
+}
+
+
+void fsDraw::copyDrawFlag(const fsDraw* src)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    if (!src)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    if (src->m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_draw_flag = src->m_draw_flag;
+}
+
+
+const fsVec& fsDraw::getClipBoundMin() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_bound_min;
+}
+
+
+const fsVec& fsDraw::getClipBoundMax() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_bound_max;
+}
+
+
+void fsDraw::setClipBound(const fsVec& bound_min, const fsVec& bound_max)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    if (bound_min.x > bound_max.x || bound_min.y > bound_max.y || bound_min.z > bound_max.z)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    m_bound_min = bound_min;
+    m_bound_max = bound_max;
+}
+
+
+const fsVec& fsDraw::getSortCenter() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_sort_center;
+}
+
+
+void fsDraw::setSortCenter(const fsVec& sort_center)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_sort_center = sort_center;
+}
+
+
+r32 fsDraw::getSortOffset() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_sort_offset;
+}
+
+
+void fsDraw::setSortOffset(r32 sort_offset)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_sort_offset = sort_offset;
+}
+
+
+fsID fsDraw::getTextureID() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_tex ? m_tex->getID() : fsID::ZERO;
+}
+
+
+void fsDraw::setTextureID(fsID tex_id)
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    m_tex = (tex_id != fsID::ZERO) ? fsDrawMgr::getTexture(tex_id) : NULL;
+}
+
+
+fsMat& fsDraw::local()
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    return m_local;
+}
+
+
+fsMat fsDraw::calcWorld() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsMat world = m_local;
+
+    for (fsDraw* parent = getParentN(); parent; parent = parent->getParentN())
+    {
+        world = world.toGlobalFrom(parent->m_local);
+    }
+
+    return world;
+}
+
+
+fsCol fsDraw::calcFinalColor() const
+{
+    if (m_private_flag.isOff(FLAG_INITIALIZED))
+    {
+        fsThrow(ExceptionNotInitialized);
+    }
+
+    fsCol final_col = m_local_col;
+
+    for (fsDraw* parent = getParentN(); parent; parent = parent->getParentN())
+    {
+        final_col *= parent->m_local_col;
+    }
+
+    return final_col;
 }
 
 

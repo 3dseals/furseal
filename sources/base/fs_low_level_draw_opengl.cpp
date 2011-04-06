@@ -8,7 +8,7 @@
  */
 
 
-#if defined(WIN32)
+#if defined(WINDOWS)
 #include <windows.h>
 #include <GL/gl.h>
 #include <glext.h>
@@ -38,7 +38,7 @@
 #endif
 
 
-#if defined(WIN32) || defined(FS_LINUX)
+#if defined(WINDOWS) || defined(FS_LINUX)
 
 PFNGLACTIVETEXTUREARBPROC fsglActiveTexture;
 PFNGLATTACHOBJECTARBPROC fsglAttachShader;
@@ -76,7 +76,7 @@ PFNGLVERTEXATTRIBPOINTERARBPROC fsglVertexAttribPointer;
 #define FSGL_TEXTURE2 GL_TEXTURE2_ARB
 #define FSGL_VERTEX_SHADER GL_VERTEX_SHADER_ARB
 
-#else // !(WIN32 || FS_LINUX)
+#else // !(WINDOWS || FS_LINUX)
 
 #define fsglActiveTexture glActiveTexture
 #define fsglAttachShader glAttachShader
@@ -110,7 +110,7 @@ PFNGLVERTEXATTRIBPOINTERARBPROC fsglVertexAttribPointer;
 #define FSGL_TEXTURE2 GL_TEXTURE2
 #define FSGL_VERTEX_SHADER GL_VERTEX_SHADER
 
-#endif // WIN32 || FS_LINUX
+#endif // WINDOWS || FS_LINUX
 
 
 static bool s_is_shader_available = false;
@@ -276,9 +276,9 @@ void fsLowLevelAPI::setupShaderAPI(bool is_shader_check)
         return;
     }
 
-#if defined(WIN32) || defined(FS_LINUX)
+#if defined(WINDOWS) || defined(FS_LINUX)
 
-#ifdef WIN32
+#ifdef WINDOWS
 #define fsglGetProcAddress(x) wglGetProcAddress(x)
 #else // FS_LINUX
 #define fsglGetProcAddress(x) (*glXGetProcAddress)((const GLubyte*)(x))
@@ -339,7 +339,7 @@ void fsLowLevelAPI::setupShaderAPI(bool is_shader_check)
 
     s_is_shader_available = false;
 
-#endif // WIN32 || FS_LINUX
+#endif // WINDOWS || FS_LINUX
 }
 
 

@@ -12,7 +12,7 @@
 #define FS_MAIN_H_
 
 
-#ifdef WIN32
+#ifdef WINDOWS
 #include <windows.h>
 #endif
 
@@ -32,7 +32,7 @@
     @ingroup fsSys
     程序的入口函数.
 */
-#ifdef WIN32
+#ifdef WINDOWS
 #define furseal() \
     int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) \
     { \

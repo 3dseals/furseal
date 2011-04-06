@@ -12,6 +12,7 @@
 
 
 #include "fs_gen_all.h"
+#include "fs_draw_all.h"
 
 
 /*!

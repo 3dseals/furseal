@@ -1,13 +1,13 @@
 /*
-* fs_low_level_windows.cpp
-*
-*  Created on: 2011-3-28
-*      Author: Lional King
-*
-*   Copyright (c) 2011 netsurfers
+ * fs_low_level_windows.cpp
+ *
+ *  Created on: 2011-3-28
+ *      Author: Lional King
+ *
+ *   Copyright (c) 2011 netsurfers
 */
 
-#ifdef WIN32
+#ifdef WINDOWS
 
 
 #include <windows.h>
@@ -200,7 +200,7 @@ static void destroyFramebuffer()
 
 	if (s_hInstance)
 	{
-		UnregisterClass("Catcake", s_hInstance);
+		UnregisterClass("Furseal", s_hInstance);
 		s_hInstance = NULL;
 	}
 }
@@ -224,7 +224,7 @@ static bool createFramebuffer(u16 new_width, u16 new_height)
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = NULL;
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = "Catcake";
+	wc.lpszClassName = "Furseal";
 
 	if (!RegisterClass(&wc))
 	{
@@ -402,7 +402,7 @@ bool fsLowLevelAPI::createApplication(const char* title, u16 width, u16 height, 
 		return false;
 	}
 
-	//setupShaderAPI((sys_flag & fsMgr::FLAG_DISABLE_SHADER) ? false : true);
+	setupShaderAPI((sys_flag & fsMgr::FLAG_DISABLE_SHADER) ? false : true);
 
 	return true;
 }
@@ -582,7 +582,7 @@ void fsLowLevelAPI::exit(s32 status)
 void fsLowLevelAPI::error(const char* msg)
 {
 	printf(msg);
-	MessageBoxA(NULL, msg, "Catcake Error", MB_OK | MB_ICONERROR);
+	MessageBoxA(NULL, msg, "Furseal Error", MB_OK | MB_ICONERROR);
 
 	exit(1);
 }
@@ -656,4 +656,4 @@ void fsLowLevelAPI::getWindowsFontDirectory(char* buf, u32 buf_size)
 }
 
 
-#endif // WIN32
+#endif // WINDOWS

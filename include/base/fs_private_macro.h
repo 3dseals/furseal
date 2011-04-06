@@ -48,8 +48,33 @@
 #define FS_DEFINE_MANAGER_INSTANCE(name) \
     name* name::instance() \
     { \
+        if (!isCreated()) \
+        { \
+            fsThrow(ExceptionNotInitialized); \
+        } \
+    \
         return m_instance; \
     }
+
+
+#define FS_VSPRINTF(buf, buf_size, format) \
+    va_list ap; \
+    \
+    va_start(ap, str); \
+    fsLowLevelAPI::vsprintf(buf, buf_size, format, &ap); \
+    va_end(ap); \
+    \
+    buf[buf_size - 1] = '\0'
+
+
+#define FS_VSWPRINTF(buf, buf_size, format) \
+    va_list ap; \
+    \
+    va_start(ap, str); \
+    fsLowLevelAPI::vswprintf(buf, buf_size, format, &ap); \
+    va_end(ap); \
+    \
+    buf[buf_size - 1] = L'\0'
 
 
 #endif // !FS_PRIVATE_MACRO_H_

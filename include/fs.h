@@ -17,6 +17,7 @@
 #include "fs_kernel_all.h"
 #include "fs_task_all.h"
 #include "fs_input_all.h"
+#include "fs_res_all.h"
 #include "fs_draw_all.h"
 
 

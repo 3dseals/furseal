@@ -121,6 +121,41 @@ void* fsMemHelper::mallocForEngine(u32 size, u32 array_size, const char* name)
 }
 
 
+void* fsMemHelper::reallocForEngine(void* ptr, u32 size, u32 array_size, const char* name)
+{
+    fsMemHelper* ins = instance();
+
+    if (!ptr || size == 0 || !name)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    size += sizeof(MemoryBlockHeader);
+
+    MemoryBlockHeader* mbh = reinterpret_cast<MemoryBlockHeader*>(ptr) - 1;
+
+    ins->m_cur_used_memory_size -= mbh->size;
+
+    mbh = reinterpret_cast<MemoryBlockHeader*>(fsLowLevelAPI::realloc(mbh, size));
+
+    mbh->name = name;
+    mbh->size = size;
+    mbh->array_size = array_size;
+
+    mbh->prev->next = mbh;
+    mbh->next->prev = mbh;
+
+    ins->m_cur_used_memory_size += size;
+
+    if (ins->m_cur_used_memory_size > ins->m_max_used_memory_size)
+    {
+        ins->m_max_used_memory_size = ins->m_cur_used_memory_size;
+    }
+
+    return mbh + 1;
+}
+
+
 void fsMemHelper::freeForEngine(void* ptr)
 {
     if (!isCreated())

@@ -1,3 +1,35 @@
+
+	Furseal is a free opensource,crossing platform 3d game engine.
+	This idea originated from Catcake.Furseal the expansion of Catcake.
+	Furseal support Chinese document(need Doxygen tool to to extract from sources).
+	
+	platforms for now:
+	
+	Android (NDK5, android1.6 or more highter version)
+	Linux   (GCC4.4, Ubuntu, Fedora and so on)
+	Windows (vs2008, windows Xp, windows Vista, Windows 7 and so on)
+	*iPhone
+	*MacOSX
+	
+	Furseal plan:
+	
+	Polygon and 3D points rendering
+  Resource management
+  Multi-task management
+  Memory management
+  Automatic frame-rate adjustment
+  Font rendering (TTF, TTC, OTF, and so on)
+  Screen splitting
+  Lighting (parallel and point lights)
+  Input device (mouse and keyboard) management
+  *Sound playing
+  *Collision detection (sphere, box, triangle and ray)
+  *Physical system
+  *Configuration file parser
+  *2D effects drawing
+  *3D model drawing (3DS)
+  *Motion playing (Skeletal animation)
+
 	Copyright (C) 2011 netsurfers
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,6 +51,38 @@
 	This is free software, and you are welcome to redistribute it
 	under certain conditions。
 
+
+	Furseal是一款免费开源跨平台的3D游戏引擎.
+	这个想法起源于Catcake.Furseal是对Catcake的扩展.
+	Furseal支持中文文档(需要Doxygen工具从源码中提取出来).
+	
+	目前支持的平台:
+	
+	Android (NDK5, 安卓1.6及以上版本)
+	Linux   (GCC4.4, Ubuntu, Fedora等)
+	Windows (vs2008, windows Xp, windows Vista, Windows 7等)
+	*iPhone
+	*MacOSX
+	
+	Furseal规划:
+	
+	多边形及三维坐标点的渲染
+  资源管理
+  多任务管理
+  内存管理
+  自动帧频调整
+  字体渲染 (TTF, TTC, OTF, 等)
+  屏幕分割
+  光照 (直线光和点光)
+  输入管理 (鼠标键盘)
+  *声音播放
+  *碰撞检测 (球, 长方体, 三角 和雷射)
+  *物理系统
+  *配置脚本
+  *2D特效显示
+  *3D模型显示 (3DS)
+  *动画播放 (骨骼动画)
+	
 	版权所有(C) 2011 冲浪网
 
 	本程序为自由软件；您可依据自由软件基金会所发表的GNU 通用公共授权条款

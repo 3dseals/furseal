@@ -126,6 +126,48 @@ public:
 
 
     /*!
+        Returns the previous ckDraw of this ckDraw.
+        If this ckDraw has no previous ckDraw, returns NULL.
+        This method is used to follow the whole tree as list structure.
+        @return The previous ckDraw of this ckDraw.
+    */
+    fsDraw* getPrevAllN() const;
+
+
+    /*!
+        Returns the next ckDraw of this ckDraw.
+        If this ckDraw has no next ckDraw, returns NULL.
+        This method is used to follow the whole tree as list structure.
+        @return The previous ckDraw of this ckDraw.
+    */
+    fsDraw* getNextAllN() const;
+
+
+    /*!
+        Returns the previous sibling ckDraw of this ckDraw.
+        If this ckDraw has no previous sibling ckDraw, returns NULL.
+        @return The previous sibling ckDraw of this ckDraw.
+    */
+    fsDraw* getPrevSiblingN() const;
+
+
+    /*!
+        Returns the next sibling ckDraw of this ckDraw.
+        If this ckDraw has no next sibling ckDraw, returns NULL.
+        @return The next sibling ckDraw of this ckDraw.
+    */
+    fsDraw* getNextSiblingN() const;
+
+
+    /*!
+        Returns the last descendant ckDraw of this ckDraw.
+        If this ckDraw has no descendant, returns this ckDraw.
+        @return The last descendant ckDraw of this ckDraw.
+    */
+    fsDraw* getLastDescendant() const;
+
+
+    /*!
         Returns whether this fsDraw has a child fsDraw.
         @return Whether this fsDraw has a child fsDraw.
     */
@@ -141,6 +183,51 @@ public:
 
 
     /*!
+        Returns the last child ckDraw of this ckDraw.
+        If this ckDraw has no child ckDraw, returns NULL.
+        @return The last child ckDraw of this ckDraw.
+    */
+    fsDraw* getLastChildN() const;
+
+
+    /*!
+        Changes the order of this ckDraw in the siblings to the first.
+        This ckDraw must belong to a screen or have a parent.
+    */
+    void moveFirst();
+
+
+    /*!
+        Changes the order of this ckDraw in the siblings to the last.
+        This ckDraw must belong to a screen or have a parent.
+    */
+    void moveLast();
+
+
+    /*!
+        Changes the order of this ckDraw to the previous of the specified ckDraw.
+        The specified ckDraw must belong to a screen or have a parent.
+        @param[in] draw A ckDraw.
+    */
+    void moveBefore(fsDraw* draw);
+
+
+    /*!
+        Changes the order of this ckDraw to the next of the specified ckDraw.
+        The specified ckDraw must belong to a screen or have a parent.
+        @param[in] draw A ckDraw.
+    */
+    void moveAfter(fsDraw* draw);
+
+
+    /*!
+        Returns the draw-type of this ckDraw.
+        @return The draw-type of this ckDraw.
+    */
+    DrawType getType() const;
+
+
+    /*!
         Returns whether this fsDraw is visible.
         @return Whether this fsDraw is visible.
     */
@@ -152,6 +239,19 @@ public:
         @param[in] is_visible Whether this fsDraw is visible.
     */
     void setVisible(bool is_visible);
+
+
+    /*!
+        Returns the filter color of this ckDraw.
+        @return The filter color of this ckDraw.
+    */
+    fsCol getColor() const;
+
+    /*!
+        Sets the filter color of this ckDraw.
+        @param[in] col A filter color.
+    */
+    void setColor(fsCol col);
 
 
     /*!
@@ -199,6 +299,106 @@ public:
     void setDrawFlag(DrawFlag draw_flag, bool is_on);
 
 
+    /*!
+        Sets the all draw flags to off.
+    */
+    void clearDrawFlag();
+
+
+    /*!
+        Copies the draw flags from the specified ckDraw.
+        @param[in] src A source ckDraw.
+    */
+    void copyDrawFlag(const fsDraw* src);
+
+
+    /*!
+        Returns the minimum clip bound of this ckDraw.
+        @return The minimum clip bound of this ckDraw.
+    */
+    const fsVec& getClipBoundMin() const;
+
+
+    /*!
+        Returns the maximum clip bound of this ckDraw.
+        @return The maximum clip bound of this ckDraw.
+    */
+    const fsVec& getClipBoundMax() const;
+
+
+    /*!
+        Sets the clip bound of this ckDraw.
+        @param[in] bound_min The minimum clip bound.
+        @param[in] bound_max The maximum clip bound.
+    */
+    void setClipBound(const fsVec& bound_min, const fsVec& bound_max);
+
+
+    /*!
+        Returns the center position for sorting ckDraws.
+        @return The center position for sorting ckDraws.
+    */
+    const fsVec& getSortCenter() const;
+
+
+    /*!
+        Sets the center position for sorting ckDraws.
+        @param[in] sort_center The center position for sorting ckDraws.
+    */
+    void setSortCenter(const fsVec& sort_center);
+
+
+    /*!
+        Returns the value of sort offset.
+        @return The value of sort offset.
+    */
+    r32 getSortOffset() const;
+
+
+    /*!
+        Sets the specified value of sort offset.
+        @param sort_offset The value of sort offset.
+    */
+    void setSortOffset(r32 sort_offset);
+
+
+    /*!
+        Returns the texture ID which this ckDraw uses.
+        If no texture is used, returns ckID::ZERO.
+        @return The texture ID which this ckDraw uses.
+    */
+    fsID getTextureID() const;
+
+
+    /*!
+        Sets the specified texture ID to this ckDraw.
+        If ckID::ZERO is specified, uses no texture.
+        @param tex_id A texture ID.
+    */
+    void setTextureID(fsID tex_id);
+
+
+    /*!
+        Returns the reference to the local matrix.
+        @return The reference to the local matrix.
+    */
+    fsMat& local();
+
+
+    /*!
+        Calculates and returns the world matrix at present.
+        @return The world matrix at present.
+    */
+    fsMat calcWorld() const;
+
+
+    /*!
+        Calculates and returns the final drawing color at present.
+        @return The final drawing color at present.
+    */
+    fsCol calcFinalColor() const;
+
+
 protected:
     //! @cond
     enum PrivateFlag
@@ -223,6 +423,7 @@ protected:
     fsFlag<u8, PrivateFlag> m_private_flag;
     fsFlag<u16, DrawFlag> m_draw_flag;
     fsID m_scr_id;
+    fsTex* m_tex;
     fsMat m_local;
     fsMat m_world;
     fsCol m_local_col;

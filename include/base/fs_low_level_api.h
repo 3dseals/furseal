@@ -33,6 +33,7 @@ public:
     static s32 rand();
 
     static void* malloc(u32 size);
+    static void* realloc(void* ptr, u32 size);
     static void free(void* ptr);
     static void memset(void* buf, u8 value, u32 size);
     static void memcpy(void* dest, const void* src, u32 size);
@@ -40,6 +41,7 @@ public:
     static bool createApplication(const char* title, u16 width, u16 height, u16 sys_flag);
     static void destroyApplication();
     static void startApplication(bool (*update_func)(void));
+
     static u16 getFramebufferWidth();
     static u16 getFramebufferHeight();
     static void updateFramebufferSize();
@@ -51,6 +53,7 @@ public:
     typedef void (*KeyEventHandler)(u8 keycode, bool is_down);
     typedef void (*MouseEventHandler)(s16 mouse_x, s16 mouse_y);
     typedef void (*ExtraEventHandler)(u8 index, r32 value);
+
     static void setKeyEventHandler(KeyEventHandler handler);
     static void setMouseEventHandler(MouseEventHandler handler);
     static void setExtraEventHandler(ExtraEventHandler handler);
@@ -83,7 +86,10 @@ public:
     };
 
     static void printf(const char* msg);
+    static void wprintf(const wchar_t* msg);
     static void vsprintf(char* buf, u32 buf_size, const char* format, void* arg);
+    static void vswprintf(wchar_t* buf, u32 buf_size, const wchar_t* format, void* arg);
+
     static void* openFile(const char* filename, FileMode file_mode);
     static s32 getFileSize(void* file_handler);
     static bool readFile(void* buf, u32 offset, u32 size, void* file_handler);
@@ -166,6 +172,16 @@ public:
     static void setAttribPointer_r32(u32 location, u8 size, u32 stride, const r32* attrib);
     static void setAttribPointer_color(u32 location, u32 stride, const u8* attrib);
     static void disableAttribPointer(u32 location);
+
+    static bool readPNGInfo(u16* width, u16* height, TextureFormat* format, const void* data, u32 data_size);
+    static bool readPNGImage(void* buf, u32 buf_size, u32 buf_line_size, const void* data, u32 data_size);
+
+    static bool createFreeType();
+    static bool destroyFreeType();
+    static void* newFreeTypeFont(const void* data, u32 data_size);
+    static bool deleteFreeTypeFont(void* font_info);
+    static s16 drawFreeTypeFont(void* image, u16 image_width, u16 image_height, //
+        void* font_info, u32 font_index, u16 font_size, s16 x, s16 y, const wchar_t* str);
 };
 
 #endif // !FS_LOW_LEVEL_API_H_

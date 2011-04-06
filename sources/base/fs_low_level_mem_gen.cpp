@@ -35,6 +35,23 @@ void* fsLowLevelAPI::malloc(u32 size)
 }
 
 
+void* fsLowLevelAPI::realloc(void* ptr, u32 size)
+{
+    ptr = ::realloc(ptr, size);
+
+    if (!ptr)
+    {
+#ifdef FS_NO_THROW_EXCEPTION
+        error("bad_alloc");
+#else
+        throw std::bad_alloc();
+#endif
+    }
+
+    return ptr;
+}
+
+
 void fsLowLevelAPI::free(void* ptr)
 {
     ::free(ptr);

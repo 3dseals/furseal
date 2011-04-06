@@ -42,8 +42,8 @@
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="true"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\include\glext"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FURSEAL_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\include\glext;..\..\..\include\zlib;..\..\..\include\libpng;..\..\..\include\freetype"
+				PreprocessorDefinitions="WINDOWS;_DEBUG;_WINDOWS;_USRDLL;FURSEAL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=""
+				AdditionalDependencies="zlib.lib libpng.lib freetype.lib"
 				OutputFile="$(OutDir)\furseal.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\library"
@@ -94,7 +94,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\..\..\..\library&#x0D;&#x0A;copy &quot;$(OutDir)\$(TargetName).dll&quot; ..\..\..\..\lib&#x0D;&#x0A;copy &quot;$(OutDir)\$(TargetName).dll&quot; ..\..\..\..\sample\bin&#x0D;&#x0A;"
+				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\..\..\..\library&#x0D;&#x0A;copy &quot;$(OutDir)\$(TargetName).dll&quot; ..\..\..\..\library&#x0D;&#x0A;copy &quot;$(OutDir)\$(TargetName).dll&quot; ..\..\..\..\sample\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -297,6 +297,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\..\include\draw\fs_font.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\..\include\draw\fs_lit.h"
 					>
 				</File>
@@ -314,6 +318,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\include\draw\fs_scr.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_shd.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_tex.h"
 					>
 				</File>
 			</Filter>
@@ -416,6 +428,14 @@
 					RelativePath="..\..\..\..\sources\base\fs_low_level_mem_gen.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\..\sources\base\fs_low_level_util_freetype.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\base\fs_low_level_util_libpng.cpp"
+					>
+				</File>
 				<Filter
 					Name="linux"
 					>
@@ -457,6 +477,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\..\sources\draw\fs_font.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\..\sources\draw\fs_lit.cpp"
 					>
 				</File>
@@ -474,6 +498,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\sources\draw\fs_scr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_shd.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_tex.cpp"
 					>
 				</File>
 			</Filter>

@@ -167,9 +167,37 @@ public:
 
 
     /*!
+        Returns whether this screen has the texture.
+        @return Whether this screen has the texture.
+    */
+    bool hasScreenTexture() const;
+
+
+    /*!
+        Returns the texture ID of this screen.
+        @return The texture ID of this screen.
+    */
+    fsID getScreenTextureID() const;
+
+
+    /*!
+        Creates the texture for this screen.
+        @param[in] format The format type of a texture.
+    */
+    void attachScreenTexture(fsTex::TexFormat format);
+
+
+    /*!
         Deletes the texture of this screen.
     */
     void detachScreenTexture();
+
+
+    /*!
+        Updates the texture of this screen.
+        @param[in] is_frame_skip_reset Whether disallow frame skip.
+    */
+    void updateScreenTexture(bool is_frame_skip_reset);
 
 
 private:
@@ -206,6 +234,7 @@ private:
     r32 m_far_clip_dist;
     fsMat m_view;
     fsDraw m_root_draw;
+    fsTex* m_scr_tex;
     fsID m_guest_id[GUEST_SCREEN_NUM];
     r32 m_view_to_clip[16];
     r32 m_world_to_view[16];

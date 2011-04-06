@@ -22,6 +22,6 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../../../include
 
 LOCAL_CXXFLAGS := -DNDEBUG -DCK_ANDROID
 
-LOCAL_LDLIBS := -L$(NDK_PLATFORMS_ROOT)/$(_platform)/arch-arm/usr/lib -L$(LOCAL_PATH)/../../../../../library -lfurseal -lGLESv1_CM -lgcc
+LOCAL_LDLIBS := -L$(NDK_PLATFORMS_ROOT)/$(_platform)/arch-arm/usr/lib -L$(LOCAL_PATH)/../../../../../library -lfurseal -lfreetype -lpng -lz -lGLESv1_CM -lgcc
 
 include $(BUILD_SHARED_LIBRARY)

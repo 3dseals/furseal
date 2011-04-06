@@ -19,6 +19,9 @@
     管理引擎的绘图.
 */
 #include "draw/fs_col.h"
+#include "draw/fs_tex.h"
+#include "draw/fs_shd.h"
+#include "draw/fs_font.h"
 #include "draw/fs_draw.h"
 #include "draw/fs_lit.h"
 #include "draw/fs_lts.h"

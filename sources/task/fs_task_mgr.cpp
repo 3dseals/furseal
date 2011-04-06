@@ -106,6 +106,12 @@ void fsTaskMgr::deleteTaskForEngine(fsTask* task)
 }
 
 
+void fsTaskMgr::resetFrameSkip()
+{
+    instance()->m_is_frame_skip_reset = true;
+}
+
+
 void fsTaskMgr::updateForEngine()
 {
     fsTaskMgr* ins = instance();

@@ -7,6 +7,10 @@
  *  Copyright (c) 2011 netsurfers
 */
 
+
+#include <stdarg.h>
+
+
 #include "fs_kernel_all.h"
 
 #include "fs_mem_all.h"
@@ -21,6 +25,56 @@ fsMgr* fsMgr::m_instance = NULL;
 
 
 FS_DEFINE_MANAGER_IS_CREATED(fsMgr)
+
+
+void fsMgr::printf(const char* str, ...)
+{
+    if (!str)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    char buf[256];
+    FS_VSPRINTF(buf, 256, str);
+
+    fsLowLevelAPI::printf(buf);
+}
+
+
+void fsMgr::wprintf(const wchar_t* str, ...)
+{
+    if (!str)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    wchar_t buf[256];
+    FS_VSWPRINTF(buf, 256, str);
+
+    fsLowLevelAPI::wprintf(buf);
+}
+
+
+void fsMgr::sprintf(char* buf, u32 buf_size, const char* str, ...)
+{
+    if (!buf || buf_size == 0 || !str)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    FS_VSPRINTF(buf, buf_size, str);
+}
+
+
+void fsMgr::swprintf(wchar_t* buf, u32 buf_size, const wchar_t* str, ...)
+{
+    if (!buf || buf_size == 0 || !str)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    FS_VSWPRINTF(buf, buf_size, str);
+}
 
 
 void* fsMgr::openFile(const char* filename, FileMode file_mode)

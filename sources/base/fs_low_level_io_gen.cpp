@@ -32,6 +32,16 @@ void fsLowLevelAPI::printf(const char* msg)
 }
 
 
+void fsLowLevelAPI::wprintf(const wchar_t* msg)
+{
+    ::wprintf(msg);
+
+#ifdef _MSC_VER
+    OutputDebugStringW(msg);
+#endif
+}
+
+
 void fsLowLevelAPI::vsprintf(char* buf, u32 buf_size, const char* format, void* arg)
 {
 #if _MSC_VER >= 1400
@@ -39,6 +49,12 @@ void fsLowLevelAPI::vsprintf(char* buf, u32 buf_size, const char* format, void* 
 #else
     ::vsnprintf(buf, buf_size, format, *reinterpret_cast<va_list*>(arg));
 #endif
+}
+
+
+void fsLowLevelAPI::vswprintf(wchar_t* buf, u32 buf_size, const wchar_t* format, void* arg)
+{
+    ::vswprintf(buf, buf_size, format, *reinterpret_cast<va_list*>(arg));
 }
 
 

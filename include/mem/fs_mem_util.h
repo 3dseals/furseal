@@ -108,6 +108,16 @@
 
 
 /*!
+    @ingroup ckMem
+    Resizes a memory.
+    @param[in] ptr The memory to be resized.
+    @param[in] size The new size of the memory.
+    @return The memory.
+*/
+#define fsRealloc(ptr, size) fsMemHelper::reallocForEngine(ptr, size, 0, __FILE__)
+
+
+/*!
     @ingroup fsMem
     释放一块内存块.
     @param[in] ptr 被释放的内存块.
