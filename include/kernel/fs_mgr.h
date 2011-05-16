@@ -185,6 +185,46 @@ public:
     */
     static void updateForEngine(bool render);
 
+    /*!
+		Reads the data in little endian.
+		@param[out] dest The destination.
+		@param[in] src The source.
+		@param[in] size The size of the data.
+	*/
+	static void readLittleEndianForEngine(void* dest, const void* src, u32 size);
+
+	/*!
+		Reads the data in little endian. This method is only for system.
+		@tparam T The class type.
+		@param[in] data The source data.
+	*/
+	template<class T> static T readLittleEndianForEngine(const void* data)
+	{
+		T value;
+
+		readLittleEndianForEngine(&value, data, sizeof(T));
+
+		return value;
+	}
+
+	/*!
+		Writes the data in little endian.
+		@param[out] dest The destination.
+		@param[in] src The source.
+		@param[in] size The size of the data.
+	*/
+	static void writeLittleEndianForEngine(void* dest, const void* src, u32 size);
+
+	/*!
+		Writes the data in little endian. This method is only for system.
+		@tparam T The class type.
+		@param[out] dest The destination.
+		@param[in] value The value.
+	*/
+	template<class T> static void writeLittleEndianForEngine(void* dest, const T& value)
+	{
+		writeLittleEndianForEngine(dest, &value, sizeof(T));
+	}
 
     /*!
         设置全局初始化,该方法只被引擎自己调用.

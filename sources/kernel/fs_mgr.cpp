@@ -233,6 +233,18 @@ void fsMgr::updateForEngine(bool render)
 }
 
 
+void fsMgr::readLittleEndianForEngine(void* dest, const void* src, u32 size)
+{
+    fsLowLevelAPI::readLittleEndian(dest, src, size);
+}
+
+
+void fsMgr::writeLittleEndianForEngine(void* dest, const void* src, u32 size)
+{
+    fsLowLevelAPI::writeLittleEndian(dest, src, size);
+}
+
+
 void fsMgr::setInitialDirectoryForEngine(s32 argc, char** argv)
 {
     if (argc < 0 || (argc > 0 && !argv))

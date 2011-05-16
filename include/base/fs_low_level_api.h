@@ -22,7 +22,9 @@
 class fsLowLevelAPI
 {
 public:
-
+    /*
+        General
+    */
     static r32 sqrt(r32 x);
     static r32 sin(r32 rad);
     static r32 cos(r32 rad);
@@ -32,12 +34,18 @@ public:
     static void srand(s32 seed);
     static s32 rand();
 
+    /*
+        Memory
+    */
     static void* malloc(u32 size);
     static void* realloc(void* ptr, u32 size);
     static void free(void* ptr);
     static void memset(void* buf, u8 value, u32 size);
     static void memcpy(void* dest, const void* src, u32 size);
 
+    /*
+        System
+    */
     static bool createApplication(const char* title, u16 width, u16 height, u16 sys_flag);
     static void destroyApplication();
     static void startApplication(bool (*update_func)(void));
@@ -79,6 +87,9 @@ public:
     static void setInitialDirectory(s32 argc, char** argv);
     static void getWindowsFontDirectory(char* buf, u32 buf_size);
 
+    /*
+        IO
+    */
     enum FileMode
     {
         FILE_MODE_READ, //
@@ -96,6 +107,9 @@ public:
     static bool writeFile(u32 offset, const void* buf, u32 size, void* file_handler);
     static void closeFile(void* file_handler);
 
+    /*
+        Draw
+    */
     enum DepthTest
     {
         DEPTH_TEST_ALWAYS, //
@@ -173,6 +187,27 @@ public:
     static void setAttribPointer_color(u32 location, u32 stride, const u8* attrib);
     static void disableAttribPointer(u32 location);
 
+    /*
+        Sound
+    */
+    typedef bool (*SoundMixFunction)(void* snd_mix_buf);
+
+    static bool isSoundDeviceOpen();
+    static bool openSoundDevice(u8 channel_num, u16 sample_rate, u16 snd_mix_buf_msec, SoundMixFunction snd_mix_func);
+    static void closeSoundDevice();
+
+    static u8 getSoundDeviceChannelNum();
+    static u16 getSoundDeviceSampleRate();
+    static u16 getSoundMixBufferMsec();
+    static u32 getSoundMixBufferSize();
+    static u32 getSoundMixBufferSampleNum();
+
+    static void lockSoundMixMutex();
+    static void unlockSoundMixMutex();
+
+    /*
+        Utility
+    */
     static bool readPNGInfo(u16* width, u16* height, TextureFormat* format, const void* data, u32 data_size);
     static bool readPNGImage(void* buf, u32 buf_size, u32 buf_line_size, const void* data, u32 data_size);
 

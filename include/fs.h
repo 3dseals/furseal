@@ -18,7 +18,9 @@
 #include "fs_task_all.h"
 #include "fs_input_all.h"
 #include "fs_res_all.h"
+#include "fs_script_all.h"
 #include "fs_draw_all.h"
+#include "fs_sound_all.h"
 
 
 #endif // !FS_H_

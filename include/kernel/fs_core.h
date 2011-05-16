@@ -13,6 +13,23 @@
 
 
 /*!
+    @ingroup fsSys
+    Reads the specified data in little endian.
+    @param[in] data The data.
+    @param[in] type The class type.
+*/
+#define fsReadLittleEndian(data, type) fsMgr::readLittleEndianForEngine<type>(data)
+
+/*!
+    @ingroup fsSys
+    Writes the specified data in little endian.
+    @param[out] dest The destination.
+    @param[in] value The value to be written.
+    @param[in] type The class type.
+*/
+#define fsWriteLittleEndian(dest, value, type) fsMgr::writeLittleEndianForEngine<type>(dest, value)
+
+/*!
     @ingroup fsKen
     创建furseal引擎的管理器.
     @param[in] title 应用程序的标题.

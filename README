@@ -14,21 +14,21 @@
 	Furseal plan:
 	
 	Polygon and 3D points rendering
-  Resource management
-  Multi-task management
-  Memory management
-  Automatic frame-rate adjustment
-  Font rendering (TTF, TTC, OTF, and so on)
-  Screen splitting
-  Lighting (parallel and point lights)
-  Input device (mouse and keyboard) management
-  *Sound playing
-  *Collision detection (sphere, box, triangle and ray)
-  *Physical system
-  *Configuration file parser
-  *2D effects drawing
-  *3D model drawing (3DS)
-  *Motion playing (Skeletal animation)
+	Resource management
+	Multi-task management
+	Memory management
+	Automatic frame-rate adjustment
+	Font rendering (TTF, TTC, OTF, and so on)
+	Screen splitting
+	Lighting (parallel and point lights)
+	Input device (mouse and keyboard) management
+	*Sound playing
+	*Collision detection (sphere, box, triangle and ray)
+	*Physical system
+	*Configuration file parser
+	*2D effects drawing
+	*3D model drawing (3DS)
+	*Motion playing (Skeletal animation)
 
 	Copyright (C) 2011 netsurfers
 
@@ -67,21 +67,21 @@
 	Furseal规划:
 	
 	多边形及三维坐标点的渲染
-  资源管理
-  多任务管理
-  内存管理
-  自动帧频调整
-  字体渲染 (TTF, TTC, OTF, 等)
-  屏幕分割
-  光照 (直线光和点光)
-  输入管理 (鼠标键盘)
-  *声音播放
-  *碰撞检测 (球, 长方体, 三角 和雷射)
-  *物理系统
-  *配置脚本
-  *2D特效显示
-  *3D模型显示 (3DS)
-  *动画播放 (骨骼动画)
+	资源管理
+	多任务管理
+	内存管理
+	自动帧频调整
+	字体渲染 (TTF, TTC, OTF, 等)
+	屏幕分割
+	光照 (直线光和点光)
+	输入管理 (鼠标键盘)
+	*声音播放
+	*碰撞检测 (球, 长方体, 三角 和雷射)
+	*物理系统
+	*配置脚本
+	*2D特效显示
+	*3D模型显示 (3DS)
+	*动画播放 (骨骼动画)
 	
 	版权所有(C) 2011 冲浪网
 
