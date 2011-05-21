@@ -9,7 +9,7 @@
 	Linux   (GCC4.4, Ubuntu, Fedora and so on)
 	Windows (vs2008, windows Xp, windows Vista, Windows 7 and so on)
 	*iPhone
-	*MacOSX
+	MacOSX  (MacOSX 10.6.5 and GCC4.2, or more higter version)
 	
 	Furseal plan:
 	
@@ -62,7 +62,7 @@
 	Linux   (GCC4.4, Ubuntu, Fedora等)
 	Windows (vs2008, windows Xp, windows Vista, Windows 7等)
 	*iPhone
-	*MacOSX
+	MacOSX  (MacOSX 10.6.5和GCC4.2及以上版本)
 	
 	Furseal规划:
 	

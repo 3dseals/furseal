@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsDraw
-    A programmable shader for drawing element primitives.
+    基本绘图类的可编程着色器.
 */
 class FS_API fsShd
 {

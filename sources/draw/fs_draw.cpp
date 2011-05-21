@@ -645,7 +645,7 @@ void fsDraw::setupDrawState()
     fsLowLevelAPI::setDepthTest(static_cast<fsLowLevelAPI::DepthTest>(m_depth_test.getType()));
     fsLowLevelAPI::setBlendMode(static_cast<fsLowLevelAPI::BlendMode>(m_blend_mode.getType()));
     fsLowLevelAPI::setWriteMode(m_draw_flag.isOn(FLAG_WRITE_RGB), m_draw_flag.isOn(FLAG_WRITE_ALPHA), m_draw_flag.isOn(FLAG_WRITE_DEPTH));
-    fsLowLevelAPI::setBackfaceCulling(m_draw_flag.isOn(FLAG_BAfsFACE_CULLING));
+    fsLowLevelAPI::setBackfaceCulling(m_draw_flag.isOn(FLAG_BACKFACE_CULLING));
 
     r32 world[16];
     m_world.toR32x16(world);

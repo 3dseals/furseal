@@ -13,150 +13,150 @@
 
 /*!
     @ingroup fsDraw
-    A color, which is represented by red, green, blue and alpha components.
+    颜色结构类, 由红色, 绿色, 蓝色和透明度组成.
 */
 struct FS_API fsCol
 {
-    static const fsCol ZERO; //!< The color whose all components are 0s.
-    static const fsCol FULL; //!< The color whose all components are 255s.
+    static const fsCol ZERO; //!< 所有成员值为 0s 的颜色.
+    static const fsCol FULL; //!< 所有成员值为 255s 的颜色.
 
-    u8 r; //!< Red component.
-    u8 g; //!< Green component.
-    u8 b; //!< Blue component.
-    u8 a; //!< Alpha component.
+    u8 r; //!< 红色成员.
+    u8 g; //!< 绿色成员.
+    u8 b; //!< 蓝色成员.
+    u8 a; //!< 透明成员.
 
     /*!
-        Constructs a fsCol.
+        构造一个 fsCol 对象.
     */
     fsCol();
 
     /*!
-        Constructs and initializes a fsCol from the specified fsCol.
-        @param[in] col A fsCol.
+        从指定的 fsCol 构造一个 fsCol 对象.
+        @param[in] col 一个 fsCol 对象.
     */
     fsCol(const fsCol& col);
 
     /*!
-        Constructs and initializes a fsCol from the specified components.
-        @param[in] r_ A red component.
-        @param[in] g_ A green component.
-        @param[in] b_ A blue component.
-        @param[in] a_ An alpha component. If not specified, 255 is used.
+        从指定的成分种构造一个 fsCol 对象.
+        @param[in] r_ 红色成员.
+        @param[in] g_ 绿色成员.
+        @param[in] b_ 蓝色成员.
+        @param[in] a_ 透明成员. 默认值为 255 不透明.
     */
     fsCol(u8 r_, u8 g_, u8 b_, u8 a_ = 255);
 
     /*!
-        Sets all components from the specified components.
-        @param[in] r_ A red component.
-        @param[in] g_ A green component.
-        @param[in] b_ A blue component.
-        @param[in] a_ An alpha component. If not specified, 255 is used.
+        从指定的成分中设置所有的值.
+        @param[in] r_ 红色成员.
+        @param[in] g_ 绿色成员.
+        @param[in] b_ 蓝色成员.
+        @param[in] a_ 透明成员. 默认值为 255 不透明.
     */
     void set(u8 r_, u8 g_, u8 b_, u8 a_ = 255);
 
     /*!
-        Returns whether this fsCol is equal to the right hand side fsCol.
-        @param[in] col The right hand side fsCol.
-        @return Whether this fsCol is equal to the right hand side fsCol.
+        重载 == 运算,判断右边的颜色是否相等.
+        @param[in] col 右边的颜色 fsCol.
+        @return 右边的颜色是否相等.
     */
     bool operator==(fsCol col) const;
 
     /*!
-        Returns whether this fsCol is unequal to the right hand side fsCol.
-        @param[in] col The right hand side fsCol.
-        @return Whether this fsCol is unequal to the right hand side fsCol.
+        重载 != 运算,判断右边的颜色是否不等.
+        @param[in] col 右边的颜色 fsCol.
+        @return 右边的颜色是否不等.
     */
     bool operator!=(fsCol col) const;
 
     /*!
-        Returns a fsCol which is the sum of this fsCol and the right hand side fsCol.
-        The values of the components are clamped between 0 and 255.
-        @param[in] col The right hand side fsCol.
-        @return A fsCol which is the sum of two fsCols.
+        重载 + 运算,返回当前颜色 fsCol 加上操作符右边的颜色 fsCol.
+        所有成员的值在 0 到 255 之间.
+        @param[in] col 右边的颜色 fsCol.
+        @return 这两个颜色 fsCols 的和.
     */
     fsCol operator+(fsCol col) const;
 
     /*!
-        Adds the right hand side fsCol to this fsCol.
-        The values of the components are clamped between 0 and 255.
-        @param[in] col The right hand side fsCol.
+        重载 += 运算,使得当前颜色 fsCol 加上右边的颜色 fsCol.
+        所有成员的值在 0 到 255 之间.
+        @param[in] col 右边的颜色 fsCol.
     */
     void operator+=(fsCol col);
 
     /*!
-        Returns a fsCol which is the right hand side fsCol subtracted from this fsCol.
-        The values of the components are clamped between 0 and 255.
-        @param[in] col The right hand side fsCol.
-        @return A fsCol which is the right hand side fsCol subtracted from this fsCol.
+        重载-运算,返回当前颜色 fsCol 减去操作符右边的颜色 fsCol.
+        所有成员的值在 0 到 255 之间.
+        @param[in] col 右边的颜色 fsCol.
+        @return 这两个颜色 fsCols 的差.
     */
     fsCol operator-(fsCol col) const;
 
     /*!
-        Subtracts the right hand side fsCol from this fsCol.
-        The values of the components are clamped between 0 and 255.
-        @param[in] col The right hand side fsCol.
+        重载 -= 运算,使得当前颜色 fsCol 减去右边的颜色 fsCol.
+        所有成员的值在 0 到 255 之间.
+        @param[in] col 右边的颜色 fsCol.
     */
     void operator-=(fsCol col);
 
     /*!
-        Returns a fsCol which is this fsCol multiplied with right hand side fsCol and divided by 255.
-        The values of the components are clamped between 0 and 255.
-        @param[in] col The right hand side fsCol.
-        @return A fsCol which is this fsCol multiplied with right hand side fsCol and divided by 255.
+        重载 * 运算,返回当前颜色 fsCol 乘以操作符右边的颜色 fsCol.
+        所有成员的值在 0 到 255 之间.
+        @param[in] col 右边的颜色 fsCol.
+        @return 这两个颜色 fsCols 的积.
     */
     fsCol operator*(fsCol col) const;
 
     /*!
-        Multiplies this fsVec with the right hand side fsCol and divides by 255.
-        The values of the components are clamped between 0 and 255.
-        @param[in] col The right hand side fsCol.
+        重载 *= 运算,使得当前颜色 fsCol 乘以右边的颜色 fsCol.
+        所有成员的值在 0 到 255 之间.
+        @param[in] col 右边的颜色 fsCol.
     */
     void operator*=(fsCol col);
 
     /*!
-        Returns a fsCol which is this fsCol multiplied with right hand side scalar and divided by 255.
-        The values of the components are clamped between 0 and 255.
-        @param[in] s The right hand side scalar.
-        @return A fsCol which is this fsCol multiplied with right hand side scalar and divided by 255.
+        重载 * 运算,返回当前颜色 fsCol 分别乘以操作符右边的数值.
+        所有成员的值在 0 到 255 之间.
+        @param[in] s 右边的实数.
+        @return 当前颜色 fsCol 分别乘以操作符右边的数值.
     */
     fsCol operator*(r32 s) const;
 
     /*!
-        Returns a fsCol which is the right hand side fsCol multiplied with the left hand side scalar.
-        The values of the components are clamped between 0 and 255.
-        @param[in] s The left hand side scalar.
-        @param[in] col The right hand side fsCol.
-        @return A fsCol which is the right hand side fsCol multiplied with the left hand side scalar.
+        重载 * 运算,返回颜色参数 fsCol 分别乘以实数参数的数值.
+        所有成员的值在 0 到 255 之间.
+        @param[in] s 实数.
+        @param[in] col 颜色 fsCol.
+        @return 颜色参数 fsCol 分别乘以实数参数的数值.
     */
     FS_API friend fsCol operator*(r32 s, fsCol col);
 
     /*!
-        Multiplies this fsCol with the right hand side scalar.
-        The values of the components are clamped between 0 and 255.
-        @param[in] s The right hand side scalar.
+        重载 *= 运算,使得当前颜色 fsCol 分别乘以操作符右边的数值.
+        所有成员的值在 0 到 255 之间.
+        @param[in] s 右边的实数.
     */
     void operator*=(r32 s);
 
     /*!
-        Returns a fsCol which is this fsCol divided by the right hand side scalar.
-        The values of the components are clamped between 0 and 255.
-        @param[in] s The right hand side scalar.
-        @return A fsCol which is this fsCol divided by the right hand side scalar.
+        重载 / 运算,返回当前颜色 fsCol 分别除以操作符右边的数值.
+        所有成员的值在 0 到 255 之间.
+        @param[in] s 右边的实数.
+        @return 当前颜色 fsCol 分别除以操作符右边的数值.
     */
     fsCol operator/(r32 s) const;
 
     /*!
-        Divides this fsCol by the right hand side scalar.
-        The values of the components are clamped between 0 and 255.
-        @param[in] s The right hand side scalar.
+        重载 /= 运算,使得当前颜色 fsCol 分别除以操作符右边的数值.
+        所有成员的值在 0 到 255 之间.
+        @param[in] s 右边的实数.
     */
     void operator/=(r32 s);
 
     /*!
-        Returns a fsCol which is interpolated between this fsCol and an another fsCol by the specified ratio, using linear interpolation.
-        @param[in] to An another fsCol.
-        @param[in] ratio The value which indicates how far to interpolate between two fsCols. This value is clamped between 0.0f and 1.0f.
-        @return A fsCol which is interpolated between two fsCols.
+        返回当前颜色 fsCol 到另一个颜色 fsCol 按照比率 ratio 的线性插值.
+        @param[in] to 另一个颜色 fsCol.
+        @param[in] ratio 两个 fsCols 之间插值的比率. 比率值在 0.0f 到 1.0f 之间.
+        @return 这两个 fsCols 的相性插值的颜色 fsCol.
     */
     fsCol interp(fsCol to, r32 ratio) const;
 };

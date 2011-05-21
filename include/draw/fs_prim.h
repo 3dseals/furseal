@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsDraw
-    A drawing element primitive, which has several drawing ways.
+    原始绘图类型, 是多种绘图类型的基本类.
 */
 class FS_API fsPrim : public fsDraw
 {

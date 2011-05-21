@@ -10,7 +10,7 @@
 
 /*!
     @ingroup fsGen
-    Provides mathematical functions.
+    提供常用数学函数.
 */
 class FS_API fsMath
 {

@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsDraw
-    A screen, which has a rectangle area and an order for drawing.
+    屏幕, 拥有一个矩形绘图区域和一个绘图序列.
 */
 class FS_API fsScr
 {

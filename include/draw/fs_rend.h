@@ -16,7 +16,7 @@ class fsPrim;
 
 /*!
     @ingroup fsDraw
-    An user custom renderer for drawing element primitives.
+    用户自定义绘图类型的渲染类.
 */
 class FS_API fsRend
 {

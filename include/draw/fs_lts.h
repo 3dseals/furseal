@@ -14,7 +14,7 @@
 
 /*!
     @ingroup fsDraw
-    A light set, which manages point lights, parallel lights, and ambient lights.
+    光线装置, 管理点光线, 直线光线和环境光线.
 */
 class FS_API fsLts
 {

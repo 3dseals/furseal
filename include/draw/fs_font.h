@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsDraw
-    A font texture, the texture specialized for drawing font.
+    字体, 专门用来绘制字体的纹理.
 */
 class FS_API fsFont
 {
@@ -26,94 +26,94 @@ public:
     //! @endcond
 
     /*!
-        Constructs this font texture.
+        构造字体.
     */
     fsFont();
 
     /*!
-        Destructs this font texture.
+        析构字体.
     */
     ~fsFont();
 
     /*!
-        Initializes this font texture.
-        @param[in] width The width of this font texture.
-        @param[in] height The width of this font texture.
+        初始化字体.
+        @param[in] width 字体的宽度.
+        @param[in] height 字体的高度.
     */
     void init(u16 width, u16 height);
 
     /*!
-        Returns the ID of this font texture.
-        @return The ID of this font texture.
+        返回字体的 ID.
+        @return 字体的 ID.
     */
     fsID getTextureID() const;
 
     /*!
-        Returns the width of this font texture.
-        @return The width of this font texture.
+        返回字体的宽度.
+        @return 字体的宽度.
     */
     u16 getWidth() const;
 
     /*!
-        Returns the height of this font texture.
-        @return The height of this font texture.
+        返回字体的高度.
+        @return 字体的高度.
     */
     u16 getHeight() const;
 
     /*!
-        Returns the raw image of this font texture as read-only.
-        @return The raw image of this font texture.
+        返回字体的只读图像.
+        @return 字体的图像.
     */
     const void* getImage() const;
 
     /*!
-        Returns the size of the raw image of this font texture.
-        @return The size of the raw image of this font texture.
+        返回字体的图像尺寸大小.
+        @return 字体的图像尺寸大小.
     */
     u32 getImageSize() const;
 
     /*!
-        Starts editing the raw image of this font texture.
-        endEditImage must be called after editing.
-        @return The raw image of this font texture.
+        开始编辑字体的图像.
+        编辑完后必须调用结束编辑图像.
+        @return 字体的图像.
     */
     void* beginEditImage();
 
     /*!
-        Ends editing the raw image and updates the whole area.
+        结束编辑图像并更新整个区域.
     */
     void endEditImage();
 
     /*!
-        Ends editing the raw image and updates the specified area.
-        @param[in] x The left position of the modified area.
-        @param[in] y The top position of the modified area.
-        @param[in] width The width of the modified area.
-        @param[in] height The height of the modified area.
+        结束编辑图像并更新指定区域.
+        @param[in] x 修改区域的左侧坐标.
+        @param[in] y 修改区域的顶部坐标.
+        @param[in] 修改区域的宽度.
+        @param[in] 修改区域的高度.
     */
     void endEditImage(u16 x, u16 y, u16 width, u16 height);
 
     /*!
-        Sets the all pixels of this font texture to 0.
-        beginEditImage must be called before this method.
+        把字体的所有像素置 0.
+        必须在之前调用开始编辑图像.
     */
     void clearImage();
 
     /*!
-        Renders the specified string.
-        @param[in] x The x-coordinate of drawing position.
-        @param[in] y The y-coordinate of drawing position.
-        @param[in] str A string.
-        @param[in] ... Arguments.
+        渲染指定的字符串.
+        @param[in] x 绘制坐标的 x 轴.
+        @param[in] y 绘制坐标的 y 轴.
+        @param[in] str 指定的字符串.
+        @param[in] ... 参数.
     */
     u16 drawString(s16 x, s16 y, const char* str, ...);
 
     /*!
-        Renders the specified string.
-        @param[in] x The x-coordinate of drawing position.
-        @param[in] y The y-coordinate of drawing position.
-        @param[in] str A string.
-        @param[in] ... Arguments.
+        渲染指定的宽字节字符串.
+        @param[in] x 绘制坐标的 x 轴.
+        @param[in] y 绘制坐标的 y 轴.
+        @param[in] str 指定的宽字节字符串.
+        @param[in] ... 参数.
     */
     u16 drawString(s16 x, s16 y, const wchar_t* str, ...);
 

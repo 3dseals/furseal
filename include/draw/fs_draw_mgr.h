@@ -42,75 +42,75 @@ public:
 
 
     /*!
-        The ID of the invisible screen.
+        不可见屏幕的 ID.
     */
     static const fsID INVISIBLE_SCREEN_ID;
 
     /*!
-        The ID of the default 3D screen.
+        默认3D屏幕的 ID.
     */
     static const fsID DEFAULT_3D_SCREEN_ID;
 
     /*!
-        The ID of the defualt 2D screen.
+        默认2D屏幕的 ID.
     */
     static const fsID DEFAULT_2D_SCREEN_ID;
 
     /*!
-        The ID of the default light set.
+        默认光线装置的 ID.
     */
     static const fsID DEFAULT_LIGHT_SET_ID;
 
     /*!
-        The ID of the default no-texture shader.
+        默认没有纹理的着色器的 ID.
     */
     static const fsID DEFAULT_NO_TEXTURE_SHADER_ID;
 
     /*!
-        The ID of the default rgb-texture shader.
+        默认 RGB 纹理的着色器的 ID.
     */
     static const fsID DEFAULT_RGB_TEXTURE_SHADER_ID;
 
     /*!
-        The ID of the default rgba-texture shader.
+        默认 RGBA 纹理的着色器的 ID.
     */
     static const fsID DEFAULT_RGBA_TEXTURE_SHADER_ID;
 
     /*!
-        The ID of the default alpha-texture shader
+        默认透明纹理的着色器的 ID.
     */
     static const fsID DEFAULT_ALPHA_TEXTURE_SHADER_ID;
 
     /*!
-        The maximum rendering interval time [msec].
+        最大渲染的时间间隔 [单位: 毫秒].
     */
     static const u32 MAX_RENDER_INTERVAL_MSEC_TIME = 100;
 
 
     /*!
-        Returns whether programmable shader is available.
-        @return Whether programmable shader is available.
+        返回是否启用了可编程的着色器.
+        @return 是否启用了可编程的着色器.
     */
     static bool isShaderAvailable();
 
 
     /*!
-        Returns the maximum pixel length of a side of a texture.
-        @return The maximum pixel length of a side of a texture.
+        返回纹理所支持的做大像素长度.
+        @return 纹理所支持的做大像素长度.
     */
     static u16 getMaxTextureLength();
 
 
     /*!
-        Returns the valid length of the specified texture length.
-        @return The valid length of the specified texture length.
+        返回指定纹理像素长度的有效长度.
+        @return 指定纹理像素长度的有效长度.
     */
     static u16 getValidTextureLength(u16 length);
 
 
     /*!
-        Returns the byte size of the specified pixel format.
-        @return The byte size of the specified pixel format.
+        返回指定纹理格式的比特大小.
+        @return 指定纹理格式的比特大小.
     */
     static u16 getTexturePixelSize(fsTex::TexFormat format);
 
@@ -135,281 +135,281 @@ public:
 
 
     /*!
-        Returns whether rendering process is enabled.
-        @return Whether rendering process is enabled.
+        返回是否启用了渲染过程.
+        @return 是否启用了渲染过程.
     */
     static bool isRender();
 
 
     /*!
-        Determines whether the rendering process is enabled.
-        @param[in] is_render Whether the rendering process is enabled.
+        设置是否启用渲染过程.
+        @param[in] is_render 是否启用渲染过程.
     */
     static void setRender(bool is_render);
 
 
     /*!
-        Returns whether the specified screen exists.
-        @param[in] scr_id A screen ID.
-        @return Whether the specified screen exists.
+        判断指定的屏幕是否存在.
+        @param[in] scr_id 屏幕 ID.
+        @return 指定的屏幕是否存在.
     */
     static bool hasScreen(fsID scr_id);
 
 
     /*!
-        Returns the specified screen. If the specified screen doesn't exist, returns NULL.
-        The new screen is linked to the last of the screen list.
-        @param[in] scr_id A screen ID.
-        @return A screen.
+        返回值定的屏幕如果不存在则返回 NULL.
+        新建的屏幕在屏幕链表的最后.
+        @param[in] scr_id 屏幕 ID.
+        @return 指定的屏幕.
     */
     static fsScr* getScreen(fsID scr_id);
 
     /*!
-        Creates new screen which has the specified ID.
-        @param[in] scr_id A screen ID.
-        @return The instance of new screen.
+        创建新的指定 ID 的屏幕.
+        @param[in] scr_id 屏幕 ID.
+        @return 新建的屏幕.
     */
     static fsScr* newScreen(fsID scr_id);
 
 
     /*!
-        Deletes the specified screen.
-        @param[in] scr_id A screen ID.
+        删除指定屏幕.
+        @param[in] scr_id 屏幕 ID.
     */
     static void deleteScreen(fsID scr_id);
 
 
     /*!
-        Returns the first screen. If the first screen doesn't exist, returns NULL.
-        @return The first screen.
+        返回第一个屏幕如果不存在则返回 NULL.
+        @return 第一个屏幕.
     */
     static fsScr* getFirstScreenN();
 
 
     /*!
-        Returns the last screen. If the last screen doesn't exist, return NULL.
-        @return The last screen.
+        返回最后一个屏幕如果不存在则返回 NULL.
+        @return 最后一个屏幕.
     */
     static fsScr* getLastScreenN();
 
 
     /*!
-        Returns whether the specified texture exists.
-        @param[in] tex_id A texture ID.
-        @return Whether the specified texture exists.
+        判断指定的纹理是否存在.
+        @param[in] tex_id 纹理 ID.
+        @return 指定的纹理是否存在.
     */
     static bool hasTexture(fsID tex_id);
 
 
     /*!
-        Returns the specified texture. If the specified texture doesn't exist, returns NULL.
-        @param[in] tex_id A texture ID.
-        @return The specified texture.
+        返回指定的纹理如果不存在则返回 NULL.
+        @param[in] tex_id 纹理 ID.
+        @return 指定的纹理.
     */
     static fsTex* getTexture(fsID tex_id);
 
 
     /*!
-        Creates new texture which has the specified ID.
-        @param[in] tex_id A texture ID.
-        @param[in] width The width of a texture.
-        @param[in] height The height of a texture.
-        @param[in] format The format of a texture.
-        @return The instance of new texture.
+        创建新的指定 ID 的纹理.
+        @param[in] tex_id 纹理 ID.
+        @param[in] width 纹理宽度.
+        @param[in] height 纹理高度.
+        @param[in] format 纹理格式.
+        @return 新建的纹理.
     */
     static fsTex* newTexture(fsID tex_id, u16 width, u16 height, fsTex::TexFormat format);
 
 
     /*!
-        Creates new texture from the specified raw-image.
-        @param[in] tex_id A texture ID.
-        @param[in] width The width of a texture.
-        @param[in] height The height of a texture.
-        @param[in] format The format of a texture.
-        @param[in] image The pointer of the raw-image.
-        @param[in] image_size The size of the raw-image.
-        @return The instance of new texture.
+        从指定的图像中创建新的纹理.
+        @param[in] tex_id 纹理 ID.
+        @param[in] width 纹理的宽度.
+        @param[in] height 纹理的高度.
+        @param[in] format 纹理格式.
+        @param[in] image 图像的指针.
+        @param[in] image_size 图像的大小.
+        @return 新建的纹理.
     */
     static fsTex* newTexture(fsID tex_id, u16 width, u16 height, fsTex::TexFormat format, const void* image, u32 image_size);
 
 
     /*!
-        Deletes the specified texture.
-        @param[in] tex_id A texture ID.
+        删除指定的纹理.
+        @param[in] tex_id 纹理 ID.
     */
     static void deleteTexture(fsID tex_id);
 
 
     /*!
-        Returns the first texture. If the first texture doesn't exist, returns NULL.
-        @return The first texture.
+        返回第一个纹理如果不存在则返回 NULL.
+        @return 第一个纹理.
     */
     static fsTex* getFirstTextureN();
 
 
     /*!
-        Returns the last texture. If the last texture doesn't exist, return NULL.
-        @return The last texture.
+        返回最后一个纹理如果不存在则返回 NULL.
+        @return 最后一个纹理.
     */
     static fsTex* getLastTextureN();
 
 
     /*!
-        Returns the number of the indices of the specified font.
-        @param[in] font_id A font ID.
-        @return The number of the indices of the specified font.
+        返回指定字体的索引号.
+        @param[in] font_id 字体 ID.
+        @return 指定字体的索引号.
     */
     static u16 getFontIndexNum(fsID font_id);
 
 
     /*!
-        Returns the ID of the current font.
-        @return The ID of the current font.
+        返回当前字体的 ID.
+        @return 当前字体的 ID.
     */
     static fsID getFontID();
 
 
     /*!
-        Returns the current font-index.
-        @return The current font-index.
+        返回当前字体的索引号.
+        @return 当前字体的索引号.
     */
     static u16 getFontIndex();
 
 
     /*!
-        Sets the current font and font-index.
-        @param[in] font_id A font ID.
-        @param[in] font_index A font-index.
+        设置字体和索引号.
+        @param[in] font_id 字体 ID.
+        @param[in] font_index 字体索引号.
     */
     static void setFont(fsID font_id, u16 font_index);
 
 
     /*!
-        Returns the current font size.
-        @return The current font size.
+        返回当前字体尺寸.
+        @return 当前字体尺寸.
     */
     static u16 getFontSize();
 
 
     /*!
-        Sets the current font size.
-        Font size represents the max height of the fonts in pixel.
-        @param[in] font_size The size of font.
+        设置当前字体尺寸.
+        字体尺寸指的是字体在像素中的最大高度.
+        @param[in] font_size 字体尺寸.
     */
     static u16 setFontSize(u16 font_size);
 
 
     /*!
-        Returns the width of the specified string when rendered.
-        @param[in] str A string.
-        @param[in] ... Arguments.
+        返回字体在渲染时的宽度.
+        @param[in] str 字符串.
+        @param[in] ... 参数.
     */
     static u16 calcFontDrawWidth(const char* str, ...);
 
 
     /*!
-        Returns the width of the specified string when rendered.
-        @param[in] str A string.
-        @param[in] ... Arguments.
+        返回字体在渲染时的宽度.
+        @param[in] str 宽字节字符串.
+        @param[in] ... 参数.
     */
     static u16 calcFontDrawWidth(const wchar_t* str, ...);
 
 
     /*!
-        Returns whether the specified shader exists.
-        @param[in] shd_id A shader ID.
-        @return Whether the specified shader exists.
+        判断指定的渲染器是否存在.
+        @param[in] shd_id 渲染器 ID.
+        @return 指定的渲染器是否存在.
     */
     static bool hasShader(fsID shd_id);
 
 
     /*!
-        Returns the shader.
-        @param[in] shd_id A shader ID.
-        @return A shader.
+        返回指定的渲染器.
+        @param[in] shd_id 渲染器 ID.
+        @return 指定的渲染器.
     */
     static fsShd* getShader(fsID shd_id);
 
 
     /*!
-        Creates a new shader.
-        @param[in] shd_id A shader ID.
-        @param[in] vert_code Vertex shader code.
-        @param[in] frag_code fragment shader code.
-        @param[in] uni_num The number of an uniforms.
-        @param[in] att_num The number of an attributes.
-        @param[in] tex_num The number of textures.
-        @return A shader.
+        创建新的指定 ID 的着色器.
+        @param[in] shd_id 着色器 ID.
+        @param[in] vert_code 定点着色器可编程代码.
+        @param[in] frag_code 片段着色器可编程代码.
+        @param[in] uni_num 联合体数目.
+        @param[in] att_num 属性数目.
+        @param[in] tex_num 纹理数目.
+        @return 着色器.
     */
     static fsShd* newShader(fsID shd_id, const char* vert_code, const char* frag_code, u8 uni_num, u8 att_num, u8 tex_num);
 
 
     /*!
-        Deletes the specified shader.
-        @param[in] shd_id A shader ID.
+        删除指定的着色器.
+        @param[in] shd_id 着色器 ID.
     */
     static void deleteShader(fsID shd_id);
 
 
     /*!
-        Returns the first shader. If the first texture doesn't exist, returns NULL.
-        @return The first shader.
+        返回第一个着色器如果不存在则返回 NULL.
+        @return 第一个着色器.
     */
     static fsShd* getFirstShaderN();
 
 
     /*!
-        Returns the last shader. If the last texture doesn't exist, returns NULL.
-        @return The last shader.
+        返回最后一个着色器如果不存在则返回 NULL.
+        @return 最后一个着色器.
     */
     static fsShd* getLastShaderN();
 
 
     /*!
-        Returns whether the specified light-set exits.
-        @param[in] lts_id A light-set ID.
-        @return Whether the specified light-set exits.
+        判断指定的光线装置是否存在.
+        @param[in] lts_id 光线装置 ID.
+        @return 指定的光线装置是否存在.
     */
     static bool hasLightSet(fsID lts_id);
 
 
     /*!
-        Returns the specified light-set.
-        @param[in] lts_id A light-set ID.
-        @return The specified light-set.
+        返回指定的光线装置.
+        @param[in] lts_id 光线装置 ID.
+        @return 指定的光线装置.
     */
     static fsLts* getLightSet(fsID lts_id);
 
     /*!
-        Creates a new light-set.
-        @param[in] lts_id A light-set ID.
-        @return A light-set.
+        创建新的制定 ID 的光线装置.
+        @param[in] lts_id 光线装置 ID.
+        @return 新建的光线装置.
     */
     static fsLts* newLightSet(fsID lts_id);
 
 
     /*!
-        Deletes the specified light-set.
-        @param[in] lts_id A light-set ID.
+        删除指定的光线装置.
+        @param[in] lts_id 光线装置 ID.
     */
     static void deleteLightSet(fsID lts_id);
 
 
     /*!
-        Returns the first light-set. If the first light-set doesn't exist, returns NULL.
-        @return The first light-set.
+        返回第一个光线装置如果不存在则返回 NULL.
+        @return 第一个光线装置.
     */
     static fsLts* getFirstLightSetN();
 
     /*!
-        Returns the last light-set. If the last light-set doesn't exist, returns NULL.
-        @return The last light-set.
+        返回最后一个光线装置如果不存在则返回 NULL.
+        @return 最后一个光线装置.
     */
     static fsLts* getLastLightSetN();
 
 
     /*!
-        Deletes the all texture objects. This method is only for system.
+        删除所有纹理对象,该方法只被引擎自己调用.
     */
     static void deleteAllVramObjForEngine();
 

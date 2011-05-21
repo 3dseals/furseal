@@ -16,7 +16,7 @@ class fsLts;
 
 /*!
     @ingroup fsDraw
-    A point light.
+    点光线.
 */
 class FS_API fsLit
 {

@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsDraw
-    A drawing element, the base class of the drawing elements.
+    绘图基类, 其他绘图类的基类.
 */
 class FS_API fsDraw
 {
@@ -28,29 +28,29 @@ public:
     //! @endcond
 
     /*!
-        The types of the drawable-objects.
+        绘图对象的类型.
     */
     enum DrawType
     {
-        TYPE_NODE, //!< The node drawable-object.
-        TYPE_PRIM, //!< The primitive drawable-object.
-        TYPE_SPRT //!< The sprite drawable-object.
+        TYPE_NODE, //!< 节点类型.
+        TYPE_PRIM, //!< 原始类型.
+        TYPE_SPRT //!< 精灵类型.
     };
 
     /*!
-        The types of the depth tests.
+        深度测试的类型.
     */
     enum DepthTest
     {
-        DEPTH_TEST_ALWAYS, //!< Always passes.
-        DEPTH_TEST_LESS, //!< Passes if the incoming depth value is less than the stored value.
-        DEPTH_TEST_GREATER, //!< Passes if the incoming depth value is greater than the stored value.
-        DEPTH_TEST_LEQUAL, //!< Passes if the incoming depth value is less than or equal to the stored value.
-        DEPTH_TEST_GEQUAL //!< Passes if the incoming depth value is greater than or equal to the stored value.
+        DEPTH_TEST_ALWAYS, //!< 总是通过.
+        DEPTH_TEST_LESS, //!< 如果传入的深度值小于存储值则通过.
+        DEPTH_TEST_GREATER, //!< 如果传入的深度值大于存储值则通过.
+        DEPTH_TEST_LEQUAL, //!< 如果传入的深度值小于或等于存储值则通过.
+        DEPTH_TEST_GEQUAL //!< 如果传入的深度值大于或等于存储值则通过.
     };
 
     /*!
-        The types of the alpha-blending mode.
+        混合模式的类型.
     */
     enum BlendMode
     {
@@ -61,340 +61,340 @@ public:
     };
 
     /*!
-        The flags which specify the drawing attributes.
+        指定绘图属性的标志位.
     */
     enum DrawFlag
     {
-        FLAG_BOUND_CLIP, //!< Enables bound-clipping.
-        FLAG_SORT, //!< Sorts the drawing object by the distance from the viewpoint.
-        FLAG_WRITE_RGB, //!< Writes RGB components to the framebuffer.
-        FLAG_WRITE_ALPHA, //!< Writes an alpha components to the framebuffer.
-        FLAG_WRITE_DEPTH, //!< Writes a depth value to the depth-buffer.
-        FLAG_BAfsFACE_CULLING, //!< Enables bafsface-culling.
-        FLAG_BILINEAR //!< Enables bilinear filter.
+        FLAG_BOUND_CLIP, //!< 启用范围修剪.
+        FLAG_SORT, //!< 按照观察点的距离对绘图对象排序.
+        FLAG_WRITE_RGB, //!< 把 RGB 成员写入帧缓存.
+        FLAG_WRITE_ALPHA, //!< 把透明成员写入帧缓存.
+        FLAG_WRITE_DEPTH, //!< 把深度值写入深度缓存.
+        FLAG_BACKFACE_CULLING, //!< 启用剔除背面.
+        FLAG_BILINEAR //!< 启用双线性滤波.
     };
 
     /*!
-        Destructs this fsDraw.
+        析构 fsDraw 绘图类.
     */
     virtual ~fsDraw();
 
 
     /*!
-        Returns whether this ckDraw belongs to a screen directly.
-        @return Whether this ckDraw belongs to a screen directly.
+        判定 fsDraw 是否直接属于某个屏幕.
+        @return fsDraw 是否直接属于某个屏幕.
     */
     bool hasScreen() const;
 
 
     /*!
-        Returns the ID of the screen which this ckDraw belongs to directly.
-        If this ckDraw belongs to no screen, an exception occurs.
-        @return The ID of the screen which this ckDraw belongs to directly.
+        返回 fsDraw 是直接属于的屏幕 ID.
+        如果 fsDraw 不属于任何屏幕则抛出异常.
+        @return fsDraw 是直接属于的屏幕 ID.
     */
     fsID getScreenID() const;
 
 
     /*!
-        Makes this ckDraw belong to the specified screen.
-        @param[in] scr_id The id of a screen.
+        让这个 fsDraw 属于指定的屏幕.
+        @param[in] scr_id 屏幕的 ID.
     */
     void setScreenID(fsID scr_id);
 
 
     /*!
-        Returns whether this ckDraw has a parent ckDraw.
-        @return Whether this ckDraw has a parent ckDraw.
+        返回这个 fsDraw 是否有父绘图对象 fsDraw.
+        @return 这个 fsDraw 是否有父绘图对象 fsDraw.
     */
     bool hasParent() const;
 
 
     /*!
-        Returns the parent ckDraw of this ckDraw.
-        If this ckDraw has no parent ckDraw, returns NULL.
-        @return The parent ckDraw of this ckDraw.
+        返回这个 fsDraw 的父绘图对象 fsDraw.
+        如果这个 fsDraw 没有父绘图对象 fsDraw 则返回 NULL.
+        @return 这个 fsDraw 的父绘图对象 fsDraw.
     */
     fsDraw* getParentN() const;
 
 
     /*!
-        Sets the parent ckDraw of this ckDraw.
-        This ckDraw belongs to the specified ckDraw as the last child.
-        @param[in] parent A parent ckDraw.
+        设置这个 fsDraw 的父绘图对象 fsDraw.
+        这个 fsDraw 属于指定的 fsDraw 的最后一个孩子节点.
+        @param[in] parent 一个 fsDraw 父绘图对象.
     */
     void setParent(fsDraw* parent);
 
 
     /*!
-        Returns the previous ckDraw of this ckDraw.
-        If this ckDraw has no previous ckDraw, returns NULL.
-        This method is used to follow the whole tree as list structure.
-        @return The previous ckDraw of this ckDraw.
+        返回这个 fsDraw 的前一个绘图对象 fsDraw.
+        如果这个 fsDraw 没有前一个图对象 fsDraw 则返回 NULL.
+        该方法遵循整棵树的链表结构.
+        @return 这个 fsDraw 的前一个绘图对象 fsDraw.
     */
     fsDraw* getPrevAllN() const;
 
 
     /*!
-        Returns the next ckDraw of this ckDraw.
-        If this ckDraw has no next ckDraw, returns NULL.
-        This method is used to follow the whole tree as list structure.
-        @return The previous ckDraw of this ckDraw.
+        返回这个 fsDraw 的下一个绘图对象 fsDraw.
+        如果这个 fsDraw 没有下一个图对象 fsDraw 则返回 NULL.
+        该方法遵循整棵树的链表结构.
+        @return 这个 fsDraw 的下一个绘图对象 fsDraw.
     */
     fsDraw* getNextAllN() const;
 
 
     /*!
-        Returns the previous sibling ckDraw of this ckDraw.
-        If this ckDraw has no previous sibling ckDraw, returns NULL.
-        @return The previous sibling ckDraw of this ckDraw.
+        返回这个 fsDraw 的前一个兄弟绘图对象 fsDraw.
+        如果这个 fsDraw 没有前一个兄弟图对象 fsDraw 则返回 NULL.
+        @return 这个 fsDraw 的前一个兄弟绘图对象 fsDraw.
     */
     fsDraw* getPrevSiblingN() const;
 
 
     /*!
-        Returns the next sibling ckDraw of this ckDraw.
-        If this ckDraw has no next sibling ckDraw, returns NULL.
-        @return The next sibling ckDraw of this ckDraw.
+        返回这个 fsDraw 的下一个兄弟绘图对象 fsDraw.
+        如果这个 fsDraw 没有下一个兄弟图对象 fsDraw 则返回 NULL.
+        @return 这个 fsDraw 的下一个兄弟绘图对象 fsDraw.
     */
     fsDraw* getNextSiblingN() const;
 
 
     /*!
-        Returns the last descendant ckDraw of this ckDraw.
-        If this ckDraw has no descendant, returns this ckDraw.
-        @return The last descendant ckDraw of this ckDraw.
+        返回这个 fsDraw 的最后子孙绘图对象 fsDraw.
+        如果这个 fsDraw 没有最后子孙图对象 fsDraw 则返回 NULL.
+        @return 这个 fsDraw 的最后子孙绘图对象 fsDraw.
     */
     fsDraw* getLastDescendant() const;
 
 
     /*!
-        Returns whether this fsDraw has a child fsDraw.
-        @return Whether this fsDraw has a child fsDraw.
+        判断这个 fsDraw 是否有子绘图对象 fsDraw.
+        @return 这个 fsDraw 是否有子绘图对象 fsDraw.
     */
     bool hasChild() const;
 
 
     /*!
-        Returns the first child fsDraw of this fsDraw.
-        If this fsDraw has no child fsDraw, returns NULL.
-        @return The first child fsDraw of this fsDraw.
+        返回这个 fsDraw 的第一个子绘图对象 fsDraw.
+        如果这个 fsDraw 没有第一个子图对象 fsDraw 则返回 NULL.
+        @return 这个 fsDraw 的第一个子绘图对象 fsDraw.
     */
     fsDraw* getFirstChildN() const;
 
 
     /*!
-        Returns the last child ckDraw of this ckDraw.
-        If this ckDraw has no child ckDraw, returns NULL.
-        @return The last child ckDraw of this ckDraw.
+        返回这个 fsDraw 的最后一个子绘图对象 fsDraw.
+        如果这个 fsDraw 没有最后一个子图对象 fsDraw 则返回 NULL.
+        @return 这个 fsDraw 的最后一个子绘图对象 fsDraw.
     */
     fsDraw* getLastChildN() const;
 
 
     /*!
-        Changes the order of this ckDraw in the siblings to the first.
-        This ckDraw must belong to a screen or have a parent.
+        改变这个 fsDraw 在兄弟绘图对象中的顺序为第一个.
+        这个 fsDraw 必须有个屏幕或者是一个父绘图对象的孩子.
     */
     void moveFirst();
 
 
     /*!
-        Changes the order of this ckDraw in the siblings to the last.
-        This ckDraw must belong to a screen or have a parent.
+        改变这个 fsDraw 在兄弟绘图对象中的顺序为最后一个.
+        这个 fsDraw 必须有个屏幕或者是一个父绘图对象的孩子.
     */
     void moveLast();
 
 
     /*!
-        Changes the order of this ckDraw to the previous of the specified ckDraw.
-        The specified ckDraw must belong to a screen or have a parent.
-        @param[in] draw A ckDraw.
+        改变这个 fsDraw 的顺序为指定的 fsDraw 绘图对象的前一个.
+        这个 fsDraw 必须有个屏幕或者是一个父绘图对象的孩子.
+        @param[in] draw 指定的 fsDraw.
     */
     void moveBefore(fsDraw* draw);
 
 
     /*!
-        Changes the order of this ckDraw to the next of the specified ckDraw.
-        The specified ckDraw must belong to a screen or have a parent.
-        @param[in] draw A ckDraw.
+        改变这个 fsDraw 的顺序为指定的 fsDraw 绘图对象的下一个.
+        这个 fsDraw 必须有个屏幕或者是一个父绘图对象的孩子.
+        @param[in] draw 指定的 fsDraw.
     */
     void moveAfter(fsDraw* draw);
 
 
     /*!
-        Returns the draw-type of this ckDraw.
-        @return The draw-type of this ckDraw.
+        返回这个 fsDraw 绘图对象的类型.
+        @return 这个 fsDraw 绘图对象的类型.
     */
     DrawType getType() const;
 
 
     /*!
-        Returns whether this fsDraw is visible.
-        @return Whether this fsDraw is visible.
+        返回这个 fsDraw 是否可见.
+        @return 这个 fsDraw 是否可见.
     */
     bool isVisible() const;
 
 
     /*!
-        Determines whether this fsDraw is visible.
-        @param[in] is_visible Whether this fsDraw is visible.
+        设置这个 fsDraw 是否可见.
+        @param[in] is_visible 这个 fsDraw 是否可见.
     */
     void setVisible(bool is_visible);
 
 
     /*!
-        Returns the filter color of this ckDraw.
-        @return The filter color of this ckDraw.
+        返回这个 fsDraw 滤波器的颜色.
+        @return 这个 fsDraw 滤波器的颜色.
     */
     fsCol getColor() const;
 
     /*!
-        Sets the filter color of this ckDraw.
-        @param[in] col A filter color.
+        设置这个 fsDraw 滤波器的颜色.
+        @param[in] col 滤波器的颜色.
     */
     void setColor(fsCol col);
 
 
     /*!
-        Returns the type of depth test.
-        @return The type of depth test.
+        返回深度测试的类型.
+        @return 深度测试的类型.
     */
     DepthTest getDepthTest() const;
 
 
     /*!
-        Sets the type of depth test.
-        @param[in] depth_test The type of depth test.
+        设置深度测试的类型.
+        @param[in] depth_test 深度测试的类型.
     */
     void setDepthTest(DepthTest depth_test);
 
 
     /*!
-        Returns the type of blend mode.
-        @return The type of blend mode.
+        返回混合模式的类型.
+        @return 混合模式的类型.
     */
     BlendMode getBlendMode() const;
 
 
     /*!
-        Sets the type of blend mode.
-        @param[in] blend_mode The type of blend mode.
-        @param[in] is_preset_setting If true, sets other draw flags and the type of depth test automatically.
+        设置混合模式的类型.
+        @param[in] blend_mode 混合模式的类型.
+        @param[in] is_preset_setting 如果设置为 true, 则自动设置绘图标志的深度模式类型.
     */
     void setBlendMode(BlendMode blend_mode, bool is_preset_setting);
 
 
     /*!
-        Returns whether the specified draw flag is on.
-        @param[in] draw_flag A draw flag.
-        @return Whether the specified draw flag is on.
+        返回指定的绘图属性标志位是否开启.
+        @param[in] draw_flag 绘图属性标志位.
+        @return 指定的绘图属性标志位是否开启.
     */
     bool isDrawFlag(DrawFlag draw_flag) const;
 
 
     /*!
-        Sets the specified draw flag to the specified value.
-        @param[in] draw_flag A draw flag.
-        @param[in] is_on If true, the flag is set on. Otherwise, the flag is set off.
+        设置指定的绘图属性标志位是否开启.
+        @param[in] draw_flag 绘图属性标志位.
+        @param[in] is_on 指定的绘图属性标志位是否开启.
     */
     void setDrawFlag(DrawFlag draw_flag, bool is_on);
 
 
     /*!
-        Sets the all draw flags to off.
+        设置所有的绘图属性标志位关闭.
     */
     void clearDrawFlag();
 
 
     /*!
-        Copies the draw flags from the specified ckDraw.
-        @param[in] src A source ckDraw.
+        从指定的 fsDraw 复制绘图属性标志位.
+        @param[in] src 指定的 fsDraw 绘图对象.
     */
     void copyDrawFlag(const fsDraw* src);
 
 
     /*!
-        Returns the minimum clip bound of this ckDraw.
-        @return The minimum clip bound of this ckDraw.
+        返回这个 fsDraw 的最小范围修剪值.
+        @return 这个 fsDraw 的最小范围修剪值.
     */
     const fsVec& getClipBoundMin() const;
 
 
     /*!
-        Returns the maximum clip bound of this ckDraw.
-        @return The maximum clip bound of this ckDraw.
+        返回这个 fsDraw 的最大范围修剪值.
+        @return 这个 fsDraw 的最大范围修剪值.
     */
     const fsVec& getClipBoundMax() const;
 
 
     /*!
-        Sets the clip bound of this ckDraw.
-        @param[in] bound_min The minimum clip bound.
-        @param[in] bound_max The maximum clip bound.
+        设置这个 fsDraw 的范围修剪值.
+        @param[in] bound_min 最小的范围修剪值.
+        @param[in] bound_max 最大的范围修剪值.
     */
     void setClipBound(const fsVec& bound_min, const fsVec& bound_max);
 
 
     /*!
-        Returns the center position for sorting ckDraws.
-        @return The center position for sorting ckDraws.
+        返回 fsDraw 序列的中间位置.
+        @return fsDraw 序列的中间位置.
     */
     const fsVec& getSortCenter() const;
 
 
     /*!
-        Sets the center position for sorting ckDraws.
-        @param[in] sort_center The center position for sorting ckDraws.
+        设置 fsDraw 序列的中间位置.
+        @param[in] sort_center fsDraw 序列的中间位置.
     */
     void setSortCenter(const fsVec& sort_center);
 
 
     /*!
-        Returns the value of sort offset.
-        @return The value of sort offset.
+        返回序列的偏移量.
+        @return 序列的偏移量.
     */
     r32 getSortOffset() const;
 
 
     /*!
-        Sets the specified value of sort offset.
-        @param sort_offset The value of sort offset.
+        设置序列的偏移量.
+        @param sort_offset 序列的偏移量.
     */
     void setSortOffset(r32 sort_offset);
 
 
     /*!
-        Returns the texture ID which this ckDraw uses.
-        If no texture is used, returns ckID::ZERO.
-        @return The texture ID which this ckDraw uses.
+        返回这个 fsDraw 使用的纹理 ID.
+        如果不存在则返回 fsID::ZERO.
+        @return 这个 fsDraw 使用的纹理 ID.
     */
     fsID getTextureID() const;
 
 
     /*!
-        Sets the specified texture ID to this ckDraw.
-        If ckID::ZERO is specified, uses no texture.
-        @param tex_id A texture ID.
+        设置这个 fsDraw 使用的指定的纹理 ID.
+        如果设置 fsID::ZERO 未指定值则不指定纹理.
+        @param tex_id 指定的纹理 ID.
     */
     void setTextureID(fsID tex_id);
 
 
     /*!
-        Returns the reference to the local matrix.
-        @return The reference to the local matrix.
+        返回当前屏幕的参照矩阵.
+        @return 当前的参照矩阵.
     */
     fsMat& local();
 
 
     /*!
-        Calculates and returns the world matrix at present.
-        @return The world matrix at present.
+        计算并返回目前的世界参照矩阵.
+        @return 目前的世界参照矩阵.
     */
     fsMat calcWorld() const;
 
 
     /*!
-        Calculates and returns the final drawing color at present.
-        @return The final drawing color at present.
+        计算并返回目前的最终绘图颜色.
+        @return 目前的最终绘图颜色.
     */
     fsCol calcFinalColor() const;
 

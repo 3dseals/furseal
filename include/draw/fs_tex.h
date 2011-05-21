@@ -20,7 +20,7 @@ class fsDrawMgr;
 
 /*!
     @ingroup fsDraw
-    A texture, an image container for drawing elements.
+    纹理, 绘图用的图像容器.
 */
 class FS_API fsTex
 {

@@ -14,7 +14,7 @@
 
 /*!
     @ingroup fsMath
-    A quaternion.
+    四元数组.
 */
 struct FS_API fsQuat
 {

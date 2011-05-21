@@ -13,7 +13,7 @@
 
 /*!
     @ingroup fsGen
-    A 3x4 matrix which is represented by four fsVecs.
+    一个 3x4 的矩阵由 4 个 fsVec 向量组成.
 */
 struct FS_API fsMat
 {
