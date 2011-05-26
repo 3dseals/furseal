@@ -27,6 +27,13 @@ LOCAL_SRC_FILES := \
 	../../../sources/base/fs_low_level_mem_gen.cpp \
 	../../../sources/base/fs_low_level_util_freetype.cpp \
 	../../../sources/base/fs_low_level_util_libpng.cpp \
+	../../../sources/cdt/fs_cdt_aabb.cpp \
+	../../../sources/cdt/fs_cdt_box.cpp \
+	../../../sources/cdt/fs_cdt_plane.cpp \
+	../../../sources/cdt/fs_cdt_ray.cpp \
+	../../../sources/cdt/fs_cdt_sph.cpp \
+	../../../sources/cdt/fs_cdt_tri.cpp \
+	../../../sources/debug/fs_debug_mgr_draw.cpp \
 	../../../sources/draw/fs_col.cpp \
 	../../../sources/draw/fs_draw.cpp \
 	../../../sources/draw/fs_draw_mgr.cpp \
@@ -34,6 +41,7 @@ LOCAL_SRC_FILES := \
 	../../../sources/draw/fs_lit.cpp \
 	../../../sources/draw/fs_lts.cpp \
 	../../../sources/draw/fs_prim.cpp \
+	../../../sources/draw/fs_sprt.cpp \
 	../../../sources/draw/fs_rend.cpp \
 	../../../sources/draw/fs_scr.cpp \
 	../../../sources/draw/fs_shd.cpp \

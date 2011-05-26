@@ -48,10 +48,68 @@ public:
 
 
     /*!
+        Returns the aim fps.
+        @return The aim fps.
+    */
+    static u16 getAimFPS();
+
+
+    /*!
+        Returns the current fps.
+        @return The current fps.
+    */
+    static r32 getCurFPS();
+
+
+    /*!
+        Returns the execute time in usec.
+        @return The execute time.
+    */
+    static u64 getExecuteUsecTime();
+
+
+    /*!
+        Returns the rendering time in usec.
+        @return The rendering time in usec.
+    */
+    static u64 getRenderUsecTime();
+
+
+    /*!
+        Returns the number of elapsed frames.
+    */
+    static u32 getFrameCount();
+
+
+    /*!
         返回第一个任务的命令,如果不存在则返回NULL.
         @return 第一个任务的命令.
     */
     static fsTask* getFirstTaskN(fsTask::TaskOrder order);
+
+
+    /*!
+        Returns the last task of the specified order. If the last task doesn't exist, returns NULL.
+        @return The last task of the specified order.
+    */
+    static fsTask* getLastTaskN(fsTask::TaskOrder order);
+
+
+    /*!
+        Returns the specified order is active.
+        @param[in] order The task order.
+        @return The specified order is active.
+    */
+    static bool isOrderActive(fsTask::TaskOrder order);
+
+
+    /*!
+        Determines the specified orders is active.
+        @param[in] from The first task order.
+        @param[in] to The last task order.
+        @param[in] is_active Whether the task orders is active.
+    */
+    static void setOrderActive(fsTask::TaskOrder from, fsTask::TaskOrder to, bool is_active);
 
 
     /*!
@@ -63,10 +121,11 @@ public:
 
 
     /*!
-        删除任务,该方法只被引擎自己调用.
-        @param[in] task A task.
+        Sends a message to the specified task.
+        @param[in] msg_id The ID of a message. If uxID::ZERO is specified, sends to all the tasks.
+        @param[in] msg A message.
     */
-    static void deleteTaskForEngine(fsTask* task);
+    static void sendMessage(fsID msg_id, fsMsg<4>& msg);
 
 
     /*!
@@ -82,6 +141,13 @@ public:
 
 
     /*!
+        对绘图进行布局,该方法只被引擎自己调用.
+        @param[in] 渲染的函数指针.
+    */
+    static void measureRenderTimeForEngine(void (*render_func)());
+
+
+    /*!
         设置下一个任务的名字.
         @param[in] name 下一个任务的名字.
     */
@@ -89,17 +155,17 @@ public:
 
 
     /*!
+        删除任务,该方法只被引擎自己调用.
+        @param[in] task A task.
+    */
+    static void deleteTaskForEngine(fsTask* task);
+
+
+    /*!
         判断是否忽略当前帧.
         @return 是否忽略当前帧.
     */
     static bool isFrameSkipResetForEngine();
-
-
-    /*!
-        对绘图进行布局,该方法只被引擎自己调用.
-        @param[in] 渲染的函数指针.
-    */
-    static void measureRenderTimeForEngine(void (*render_func)());
 
 
 private:

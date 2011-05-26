@@ -69,11 +69,60 @@ void fsMemHelper::createFirst()
 }
 
 
+u32 fsMemHelper::getCurUsedMemorySize()
+{
+    return instance()->m_cur_used_memory_size;
+}
+
+
+u32 fsMemHelper::getMaxUsedMemorySize()
+{
+    return instance()->m_max_used_memory_size;
+}
+
+
 const void* fsMemHelper::getFirstMemoryBlockN()
 {
 	fsMemHelper* ins = instance();
 
     return (ins->m_mbh_start.next != &ins->m_mbh_end) ? ins->m_mbh_start.next + 1 : NULL;
+}
+
+
+const void* fsMemHelper::getNextMemoryBlockN(const void* ptr)
+{
+	fsMemHelper* ins = instance();
+
+    if (!ptr)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    const MemoryBlockHeader* mbh = reinterpret_cast<const MemoryBlockHeader*>(ptr) - 1;
+
+    return (mbh->next != &ins->m_mbh_end) ? mbh->next + 1 : NULL;
+}
+
+
+const char* fsMemHelper::getMemoryBlockName(const void* ptr)
+{
+    if (!ptr)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    return (reinterpret_cast<const MemoryBlockHeader*>(ptr) - 1)->name;
+}
+
+
+u32 fsMemHelper::getMemoryBlockSize(const void* ptr)
+{
+    if (!ptr)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    return (reinterpret_cast<const MemoryBlockHeader*>(ptr) - 1)->size;
 }
 
 
@@ -86,6 +135,13 @@ u32 fsMemHelper::getMemoryBlockArraySize(const void* ptr)
 
     return (reinterpret_cast<const MemoryBlockHeader*>(ptr) - 1)->array_size;
 }
+
+
+u32 fsMemHelper::getMemoryBlockHeaderSize()
+{
+    return sizeof(MemoryBlockHeader);
+}
+
 
 
 void* fsMemHelper::mallocForEngine(u32 size, u32 array_size, const char* name)

@@ -40,6 +40,34 @@ public:
 
 
     /*!
+        Returns whether this task has the order.
+        @return Whether this task has the order.
+    */
+    bool hasOrder() const;
+
+
+    /*!
+        Retuens the order of this task.
+        @return The order of this task.
+    */
+    TaskOrder getOrder() const;
+
+
+    /*!
+        Returns whether this task has the order.
+        @return Whether this task has the order.
+    */
+    bool hasParent() const;
+
+
+    /*!
+        Returns the parent of this task. If the parent doesn't exist, returns NULL.
+        @return The parent of this task.
+    */
+    fsTask* getParentN() const;
+
+
+    /*!
         返回前一个任务,如果没有前一个任务则返回NULL.
         @return 前一个任务,如果没有前一个任务则返回NULL.
     */
@@ -54,10 +82,33 @@ public:
 
 
     /*!
+        Returns the previous sibling of this task.
+        If this task has no previous sibling, returns NULL.
+        @return The previous sibling of this task.
+    */
+    fsTask* getPrevSiblingN() const;
+
+
+    /*!
+        Returns the next sibling of this task.
+        If this task has no previous sibling, returns NULL.
+        @return The previous sibling of this task.
+    */
+    fsTask* getNextSiblingN() const;
+
+
+    /*!
         返回上次的任务,如果没有则返回这次任务.
         @return 上次的任务,如果没有则返回这次任务.
     */
     fsTask* getLastDescendant() const;
+
+
+    /*!
+        Returns whether this task has a child.
+        @return Whether this task has a child.
+    */
+    bool hasChild() const;
 
 
     /*!
@@ -75,6 +126,20 @@ public:
 
 
     /*!
+        Returns the name of this task.
+        @return The name of this task.
+    */
+    const char* getName() const;
+
+
+    /*!
+        Returns the process time of this task in usec.
+        @return The process time of this task.
+    */
+    u64 getExecuteUsecTime() const;
+
+
+    /*!
         判断任务是否被激活.
         @return 是否被激活.
     */
@@ -82,9 +147,24 @@ public:
 
 
     /*!
+        Determines whether this task is active.
+        @param[in] is_active whetehr this task is active.
+    */
+    void setActive(bool is_active);
+
+
+    /*!
         更新任务.
     */
     virtual void onUpdate();
+
+
+    /*!
+        Receives a message.
+        @param[in] msg_id The ID of a message.
+        @param[in] msg A message.
+    */
+    virtual void onMessage(fsID msg_id, fsMsg<4>& msg);
 
 
 protected:

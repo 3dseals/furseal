@@ -26,6 +26,7 @@
 #include "gen/fs_vec.h"
 #include "gen/fs_mat.h"
 #include "gen/fs_math.h"
+#include "gen/fs_msg.h"
 #include "gen/fs_quat.h"
 #include "gen/fs_str.h"
 #include "gen/fs_tree.h"

@@ -164,6 +164,74 @@ public:
 
 
     /*!
+        Returns whether the specified key is on.
+        @param[in] key A key.
+        @return Whether the specified key is on.
+    */
+    static bool isOn(KeyType key);
+
+
+    /*!
+        Returns whether the specified key is off.
+        @param[in] key A key.
+        @return Whether the specified key is off.
+    */
+    static bool isOff(KeyType key);
+
+
+    /*!
+        Returns the specified key is pressed.
+        @param[in] key A key.
+        @return The specified key is pressed.
+    */
+    static bool isPressed(KeyType key);
+
+
+    /*!
+        Returns the specified key is released.
+        @param[in] key A key.
+        @return The specified key is released.
+    */
+    static bool isReleased(KeyType key);
+
+
+    /*!
+        Returns the x-coordinate of the mouse.
+        @return The x-coordinate of the mouse.
+    */
+    static s16 getMouseX();
+
+
+    /*!
+        Returns the y-coordinate of the mouse.
+        @return The y-coordinate of the mouse.
+    */
+    static s16 getMouseY();
+
+
+    /*!
+        Returns the wheel offset of the mouse.
+        @return The wheel offset of the mouse.
+    */
+    static s16 getMouseWheel();
+
+
+    /*!
+        Sets the position of the mouse.
+        @param[in] mouse_x The x-coordinate of the mouse.
+        @param[in] mouse_y The y-coordinate of the mouse.
+    */
+    static void setMousePos(s16 mouse_x, s16 mouse_y);
+
+
+    /*!
+        Returns whether the mouse is visible.
+        @return Whether the mouse is visible.
+    */
+    static bool isMouseVisible();
+
+
+    /*!
         设置鼠标是否可见.
         @param[in] is_visible 鼠标是否可见.
     */

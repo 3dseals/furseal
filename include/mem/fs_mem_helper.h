@@ -64,10 +64,48 @@ public:
 
 
     /*!
+        Returns the size of the used memory.
+        @return The size of the used memory.
+    */
+    static u32 getCurUsedMemorySize();
+
+
+    /*!
+        Returns the maximum size of the used memory.
+        @return The maximum size of the used memory.
+    */
+    static u32 getMaxUsedMemorySize();
+
+
+    /*!
         返回第一块内存块地址,如果不存在则返回NULL.
         @return 第一块内存块地址,没有内存块时返回NULL.
     */
     static const void* getFirstMemoryBlockN();
+
+
+    /*!
+        Returns the next memory block of the specified memory. If the first memory block doesn't exist, return NULL.
+        @param[in] ptr The pointer to the memory.
+        @return The next memory block of the specified memory.
+    */
+    static const void* getNextMemoryBlockN(const void* ptr);
+
+
+    /*!
+        Returns the name of the specified memory.
+        @param[in] ptr The pointer to the memory.
+        @return The name of the specified memory.
+    */
+    static const char* getMemoryBlockName(const void* ptr);
+
+
+    /*!
+        Returns the size of the specified memory block.
+        @param[in] ptr The pointer to a memory block.
+        @return The size of the specified memory block.
+    */
+    static u32 getMemoryBlockSize(const void* ptr);
 
 
     /*!
@@ -76,6 +114,13 @@ public:
         @return 内存块数组的尺寸.
     */
     static u32 getMemoryBlockArraySize(const void* ptr);
+
+
+    /*!
+        Returns the size of the memory block header.
+        @return The size of the memory block header.
+    */
+    static u32 getMemoryBlockHeaderSize();
 
 
     /*!

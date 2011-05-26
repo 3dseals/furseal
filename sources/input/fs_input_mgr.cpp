@@ -90,6 +90,73 @@ fsInputMgr::ExtraEventHandler fsInputMgr::getExtraEventHandlerN()
 }
 
 
+bool fsInputMgr::isOn(KeyType key)
+{
+    u8 key_flag = instance()->m_key_flag[key];
+
+    return (key_flag & FLAG_CUR_ON) ? true : false;
+}
+
+
+bool fsInputMgr::isOff(KeyType key)
+{
+    u8 key_flag = instance()->m_key_flag[key];
+
+    return (key_flag & FLAG_CUR_ON) ? false : true;
+}
+
+
+bool fsInputMgr::isPressed(KeyType key)
+{
+    u8 key_flag = instance()->m_key_flag[key];
+
+    return ((key_flag & FLAG_CUR_ON) && !(key_flag & FLAG_LAST_ON));
+}
+
+
+bool fsInputMgr::isReleased(KeyType key)
+{
+    u8 key_flag = instance()->m_key_flag[key];
+
+    return (!(key_flag & FLAG_CUR_ON) && (key_flag & FLAG_LAST_ON));
+}
+
+
+s16 fsInputMgr::getMouseX()
+{
+    return instance()->m_mouse_x;
+}
+
+
+s16 fsInputMgr::getMouseY()
+{
+    return instance()->m_mouse_y;
+}
+
+
+s16 fsInputMgr::getMouseWheel()
+{
+    return instance()->m_cur_mouse_wheel;
+}
+
+
+void fsInputMgr::setMousePos(s16 mouse_x, s16 mouse_y)
+{
+    fsInputMgr* ins = fsInputMgr::instance();
+
+    ins->m_mouse_x = mouse_x;
+    ins->m_mouse_y = mouse_y;
+
+    fsLowLevelAPI::setMousePos(mouse_x, mouse_y);
+}
+
+
+bool fsInputMgr::isMouseVisible()
+{
+    return fsLowLevelAPI::isMouseVisible();
+}
+
+
 void fsInputMgr::setMouseVisible(bool is_visible)
 {
     return fsLowLevelAPI::setMouseVisible(is_visible);

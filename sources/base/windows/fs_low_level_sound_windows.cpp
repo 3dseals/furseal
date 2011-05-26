@@ -80,8 +80,8 @@ bool fsLowLevelAPI::openSoundDevice(u8 channel_num, u16 sample_rate, u16 snd_mix
 
     for (s32 i = 0; i < 2; i++)
     {
-        s_snd_mix_buf[i] = ckMalloc(s_snd_mix_buf_size);
-        ckMemMgr::memset(s_snd_mix_buf[i], 0, s_snd_mix_buf_size);
+        s_snd_mix_buf[i] = fsMalloc(s_snd_mix_buf_size);
+        fsMemHelper::memset(s_snd_mix_buf[i], 0, s_snd_mix_buf_size);
     }
 
     s_wfx.wFormatTag = WAVE_FORMAT_PCM;
@@ -167,7 +167,7 @@ void fsLowLevelAPI::closeSoundDevice()
     {
         if (s_snd_mix_buf[i])
         {
-            ckFree(s_snd_mix_buf[i]);
+            fsFree(s_snd_mix_buf[i]);
             s_snd_mix_buf[i] = NULL;
         }
     }

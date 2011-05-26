@@ -10,8 +10,6 @@
 
 #include "fs_task_all.h"
 #include "fs_kernel_all.h"
-
-
 #include "fs_base_all.h"
 
 
@@ -37,9 +35,71 @@ void fsTaskMgr::createAfterSys(u16 aim_fps)
 FS_DEFINE_MANAGER_DESTROY(fsTaskMgr, First)
 
 
+u16 fsTaskMgr::getAimFPS()
+{
+    return instance()->m_aim_fps;
+}
+
+
+r32 fsTaskMgr::getCurFPS()
+{
+    return instance()->m_cur_fps;
+}
+
+
+u64 fsTaskMgr::getExecuteUsecTime()
+{
+    fsTaskMgr* ins = instance();
+
+    return ins->m_execute_time + ins->m_render_time;
+}
+
+
+u64 fsTaskMgr::getRenderUsecTime()
+{
+    return instance()->m_render_time;
+}
+
+
+u32 fsTaskMgr::getFrameCount()
+{
+    return instance()->m_frame_count;
+}
+
+
 fsTask* fsTaskMgr::getFirstTaskN(fsTask::TaskOrder order)
 {
     return instance()->m_root_task[order].getFirstChildN();
+}
+
+
+fsTask* fsTaskMgr::getLastTaskN(fsTask::TaskOrder order)
+{
+    fsTask* task = instance()->m_root_task[order].getLastChildN();
+
+    return task ? task->getLastDescendant() : NULL;
+}
+
+
+bool fsTaskMgr::isOrderActive(fsTask::TaskOrder order)
+{
+    return instance()->m_root_task[order].isActive();
+}
+
+
+void fsTaskMgr::setOrderActive(fsTask::TaskOrder from, fsTask::TaskOrder to, bool is_active)
+{
+    fsTaskMgr* ins = instance();
+
+    if (from > to)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    for (s32 i = from; i <= to; i++)
+    {
+        ins->m_root_task[i].setActive(is_active);
+    }
 }
 
 
@@ -64,45 +124,21 @@ void fsTaskMgr::deleteOrder(fsTask::TaskOrder from, fsTask::TaskOrder to)
 }
 
 
-void fsTaskMgr::deleteTaskForEngine(fsTask* task)
+void fsTaskMgr::sendMessage(fsID msg_id, fsMsg<4>& msg)
 {
-    fsTaskMgr* ins = fsTaskMgr::instance();
+    fsTaskMgr* ins = instance();
 
-    if (!task)
+    for (u32 i = 0; i < ORDER_NUM; i++)
     {
-        fsThrow(ExceptionInvalidArgument);
-    }
-
-    if (ins->m_is_in_destructor)
-    {
-        ins->m_is_in_destructor = false;
-        fsThrow(ExceptionDeleteTaskInDestructor);
-    }
-
-    ins->m_is_in_destructor = true;
-
-    fsTask* end_task = task->getPrevAllN();
-    fsTask* prev_task;
-
-    for (task = task->getLastDescendant(); task != end_task; task = prev_task)
-    {
-        prev_task = task->getPrevAllN();
-
-        if (task == ins->m_cur_task)
-        {
-            ins->m_cur_task = NULL;
-        }
-
-        if (task == ins->m_next_task)
+        for (fsTask* task = ins->getFirstTaskN(static_cast<fsTask::TaskOrder>(i)); task; task = ins->m_next_task)
         {
             ins->m_next_task = task->getNextAllN();
-        }
 
-        ins->m_next_task_name = reinterpret_cast<const char*>(task);
-        fsDelete(task, fsTask);
+            task->onMessage(msg_id, msg);
+        }
     }
 
-    ins->m_is_in_destructor = false;
+    ins->m_next_task = NULL;
 }
 
 
@@ -177,6 +213,48 @@ u32 fsTaskMgr::setNextTaskNameForEngine(const char* name)
     ins->m_next_task_name = name;
 
     return 0;
+}
+
+
+void fsTaskMgr::deleteTaskForEngine(fsTask* task)
+{
+    fsTaskMgr* ins = fsTaskMgr::instance();
+
+    if (!task)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    if (ins->m_is_in_destructor)
+    {
+        ins->m_is_in_destructor = false;
+        fsThrow(ExceptionDeleteTaskInDestructor);
+    }
+
+    ins->m_is_in_destructor = true;
+
+    fsTask* end_task = task->getPrevAllN();
+    fsTask* prev_task;
+
+    for (task = task->getLastDescendant(); task != end_task; task = prev_task)
+    {
+        prev_task = task->getPrevAllN();
+
+        if (task == ins->m_cur_task)
+        {
+            ins->m_cur_task = NULL;
+        }
+
+        if (task == ins->m_next_task)
+        {
+            ins->m_next_task = task->getNextAllN();
+        }
+
+        ins->m_next_task_name = reinterpret_cast<const char*>(task);
+        fsDelete(task, fsTask);
+    }
+
+    ins->m_is_in_destructor = false;
 }
 
 

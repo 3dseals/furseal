@@ -11,6 +11,35 @@
 #include "base/fs_private_macro.h"
 
 
+bool fsTask::hasOrder() const
+{
+    return (m_tree.hasParent() && !m_tree.getParentN()->hasParent());
+}
+
+
+fsTask::TaskOrder fsTask::getOrder() const
+{
+    if (!hasOrder())
+    {
+        fsThrow(ExceptionInvalidCall);
+    }
+
+    return m_tree.getParentN()->getSelf()->m_order.getType();
+}
+
+
+bool fsTask::hasParent() const
+{
+    return (m_tree.hasParent() && m_tree.getParentN()->hasParent());
+}
+
+
+fsTask* fsTask::getParentN() const
+{
+    return hasParent() ? m_tree.getParentN()->getSelf() : NULL;
+}
+
+
 fsTask* fsTask::getPrevAllN() const
 {
     fsTree<fsTask>* prev = m_tree.getPrevAllN();
@@ -27,9 +56,31 @@ fsTask* fsTask::getNextAllN() const
 }
 
 
+fsTask* fsTask::getPrevSiblingN() const
+{
+    fsTree<fsTask>* sibling = m_tree.getPrevSiblingN();
+
+    return sibling ? sibling->getSelf() : NULL;
+}
+
+
+fsTask* fsTask::getNextSiblingN() const
+{
+    fsTree<fsTask>* sibling = m_tree.getNextSiblingN();
+
+    return sibling ? sibling->getSelf() : NULL;
+}
+
+
 fsTask* fsTask::getLastDescendant() const
 {
     return m_tree.getLastDescendant()->getSelf();
+}
+
+
+bool fsTask::hasChild() const
+{
+    return m_tree.hasChild();
 }
 
 
@@ -49,13 +100,34 @@ fsTask* fsTask::getLastChildN() const
 }
 
 
+const char* fsTask::getName() const
+{
+    return m_name;
+}
+
+
+u64 fsTask::getExecuteUsecTime() const
+{
+    return m_execute_time;
+}
+
+
 bool fsTask::isActive() const
 {
     return m_flag.isOn(FLAG_ACTIVE);
 }
 
 
+void fsTask::setActive(bool is_active)
+{
+    m_flag.set(FLAG_ACTIVE, is_active);
+}
+
+
 void fsTask::onUpdate() {}
+
+
+void fsTask::onMessage(fsID msg_id, fsMsg<4>&) {}
 
 
 fsTask::fsTask(TaskOrder order)

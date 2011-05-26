@@ -48,7 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="0"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -64,8 +64,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib libpng.lib freetype.lib"
-				OutputFile="$(OutDir)\furseal.dll"
+				AdditionalDependencies="zlibd.lib libpngd.lib freetyped.lib"
+				OutputFile="$(OutDir)\furseald.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\library"
 				GenerateDebugInformation="true"
@@ -125,13 +125,13 @@
 				UseUnicodeResponseFiles="true"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\include\glext"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FURSEAL_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\include\glext;..\..\..\include\zlib;..\..\..\include\libpng;..\..\..\include\freetype"
+				PreprocessorDefinitions="WINDOWS;NDEBUG;_WINDOWS;_USRDLL;FURSEAL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="0"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -147,7 +147,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=""
+				AdditionalDependencies="zlib.lib libpng.lib freetype.lib"
 				OutputFile="$(OutDir)\furseal.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\library"
@@ -194,6 +194,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\include\fs_base_all.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\include\fs_cdt_all.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\include\fs_debug_all.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\include\fs_def.h"
 				>
 			</File>
@@ -218,15 +230,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\include\fs_math_all.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\..\include\fs_mem_all.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\..\include\fs_res_all.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\include\fs_script_all.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\include\fs_sound_all.h"
 				>
 			</File>
 			<File
@@ -258,6 +274,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\include\gen\fs_math.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\gen\fs_msg.h"
 					>
 				</File>
 				<File
@@ -322,6 +342,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\include\draw\fs_shd.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_sprt.h"
 					>
 				</File>
 				<File
@@ -405,6 +429,46 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="cdt"
+				>
+				<File
+					RelativePath="..\..\..\..\include\cdt\fs_cdt.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="debug"
+				>
+				<File
+					RelativePath="..\..\..\..\include\debug\fs_debug_mgr.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="sound"
+				>
+				<File
+					RelativePath="..\..\..\..\include\sound\fs_sound_mgr.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="script"
+				>
+				<File
+					RelativePath="..\..\..\..\include\script\fs_script.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\script\fs_script_entry.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\script\fs_script_mgr.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="soures"
@@ -443,6 +507,10 @@
 						RelativePath="..\..\..\..\sources\base\linux\fs_low_level_linux.cpp"
 						>
 					</File>
+					<File
+						RelativePath="..\..\..\..\sources\base\linux\fs_low_level_sound_linux.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="android"
@@ -451,12 +519,32 @@
 						RelativePath="..\..\..\..\sources\base\android\fs_low_level_android.cpp"
 						>
 					</File>
+					<File
+						RelativePath="..\..\..\..\sources\base\android\fs_low_level_sound_android.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="windows"
 					>
 					<File
+						RelativePath="..\..\..\..\sources\base\windows\fs_low_level_sound_windows.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\..\sources\base\windows\fs_low_level_windows.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="macosx"
+					>
+					<File
+						RelativePath="..\..\..\..\sources\base\macosx\fs_low_level_macosx.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\sources\base\macosx\fs_low_level_sound_macosx.cpp"
 						>
 					</File>
 				</Filter>
@@ -502,6 +590,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\sources\draw\fs_shd.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_sprt.cpp"
 					>
 				</File>
 				<File
@@ -590,6 +682,86 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\sources\task\fs_task_mgr.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="cdt"
+				>
+				<File
+					RelativePath="..\..\..\..\sources\cdt\fs_cdt_aabb.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\cdt\fs_cdt_box.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\cdt\fs_cdt_plane.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\cdt\fs_cdt_ray.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\cdt\fs_cdt_sph.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\cdt\fs_cdt_tri.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="debug"
+				>
+				<File
+					RelativePath="..\..\..\..\sources\debug\fs_debug_mgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\debug\fs_debug_mgr_draw.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\debug\fs_debug_mgr_dump.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\debug\fs_debug_mgr_font.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="sound"
+				>
+				<File
+					RelativePath="..\..\..\..\sources\sound\fs_sound_mgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\sound\fs_sound_mgr_mix.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="script"
+				>
+				<File
+					RelativePath="..\..\..\..\sources\script\fs_script.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\script\fs_script_entry.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\script\fs_script_mgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\script\fs_script_parse.cpp"
 					>
 				</File>
 			</Filter>

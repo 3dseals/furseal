@@ -18,6 +18,9 @@
 #include "fs_input_all.h"
 #include "fs_res_all.h"
 #include "fs_draw_all.h"
+#include "fs_script_all.h"
+#include "fs_sound_all.h"
+#include "fs_debug_all.h"
 #include "fs_base_all.h"
 
 
@@ -178,14 +181,21 @@ void fsMgr::createAfterMem(const char* title, u16 width, u16 height, u16 aim_fps
     fsTaskMgr::createAfterSys(aim_fps);
     fsInputMgr::createAfterTask();
     fsResMgr::createAfterTask();
+    fsScriptMgr::createAfterRes();
     fsDrawMgr::createAfterRes();
+    fsSoundMgr::createAfterRes();
+    fsDebugMgr::createLast();
+
 }
 
 
 void fsMgr::destroyBeforeMem()
 {
     fsTaskMgr::destroyFirst();
+    fsDebugMgr::destroySecond();
+    fsSoundMgr::destroyBeforeRes();
     fsDrawMgr::destroyBeforeRes();
+    fsScriptMgr::destroyBeforeRes();
     fsResMgr::destroyBeforeSys();
     fsInputMgr::destroyBeforeSys();
 
@@ -214,6 +224,14 @@ u16 fsMgr::getFramebufferHeight()
     u16 height = fsLowLevelAPI::getFramebufferHeight();
 
     return (height > 0) ? height : 1;
+}
+
+
+bool fsMgr::isFramebufferSizeChanged()
+{
+    instance();
+
+    return fsLowLevelAPI::isFramebufferSizeChanged();
 }
 
 

@@ -181,6 +181,13 @@ public:
 
 
     /*!
+        Returns whether the size of the framebuffer is changed.
+        @return Whether the size of the framebuffer is changed.
+    */
+    static bool isFramebufferSizeChanged();
+
+
+    /*!
         更新引擎管理器,该方法只被引擎自己调用.
     */
     static void updateForEngine(bool render);

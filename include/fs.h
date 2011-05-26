@@ -14,6 +14,7 @@
 
 #include "fs_mem_all.h"
 #include "fs_gen_all.h"
+#include "fs_cdt_all.h"
 #include "fs_kernel_all.h"
 #include "fs_task_all.h"
 #include "fs_input_all.h"
@@ -21,6 +22,7 @@
 #include "fs_script_all.h"
 #include "fs_draw_all.h"
 #include "fs_sound_all.h"
+#include "fs_debug_all.h"
 
 
 #endif // !FS_H_

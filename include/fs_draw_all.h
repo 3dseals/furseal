@@ -27,6 +27,7 @@
 #include "draw/fs_lts.h"
 #include "draw/fs_rend.h"
 #include "draw/fs_prim.h"
+#include "draw/fs_sprt.h"
 #include "draw/fs_scr.h"
 #include "draw/fs_draw_mgr.h"
 
