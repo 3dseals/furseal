@@ -83,11 +83,16 @@ protected:
         const fsPrim* prim, bool has_pos_buf, bool has_col_buf, bool has_uv_buf, bool has_normal_buf);
 
     static const fsMat& renderGetPrimWorld(const fsPrim* prim);
+    static fsTex* renderGetPrimTextureN(const fsPrim* prim);
     static fsCol renderGetPrimFinalColor(const fsPrim* prim);
+
+    static bool renderIsTextureUVAdjustNeeded(fsTex* tex);
+    static void renderGetTextureParam(r32* u_param_a, r32* u_param_b, r32* v_param_a, r32* v_param_b, const fsTex* tex);
 
     static void renderCalcColorBuffer(fsCol* col_buf, const fsPrim* prim);
     static void renderCalcUVBuffer(r32* uv_buf, const fsPrim* prim);
 
+    static void renderSetTexture(fsTex* tex1, fsTex* tex2, fsTex* tex3, bool is_bilinear);
     static void renderSetVertexPointer(u32 stride, const r32* vert);
     static void renderSetColorPointer(u32 stride, const u8* color);
     static void renderSetTexCoordPointer(u32 stride, const r32* uv);
@@ -99,9 +104,21 @@ protected:
 
     static void renderDrawArrays(u8 prim_mode, u16 first, u16 count);
 
+    static u32 renderGetShaderUniformLocation(const fsShd* shd, u8 index);
+    static u32 renderGetShaderAttribLocation(const fsShd* shd, u8 index);
+    static u32 renderGetShaderTextureLocation(const fsShd* shd, u8 index);
+    static void renderSetShader(fsShd* shd);
     static void renderSetUniform_s32(u32 location, s32 uniform);
     static void renderSetUniform_r32(u32 location, r32 uniform);
+    static void renderSetUniform_localToScreen(const fsShd* shd);
     static void renderSetAttribPointer_r32(u32 location, u8 size, u32 stride, const r32* attrib);
+    static void renderSetAttribPointer_vertex(const fsShd* shd, u32 stride, const r32* vert);
+    static void renderSetAttribPointer_color(const fsShd* shd, u32 stride, const u8* color);
+    static void renderSetAttribPointer_texCoord(const fsShd* shd, u32 stride, const r32* uv);
+    static void renderSetAttribPointer_vertex(const fsShd* shd, const fsPrim* prim);
+    static void renderSetAttribPointer_color(const fsShd* shd, const fsPrim* prim);
+    static void renderSetAttribPointer_texCoord(const fsShd* shd, const fsPrim* prim);
+    static void renderDisableAttribPointers(const fsShd* shd);
 
     static void renderCallPrimRenderWithDestroyingBuffer(fsPrim* prim, const fsMat& view);
     //! @endcond

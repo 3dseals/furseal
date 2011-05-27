@@ -109,6 +109,37 @@ public:
         @param[in] tex_num The number of the textures.
     */
     static void loadShader(fsID shd_id, const char* vert_file, const char* frag_file, u8 uni_num, u8 att_num, u8 tex_num);
+	
+
+    /*!
+        Loads a pixel art model.
+        @param[in] res_id The resource ID of a pixel art model.
+        @param[in] ckl_file The file name of a configuration script.
+        @param[in] png_file The file name of a png image.
+        @param[in] scale The scaling factor of a pixel art model.
+    */
+    static void loadPixelArtModelAs(fsID res_id, const char* fsl_file, const char* png_file, r32 scale);
+
+    /*!
+        Imports a 3DS model.
+        @param[in] filename The file name.
+        @param[in] tex_id The texture ID.
+        @param[in] has_normal Whether a 3DS model has normals.
+        @param[in] is_smoothing_normal Whether smoothing is on.
+        @param[in] scale The scaling factor of a 3DS model.
+    */
+    static void import3DSModel(const char* filename, fsID tex_id, bool has_normal, bool is_smoothing_normal, r32 scale);
+
+    /*!
+        Imports a 3DS model as the specified resource ID.
+        @param[in] res_id The resource ID of a 3DS model.
+        @param[in] filename The file name.
+        @param[in] tex_id The texture ID.
+        @param[in] has_normal Whether a 3DS model has normals.
+        @param[in] is_smoothing_normal Whether smoothing is on.
+        @param[in] scale The scaling factor of a 3DS model.
+    */
+    static void import3DSModelAs(fsID res_id, const char* filename, fsID tex_id, bool has_normal, bool is_smoothing_normal, r32 scale);
 };
 
 

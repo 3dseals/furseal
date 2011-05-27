@@ -40,17 +40,25 @@ LOCAL_SRC_FILES := \
 	../../../sources/draw/fs_font.cpp \
 	../../../sources/draw/fs_lit.cpp \
 	../../../sources/draw/fs_lts.cpp \
+	../../../sources/draw/fs_mdl.cpp \
+	../../../sources/draw/fs_mdl_data.cpp \
+	../../../sources/draw/fs_mot.cpp \
+	../../../sources/draw/fs_mot_data.cpp \
+	../../../sources/draw/fs_node.cpp \
 	../../../sources/draw/fs_prim.cpp \
 	../../../sources/draw/fs_sprt.cpp \
 	../../../sources/draw/fs_rend.cpp \
 	../../../sources/draw/fs_scr.cpp \
 	../../../sources/draw/fs_shd.cpp \
 	../../../sources/draw/fs_tex.cpp \
+	../../../sources/draw/rend/fs_rend_light \
+	../../../sources/draw/rend/fs_rend_shader \
 	../../../sources/gen/fs_id.cpp \
 	../../../sources/gen/fs_mat.cpp \
 	../../../sources/gen/fs_math.cpp \
 	../../../sources/gen/fs_quat.cpp \
 	../../../sources/gen/fs_vec.cpp \
+	../../../sources/gen/fs_fix.cpp \
 	../../../sources/input/fs_input_mgr.cpp \
 	../../../sources/kernel/fs_mgr.cpp \
 	../../../sources/kernel/fs_core.cpp \
@@ -59,6 +67,8 @@ LOCAL_SRC_FILES := \
 	../../../sources/res/fs_res.cpp \
 	../../../sources/res/fs_res_mgr.cpp \
 	../../../sources/res/fs_util.cpp \
+	../../../sources/res/fs_util_import_3ds_model.cpp \
+	../../../sources/res/fs_util_load_pixel_art_model.cpp \
 	../../../sources/task/fs_task.cpp \
 	../../../sources/task/fs_task_mgr.cpp \
 

@@ -158,9 +158,30 @@ const fsMat& fsRend::renderGetPrimWorld(const fsPrim* prim)
 }
 
 
+fsTex* fsRend::renderGetPrimTextureN(const fsPrim* prim)
+{
+    return prim->m_tex ? (prim->m_tex->m_proxy_tex ? prim->m_tex->m_proxy_tex : prim->m_tex) : NULL;
+}
+
+
 fsCol fsRend::renderGetPrimFinalColor(const fsPrim* prim)
 {
     return prim->m_final_col;
+}
+
+
+bool fsRend::renderIsTextureUVAdjustNeeded(fsTex* tex)
+{
+    return tex->m_flag.isOn(fsTex::FLAG_UV_ADJUST);
+}
+
+
+void fsRend::renderGetTextureParam(r32* u_param_a, r32* u_param_b, r32* v_param_a, r32* v_param_b, const fsTex* tex)
+{
+    *u_param_a = tex->m_u_param_a;
+    *u_param_b = tex->m_u_param_b;
+    *v_param_a = tex->m_v_param_a;
+    *v_param_b = tex->m_v_param_b;
 }
 
 
@@ -177,11 +198,11 @@ void fsRend::renderCalcColorBuffer(fsCol* col_buf, const fsPrim* prim)
 
 void fsRend::renderCalcUVBuffer(r32* uv_buf, const fsPrim* prim)
 {
-    bool tex = false;
-    r32 u_param_a = tex;
-    r32 u_param_b = tex;
-    r32 v_param_a = tex;
-    r32 v_param_b = tex;
+	fsTex* tex = prim->m_tex->m_proxy_tex ? prim->m_tex->m_proxy_tex : prim->m_tex;
+    r32 u_param_a = tex->m_u_param_a;
+    r32 u_param_b = tex->m_u_param_b;
+    r32 v_param_a = tex->m_v_param_a;
+    r32 v_param_b = tex->m_v_param_b;
 
     for (u32 i = 0; i < prim->m_cur_data_num; i++)
     {
@@ -193,6 +214,12 @@ void fsRend::renderCalcUVBuffer(r32* uv_buf, const fsPrim* prim)
         *uv_buf = prim_data->v * v_param_a + v_param_b;
         uv_buf++;
     }
+}
+
+
+void fsRend::renderSetTexture(fsTex* tex1, fsTex* tex2, fsTex* tex3, bool is_bilinear)
+{
+    fsLowLevelAPI::setTexture(tex1 ? tex1->getTexObj() : 0, tex2 ? tex2->getTexObj() : 0, tex3 ? tex3->getTexObj() : 0, is_bilinear);
 }
 
 
@@ -216,7 +243,16 @@ void fsRend::renderSetTexCoordPointer(u32 stride, const r32* uv)
 
 void fsRend::renderSetTexture(const fsPrim* prim)
 {
+    fsTex* tex = prim->m_tex ? (prim->m_tex->m_proxy_tex ? prim->m_tex->m_proxy_tex : prim->m_tex) : NULL;
 
+    if (tex)
+    {
+        fsLowLevelAPI::setTexture(tex->getTexObj(), 0, 0, prim->m_draw_flag.isOn(fsDraw::FLAG_BILINEAR));
+    }
+    else
+    {
+        fsLowLevelAPI::setTexture(0, 0, 0, false);
+    }
 }
 
 
@@ -244,6 +280,37 @@ void fsRend::renderDrawArrays(u8 prim_mode, u16 first, u16 count)
 }
 
 
+u32 fsRend::renderGetShaderUniformLocation(const fsShd* shd, u8 index)
+{
+    return shd->m_uni_loc_tbl[index];
+}
+
+
+u32 fsRend::renderGetShaderAttribLocation(const fsShd* shd, u8 index)
+{
+    return shd->m_att_loc_tbl[index];
+}
+
+
+u32 fsRend::renderGetShaderTextureLocation(const fsShd* shd, u8 index)
+{
+    return shd->m_tex_loc_tbl[index];
+}
+
+
+void fsRend::renderSetShader(fsShd* shd)
+{
+    if (shd)
+    {
+        fsLowLevelAPI::setShader(shd->getShdObj());
+    }
+    else
+    {
+        fsLowLevelAPI::setShader(0);
+    }
+}
+
+
 void fsRend::renderSetUniform_s32(u32 location, s32 uniform)
 {
     fsLowLevelAPI::setUniform_s32(location, uniform);
@@ -256,17 +323,77 @@ void fsRend::renderSetUniform_r32(u32 location, r32 uniform)
 }
 
 
+void fsRend::renderSetUniform_localToScreen(const fsShd* shd)
+{
+    fsLowLevelAPI::setUniform_localToScreen(shd->m_local_to_screen_loc);
+}
+
+
 void fsRend::renderSetAttribPointer_r32(u32 location, u8 size, u32 stride, const r32* attrib)
 {
     fsLowLevelAPI::setAttribPointer_r32(location, size, stride, attrib);
 }
 
 
+void fsRend::renderSetAttribPointer_vertex(const fsShd* shd, u32 stride, const r32* vert)
+{
+    fsLowLevelAPI::setAttribPointer_r32(shd->m_vertex_loc, 3, stride, vert);
+}
+
+
+void fsRend::renderSetAttribPointer_color(const fsShd* shd, u32 stride, const u8* color)
+{
+    fsLowLevelAPI::setAttribPointer_color(shd->m_color_loc, stride, color);
+}
+
+
+void fsRend::renderSetAttribPointer_texCoord(const fsShd* shd, u32 stride, const r32* uv)
+{
+    fsLowLevelAPI::setAttribPointer_r32(shd->m_texcoord_loc, 2, stride, uv);
+}
+
+
+void fsRend::renderSetAttribPointer_vertex(const fsShd* shd, const fsPrim* prim)
+{
+    fsLowLevelAPI::setAttribPointer_r32(shd->m_vertex_loc, 3, sizeof(fsPrim::PrimData), reinterpret_cast<const r32*>(&prim->m_prim_data->pos));
+}
+
+
+void fsRend::renderSetAttribPointer_color(const fsShd* shd, const fsPrim* prim)
+{
+    fsLowLevelAPI::setAttribPointer_color(shd->m_color_loc, sizeof(fsPrim::PrimData), reinterpret_cast<const u8*>(&prim->m_prim_data->col));
+}
+
+
+void fsRend::renderSetAttribPointer_texCoord(const fsShd* shd, const fsPrim* prim)
+{
+    fsLowLevelAPI::setAttribPointer_r32(shd->m_texcoord_loc, 2, sizeof(fsPrim::PrimData), &prim->m_prim_data->u);
+}
+
+
+void fsRend::renderDisableAttribPointers(const fsShd* shd)
+{
+    fsLowLevelAPI::disableAttribPointer(shd->m_vertex_loc);
+    fsLowLevelAPI::disableAttribPointer(shd->m_color_loc);
+    fsLowLevelAPI::disableAttribPointer(shd->m_texcoord_loc);
+
+    for (s32 i = 0; i < shd->m_att_num; i++)
+    {
+        fsLowLevelAPI::disableAttribPointer(shd->m_att_loc_tbl[i]);
+    }
+}
+
+
 void fsRend::renderCallPrimRenderWithDestroyingBuffer(fsPrim* prim, const fsMat& view)
 {
-
+    if (fsDrawMgr::isShaderAvailable())
+    {
+        prim->render_shader(view);
+    }
+    else
+    {
         prim->render_soft(view);
-
+    }
 }
 
 

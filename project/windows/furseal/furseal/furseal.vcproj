@@ -253,6 +253,14 @@
 				Name="gen"
 				>
 				<File
+					RelativePath="..\..\..\..\include\gen\fs_buf.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\gen\fs_fix.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\..\include\gen\fs_flag.h"
 					>
 				</File>
@@ -329,6 +337,26 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\..\include\draw\fs_mdl.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_mdl_data.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_mot.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_mot_data.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\include\draw\fs_node.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\..\include\draw\fs_prim.h"
 					>
 				</File>
@@ -352,6 +380,18 @@
 					RelativePath="..\..\..\..\include\draw\fs_tex.h"
 					>
 				</File>
+				<Filter
+					Name="rend"
+					>
+					<File
+						RelativePath="..\..\..\..\include\draw\rend\fs_rend_light.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\draw\rend\fs_rend_shader.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="base"
@@ -577,6 +617,26 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\..\sources\draw\fs_mdl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_mdl_data.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_mot.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_mot_data.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\draw\fs_node.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\..\sources\draw\fs_prim.cpp"
 					>
 				</File>
@@ -600,10 +660,26 @@
 					RelativePath="..\..\..\..\sources\draw\fs_tex.cpp"
 					>
 				</File>
+				<Filter
+					Name="rend"
+					>
+					<File
+						RelativePath="..\..\..\..\sources\draw\rend\fs_rend_light.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\sources\draw\rend\fs_rend_shader.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="gen"
 				>
+				<File
+					RelativePath="..\..\..\..\sources\gen\fs_fix.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\..\sources\gen\fs_id.cpp"
 					>
@@ -670,6 +746,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\..\sources\res\fs_util.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\res\fs_util_import_3ds_model.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\sources\res\fs_util_load_pixel_art_model.cpp"
 					>
 				</File>
 			</Filter>

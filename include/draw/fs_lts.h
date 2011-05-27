@@ -37,6 +37,23 @@ public:
     */
     static const u32 MAX_NEAR_LIGHT_NUM = 3;
 
+    /*!
+        Returns the previous light set.
+        @return The previous light set.
+    */
+    fsLts* getPrevN() const;
+
+    /*!
+        Returns the next light set.
+        @return The next light set.
+    */
+    fsLts* getNextN() const;
+
+    /*!
+        Returns the ID of this light set.
+        @return The ID of this light set.
+    */
+    fsID getID() const;
 
     /*!
         Returns the ambient color.
@@ -92,12 +109,73 @@ public:
     */
     void setParaLightColor(u8 index, fsCol col);
 
+    /*!
+        Returns the number of point lights.
+        @return The number of point lights.
+    */
+    u32 getPointLightNum() const;
+
+    /*!
+        Returns the specified point light.
+        @param[in] lit_id The ID of a point light.
+        @return The specified point light.
+    */
+    fsLit* getPointLight(fsID lit_id);
+
+    /*!
+        Creates a point light.
+        @param[in] lit_id The ID of a point light.
+        @return A point light.
+    */
+    fsLit* newPointLight(fsID lit_id);
+
+    /*!
+        Deletes the specified point light.
+        @param[in] lit_id The ID of a point light.
+    */
+    void deletePointLight(fsID lit_id);
+
+    /*!
+        Returns the first point light. If the first point light doesn't exist, returns NULL.
+        @return The first point light.
+    */
+    fsLit* getFirstPointLightN() const;
+
+    /*!
+        Returns the last point light. If the last point light doesn't exist, returns NULL.
+        @return The last point light.
+    */
+    fsLit* getLastPointLightN() const;
+
+    /*!
+        Finds the nearest lights of the specified position.
+        @param[in] pos A position.
+    */
+    void findNearLight(const fsVec& pos);
+
+    /*!
+        Returns the number of the nearest lights.
+    */
+    u8 getNearLightNum() const;
+
+    /*!
+        Returns the direction of the specified nearest light.
+        @param[in] index The index of a nearest light.
+        @return The direction of the specified nearest light.
+    */
+    const fsVec& getNearLightDir(u8 index) const;
+
+    /*!
+        Returns the color of the specified nearest light.
+        @param[in] index The index of a nearest light.
+        @return The color of the specified nearest light.
+    */
+    fsCol getNearLightColor(u8 index) const;
 
     /*!
         Removes the all point lights.
     */
     void clearPointLight();
-
 
 private:
     struct ParaLight

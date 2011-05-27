@@ -7,6 +7,9 @@
  *  Copyright (c) 2011 netsurfers
  */
 
+#ifndef FS_MATH_H_
+#define FS_MATH_H_
+
 
 /*!
     @ingroup fsGen
@@ -159,3 +162,6 @@ public:
     */
     static r32 interp(r32 from, r32 to, r32 ratio);
 };
+
+
+#endif /* FS_MATH_H_ */

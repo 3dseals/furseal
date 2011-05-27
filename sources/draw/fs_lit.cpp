@@ -12,6 +12,28 @@
 #include "base/fs_private_macro.h"
 
 
+fsLit* fsLit::getPrevN() const
+{
+    fsList<fsLit>::Item* prev = m_item.getPrevN();
+
+    return prev ? prev->getSelf() : NULL;
+}
+
+
+fsLit* fsLit::getNextN() const
+{
+    fsList<fsLit>::Item* next = m_item.getNextN();
+
+    return next ? next->getSelf() : NULL;
+}
+
+
+fsID fsLit::getID() const
+{
+    return m_id;
+}
+
+
 bool fsLit::isActive() const
 {
     return m_is_active.getType();

@@ -167,6 +167,95 @@ void fsMgr::sleepUsec(u64 usec)
 }
 
 
+
+
+
+void* fsMgr::newThread(void (*start_func)(void*), void* user_param)
+{
+    if (!start_func)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    void* th = fsLowLevelAPI::newThread(start_func, user_param);
+
+    if (!th)
+    {
+        fsThrow(ExceptionCannotCreateMutex);
+    }
+
+    return th;
+}
+
+
+void fsMgr::deleteThread(void* thread_handler)
+{
+    if (!thread_handler)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::deleteThread(thread_handler);
+}
+
+
+void fsMgr::joinThread(void* thread_handler)
+{
+    if (!thread_handler)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::joinThread(thread_handler);
+}
+
+
+void* fsMgr::newMutex()
+{
+    void* mh = fsLowLevelAPI::newMutex();
+
+    if (!mh)
+    {
+        fsThrow(ExceptionCannotCreateMutex);
+    }
+
+    return mh;
+}
+
+
+void fsMgr::deleteMutex(void* mutex_handler)
+{
+    if (!mutex_handler)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::deleteMutex(mutex_handler);
+}
+
+
+void fsMgr::lockMutex(void* mutex_handler)
+{
+    if (!mutex_handler)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::lockMutex(mutex_handler);
+}
+
+
+void fsMgr::unlockMutex(void* mutex_handler)
+{
+    if (!mutex_handler)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsLowLevelAPI::unlockMutex(mutex_handler);
+}
+
+
 void fsMgr::createAfterMem(const char* title, u16 width, u16 height, u16 aim_fps, u16 sys_flag)
 {
     if (!title || width == 0 || height == 0)
@@ -232,6 +321,35 @@ bool fsMgr::isFramebufferSizeChanged()
     instance();
 
     return fsLowLevelAPI::isFramebufferSizeChanged();
+}
+
+
+void fsMgr::toggleFullScreen(u16 width, u16 height)
+{
+    instance();
+
+    if (width == 0 || height == 0)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    if (fsDrawMgr::isCreated())
+    {
+        fsDrawMgr::deleteAllVramObjForEngine();
+    }
+
+    if (!fsLowLevelAPI::toggleFullScreen(width, height))
+    {
+        fsThrow(ExceptionCreateFramebufferFailed);
+    }
+
+    fsLowLevelAPI::updateFramebufferSize();
+    fsLowLevelAPI::resetDrawState();
+
+    if (fsInputMgr::isCreated())
+    {
+        fsInputMgr::resetKeyStateForEngine();
+    }
 }
 
 

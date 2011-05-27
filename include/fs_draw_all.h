@@ -26,10 +26,17 @@
 #include "draw/fs_lit.h"
 #include "draw/fs_lts.h"
 #include "draw/fs_rend.h"
+#include "draw/fs_node.h"
 #include "draw/fs_prim.h"
 #include "draw/fs_sprt.h"
+#include "draw/fs_mdl_data.h"
+#include "draw/fs_mdl.h"
+#include "draw/fs_mot_data.h"
+#include "draw/fs_mot.h"
 #include "draw/fs_scr.h"
 #include "draw/fs_draw_mgr.h"
 
+#include "draw/rend/fs_rend_shader.h"
+#include "draw/rend/fs_rend_light.h"
 
 #endif /* FS_DRAW_ALL_H_ */

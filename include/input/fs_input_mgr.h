@@ -119,6 +119,20 @@ public:
 
 
     /*!
+        Returns the key event handler. If the key event handler doen't exist, returns NULL.
+        @return The key event handler.
+    */
+    static KeyEventHandler getKeyEventHandlerN();
+
+
+    /*!
+        Sets the key event handler.
+        @param[in] handler A key event handler.
+    */
+    static void setKeyEventHandler(KeyEventHandler handler);
+
+
+    /*!
         默认按键事件类型.
         @param[in] key 键值.
         @param[in] key_state 按键状态.
@@ -130,8 +144,13 @@ public:
         返回按键事件类型,如果不存在则返回NULL.
         @return 按键事件类型.
     */
-    static KeyEventHandler getKeyEventHandlerN();
+    static MouseEventHandler getMouseEventHandlerN();
 
+    /*!
+        Sets the mouse event handler.
+        @param[in] handler A mouse event handler.
+    */
+    static void setMouseEventHandler(MouseEventHandler handler);
 
     /*!
         默认鼠标事件类型.
@@ -145,7 +164,14 @@ public:
         返回鼠标事件类型,如果不存在则返回NULL.
         @return 鼠标事件类型.
     */
-    static MouseEventHandler getMouseEventHandlerN();
+    static ExtraEventHandler getExtraEventHandlerN();
+
+
+    /*!
+        Sets the extra event handler.
+        @param[in] handler An extra event handler.
+    */
+    static void setExtraEventHandler(ExtraEventHandler handler);
 
 
     /*!
@@ -154,13 +180,6 @@ public:
         @param[in] value 额外的值.
     */
     static void defaultExtraEventHandler(u8 val_index, r32 value);
-
-
-    /*!
-        返回额外事件类型,如果不存在则返回NULL.
-        @return 额外事件类型.
-    */
-    static ExtraEventHandler getExtraEventHandlerN();
 
 
     /*!
@@ -237,12 +256,31 @@ public:
     */
     static void setMouseVisible(bool is_visible);
 
-
+    /*!
+        Returns the extra value as 32-bit integer number.
+        @param[in] val_index The index of the extra value.
+        @return The extra value.
+    */
+    static s32 getExtraValue_s32(u8 val_index);
+	
+	
+    /*!
+        Returns the extra value as 32-bit floating point number.
+        @param[in] val_index The index of the extra value.
+        @return The extra value.
+    */
+    static r32 getExtraValue_r32(u8 val_index);
+	
+	
     /*!
         更新输入状态,该方法只被引擎自己调用.
     */
     static void updateKeyStateForEngine();
 
+    /*!
+        Resets the states of the kyes. This method is only for system.
+    */
+    static void resetKeyStateForEngine();
 
     /*!
         更新额外事件值,该方法只被引擎自己调用.

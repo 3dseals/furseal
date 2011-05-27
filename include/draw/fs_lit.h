@@ -27,6 +27,23 @@ public:
     fsDefineException(ExceptionInvalidArgument);
     //! @endcond
 
+    /*!
+        Returns the previous point light. If the previous point light doesn't exist, returns NULL.
+        @return The previous point light.
+    */
+    fsLit* getPrevN() const;
+
+    /*!
+        Returns the next point light. If the next point light doesn't exist, returns NULL.
+        @return The next point light.
+    */
+    fsLit* getNextN() const;
+
+    /*!
+        Returns the ID of this point light.
+        @return The ID of this point light.
+    */
+    fsID getID() const;
 
     /*!
         Returns whether this point light is active.

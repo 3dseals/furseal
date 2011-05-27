@@ -20,6 +20,8 @@ class FS_API fsMgr
 {
 public:
     //! @cond
+    fsDefineException(ExceptionCannotCreateMutex);
+    fsDefineException(ExceptionCannotCreateThread);
     fsDefineException(ExceptionCannotOpenFile);
     fsDefineException(ExceptionCannotReadFile);
     fsDefineException(ExceptionCannotWriteFile);
@@ -145,6 +147,57 @@ public:
 
 
     /*!
+        Creates a thread.
+        @param[in] start_func A starting function.
+        @param[in] user_param An user param.
+        @return A thread handler.
+    */
+    static void* newThread(void (*start_func)(void*), void* user_param);
+	
+
+    /*!
+        Destroys the specified thread.
+        @param[in] thread_handler A thread handler.
+    */
+    static void deleteThread(void* thread_handler);
+
+
+    /*!
+        Waits for the end of the specified thread.
+        @param[in] thread_handler A thread handler.
+    */
+    static void joinThread(void* thread_handler);
+
+
+    /*!
+        Creates a mutex.
+        @return A mutex handler.
+    */
+    static void* newMutex();
+
+
+    /*!
+        Destroys the specified mutex.
+        @param[in] mutex_handler A mutex handler.
+    */
+    static void deleteMutex(void* mutex_handler);
+
+
+    /*!
+        Locks the specified mutex.
+        @param[in] mutex_handler A mutex handler.
+    */
+    static void lockMutex(void* mutex_handler);
+
+
+    /*!
+        Unlocks the specified mutex.
+        @param[in] mutex_handler A mutex handler.
+    */
+    static void unlockMutex(void* mutex_handler);
+	
+
+    /*!
         判断引擎管理器是否创建.
         @return 引擎管理器是否创建.
     */
@@ -185,6 +238,21 @@ public:
         @return Whether the size of the framebuffer is changed.
     */
     static bool isFramebufferSizeChanged();
+
+
+    /*!
+        Returns whether the framebuffer is full screen.
+        @return Whether the framebuffer is full screen.
+    */
+    static bool isFullScreen();
+
+
+    /*!
+        Toggles the full screen.
+        @param[in] width The width of the framebuffer.
+        @param[in] height The height of the framebuffer.
+    */
+    static void toggleFullScreen(u16 width, u16 height);
 
 
     /*!

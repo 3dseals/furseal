@@ -25,6 +25,18 @@ FS_DEFINE_MANAGER_CREATE(fsInputMgr, AfterTask, BeforeSys)
 FS_DEFINE_MANAGER_DESTROY(fsInputMgr, BeforeSys)
 
 
+fsInputMgr::KeyEventHandler fsInputMgr::getKeyEventHandlerN()
+{
+    return instance()->m_key_event_handler;
+}
+
+
+void fsInputMgr::setKeyEventHandler(KeyEventHandler handler)
+{
+    instance()->m_key_event_handler = handler;
+}
+
+
 void fsInputMgr::defaultKeyEventHandler(KeyType key, KeyState key_state)
 {
     fsInputMgr* ins = instance();
@@ -52,9 +64,16 @@ void fsInputMgr::defaultKeyEventHandler(KeyType key, KeyState key_state)
 }
 
 
-fsInputMgr::KeyEventHandler fsInputMgr::getKeyEventHandlerN()
+
+fsInputMgr::MouseEventHandler fsInputMgr::getMouseEventHandlerN()
 {
-    return instance()->m_key_event_handler;
+    return instance()->m_mouse_event_handler;
+}
+
+
+void fsInputMgr::setMouseEventHandler(MouseEventHandler handler)
+{
+    instance()->m_mouse_event_handler = handler;
 }
 
 
@@ -67,9 +86,15 @@ void fsInputMgr::defaultMouseEventHandler(s16 mouse_x, s16 mouse_y)
 }
 
 
-fsInputMgr::MouseEventHandler fsInputMgr::getMouseEventHandlerN()
+fsInputMgr::ExtraEventHandler fsInputMgr::getExtraEventHandlerN()
 {
-    return instance()->m_mouse_event_handler;
+    return instance()->m_extra_event_handler;
+}
+
+
+void fsInputMgr::setExtraEventHandler(ExtraEventHandler handler)
+{
+    instance()->m_extra_event_handler = handler;
 }
 
 
@@ -81,12 +106,6 @@ void fsInputMgr::defaultExtraEventHandler(u8 val_index, r32 value)
     {
         ins->m_real_ext_val[val_index] = value;
     }
-}
-
-
-fsInputMgr::ExtraEventHandler fsInputMgr::getExtraEventHandlerN()
-{
-    return instance()->m_extra_event_handler;
 }
 
 
@@ -163,6 +182,25 @@ void fsInputMgr::setMouseVisible(bool is_visible)
 }
 
 
+s32 fsInputMgr::getExtraValue_s32(u8 val_index)
+{
+    return static_cast<s32>(getExtraValue_r32(val_index));
+}
+
+
+r32 fsInputMgr::getExtraValue_r32(u8 val_index)
+{
+    fsInputMgr* ins = instance();
+
+    if (val_index >= EXTRA_VALUE_NUM)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    return ins->m_cur_ext_val[val_index];
+}
+
+
 void fsInputMgr::updateKeyStateForEngine()
 {
     fsInputMgr* ins = instance();
@@ -222,6 +260,16 @@ void fsInputMgr::updateKeyStateForEngine()
 
     ins->m_cur_mouse_wheel = ins->m_real_mouse_wheel;
     ins->m_real_mouse_wheel = 0;
+}
+
+
+void fsInputMgr::resetKeyStateForEngine()
+{
+    fsInputMgr* ins = instance();
+
+    fsMemHelper::memset(ins->m_key_flag, 0, sizeof(ins->m_key_flag));
+
+    ins->m_real_mouse_wheel = ins->m_cur_mouse_wheel = 0;
 }
 
 
