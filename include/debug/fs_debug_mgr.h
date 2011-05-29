@@ -220,7 +220,7 @@ private:
 
     void newDebugFontTexture();
     void reallocDrawPrim();
-    void chefsSpecialCommand();
+    void checkSpecialCommand();
 
     void drawConsole();
     static void drawRect(r32 left, r32 top, r32 width, r32 height, r32 z, fsCol col);

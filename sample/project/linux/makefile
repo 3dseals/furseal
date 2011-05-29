@@ -15,15 +15,15 @@ BASE_DIR = ../../..
 
 all: clean
 	for i in $(BASE_DIR)/sample/sample*; do [ -d $$i ] && cp makefile.sub $$i/makefile; done
-	mv $(BASE_DIR)/sample/sample01_hello/fs_logo.cpp $(BASE_DIR)/sample
-	for i in $(BASE_DIR)/sample/sample*; do [ -d $$i ] && cp $(BASE_DIR)/sample/fs_logo.cpp $$i/.; done
-	rm $(BASE_DIR)/sample/fs_logo.cpp
+	mv $(BASE_DIR)/sample/sample01_debug/furseal_logo.cpp $(BASE_DIR)/sample
+	for i in $(BASE_DIR)/sample/sample*; do [ -d $$i ] && cp $(BASE_DIR)/sample/furseal_logo.cpp $$i/.; done
+	rm $(BASE_DIR)/sample/furseal_logo.cpp
 	for i in $(BASE_DIR)/sample/sample*; do [ -d $$i ] && make -C $$i; done
 
 clean:
 	rm -f $(BASE_DIR)/sample/bin/*
 	rm -f $(BASE_DIR)/sample/sample*/*.o
 	rm -f $(BASE_DIR)/sample/sample*/makefile
-	mv $(BASE_DIR)/sample/sample01_hello/fs_logo.cpp $(BASE_DIR)/sample
-	rm -f $(BASE_DIR)/sample/sample*/fs_logo.cpp
-	mv $(BASE_DIR)/sample/fs_logo.cpp $(BASE_DIR)/sample/sample01_hello
+	mv $(BASE_DIR)/sample/sample01_debug/furseal_logo.cpp $(BASE_DIR)/sample
+	rm -f $(BASE_DIR)/sample/sample*/furseal_logo.cpp
+	mv $(BASE_DIR)/sample/furseal_logo.cpp $(BASE_DIR)/sample/sample01_debug

@@ -311,10 +311,10 @@ void fsPrim::render(const fsMat& view)
     {
         m_rend->render(view);
     }
-//    else if (fsDrawMgr::isShaderAvailable())
-//    {
-//        render_shader(view);
-//    }
+    else if (fsDrawMgr::isShaderAvailable())
+    {
+        render_shader(view);
+    }
     else
     {
         render_soft(view);
@@ -363,7 +363,7 @@ void fsPrim::init2(PrimMode prim_mode, bool is_share_data, PrimData* prim_data, 
     }
 
     setCurDataNum(max_data_num);
-    //setTextureID(fsID::ZERO);
+    setTextureID(fsID::ZERO);
 
     if (parent)
     {
@@ -391,9 +391,9 @@ void fsPrim::render_soft(const fsMat& view)
     /*
         alloc buffer
     */
-    bool tex = false;
+    fsTex* tex = m_tex ? (m_tex->m_proxy_tex ? m_tex->m_proxy_tex : m_tex) : NULL;
     u32 col_size = (m_final_col != fsCol::FULL) ? sizeof(fsCol) * m_cur_data_num : 0;
-    u32 uv_size = 0;
+    u32 uv_size = (tex && tex->m_flag.isOn(fsTex::FLAG_UV_ADJUST)) ? sizeof(r32) * 2 * m_cur_data_num : 0;
     u32 buf_size = col_size + uv_size;
 
     u8* buf = (buf_size > 0) ? reinterpret_cast<u8*>(fsMemHelper::allocTempBufferForEngine(buf_size)) : 0;
@@ -425,10 +425,22 @@ void fsPrim::render_soft(const fsMat& view)
     */
     if (tex)
     {
-        //fsLowLevelAPI::setTexture(tex->getTexObj(), 0, 0, m_draw_flag.isOn(FLAG_BILINEAR));
+        fsLowLevelAPI::setTexture(tex->getTexObj(), 0, 0, m_draw_flag.isOn(FLAG_BILINEAR));
 
         if (uv_size > 0)
         {
+            r32* uv_ptr = uv_buf;
+
+            for (u32 i = 0; i < m_cur_data_num; i++)
+            {
+                PrimData* prim_data = &m_prim_data[i];
+
+                *uv_ptr = prim_data->u * tex->m_u_param_a + tex->m_u_param_b;
+                uv_ptr++;
+
+                *uv_ptr = prim_data->v * tex->m_v_param_a + tex->m_v_param_b;
+                uv_ptr++;
+            }
             fsLowLevelAPI::setTexCoordPointer(sizeof(r32) * 2, reinterpret_cast<const r32*>(uv_buf));
         }
         else
@@ -452,5 +464,84 @@ void fsPrim::render_soft(const fsMat& view)
 
 void fsPrim::render_shader(const fsMat& view)
 {
+    if (m_cur_data_num == 0)
+    {
+        return;
+    }
 
+    /*
+        setup shader
+    */
+    static const fsID s_shader_id[] =
+    {
+        fsDrawMgr::DEFAULT_RGB_TEXTURE_SHADER_ID, fsDrawMgr::DEFAULT_RGBA_TEXTURE_SHADER_ID, fsDrawMgr::DEFAULT_ALPHA_TEXTURE_SHADER_ID, //
+        fsDrawMgr::DEFAULT_RGB_TEXTURE_SHADER_ID, fsDrawMgr::DEFAULT_RGBA_TEXTURE_SHADER_ID, fsDrawMgr::DEFAULT_ALPHA_TEXTURE_SHADER_ID
+    };
+
+    fsTex* tex = m_tex ? (m_tex->m_proxy_tex ? m_tex->m_proxy_tex : m_tex) : NULL;
+    fsShd* shd = fsDrawMgr::getShader(tex ? s_shader_id[tex->m_format.getType()] : fsDrawMgr::DEFAULT_NO_TEXTURE_SHADER_ID);
+
+    if (shd->isValid())
+    {
+        fsLowLevelAPI::setShader(shd->getShdObj());
+    }
+    else
+    {
+        render_soft(view);
+        return;
+    }
+
+    /*
+        setup color
+    */
+    fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[0], m_final_col.r);
+    fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[1], m_final_col.g);
+    fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[2], m_final_col.b);
+    fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[3], m_final_col.a);
+
+    fsLowLevelAPI::setColorPointer(0, NULL);
+    fsLowLevelAPI::setAttribPointer_color(shd->m_color_loc, sizeof(PrimData), reinterpret_cast<const u8*>(&m_prim_data->col));
+
+    /*
+        setup texture
+    */
+    fsLowLevelAPI::setTexCoordPointer(0, NULL);
+
+    if (tex)
+    {
+        fsLowLevelAPI::setTexture(tex->getTexObj(), 0, 0, m_draw_flag.isOn(FLAG_BILINEAR));
+
+        fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[4], tex->m_u_param_a);
+        fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[5], tex->m_u_param_b);
+        fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[6], tex->m_v_param_a);
+        fsLowLevelAPI::setUniform_r32(shd->m_uni_loc_tbl[7], tex->m_v_param_b);
+
+        fsLowLevelAPI::setAttribPointer_r32(shd->m_texcoord_loc, 2, sizeof(PrimData), &m_prim_data->u);
+    }
+    else
+    {
+        fsLowLevelAPI::setTexture(0, 0, 0, false);
+    }
+
+    /*
+        draw primitives
+    */
+    fsLowLevelAPI::setUniform_localToScreen(shd->m_local_to_screen_loc);
+
+    fsLowLevelAPI::setVertexPointer(0, NULL);
+    fsLowLevelAPI::setAttribPointer_r32(shd->m_vertex_loc, 3, sizeof(PrimData), reinterpret_cast<const r32*>(&m_prim_data->pos));
+
+    fsLowLevelAPI::drawArrays(static_cast<fsLowLevelAPI::DrawMode>(m_prim_mode.getType()), 0, m_cur_data_num);
+
+    /*
+        disable attributes
+    */
+    fsLowLevelAPI::disableAttribPointer(shd->m_vertex_loc);
+    fsLowLevelAPI::disableAttribPointer(shd->m_color_loc);
+    fsLowLevelAPI::disableAttribPointer(shd->m_texcoord_loc);
+
+    for (s32 i = 0; i < shd->m_att_num; i++)
+    {
+        fsLowLevelAPI::disableAttribPointer(shd->m_att_loc_tbl[i]);
+    }
 }

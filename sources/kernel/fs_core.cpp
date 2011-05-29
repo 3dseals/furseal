@@ -83,6 +83,7 @@ void fsStartFurseal()
     fsTry
     {
         //开始引擎的循环
+        s_one_frame_time = 1000000 / fsTaskMgr::getAimFPS();
         fsLowLevelAPI::startApplication(loop);
     }
     fsCatch(fsMgr::ExceptionEndFurseal) {}

@@ -1,0 +1,15 @@
+#
+# settings.fsl
+#
+#  Created on: 2011-5-29
+#      Author: Lional King
+#
+#  Copyright (c) 2011 netsurfers
+#
+
+
+title = "Sample10 - Config"
+framebuffer_size = (640, 480)
+frame_rate = 60
+
+resources = ("../data/fs_logo_71x14.png", "../data/coral_64x128.png")

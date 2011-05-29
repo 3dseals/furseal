@@ -189,7 +189,7 @@ public:
         ins->m_cur_draw_prim_num = 0;
         ins->m_font_sprt.setCurDataNum(0);
 
-        ins->chefsSpecialCommand();
+        ins->checkSpecialCommand();
 
         if (ins->m_dbg_mode != fsDebugMgr::MODE_OFF)
         {
@@ -296,7 +296,7 @@ void fsDebugMgr::reallocDrawPrim()
 }
 
 
-void fsDebugMgr::chefsSpecialCommand()
+void fsDebugMgr::checkSpecialCommand()
 {
     u8 cmd_no = 0;
 

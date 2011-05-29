@@ -1,0 +1,11 @@
+#
+# fs_icon_model.fsl
+#
+#  Created on: 2011-5-29
+#      Author: Lional King
+#
+#  Copyright (c) 2011 netsurfers
+#
+
+
+transparent_color = (0, 255, 0)

@@ -1,0 +1,35 @@
+#
+# zombie_model.fsl
+#
+#  Created on: 2011-5-29
+#      Author: Lional King
+#
+#  Copyright (c) 2011 netsurfers
+#
+
+
+transparent_color = (255, 0, 255)
+
+# node 0: head
+node_parent = 1
+node_center = (0.0, 3.0, 0.0)
+
+# node 1: body
+node_parent = 1
+node_center = (0.0, 0.0, 0.0)
+
+# node 2: left arm
+node_parent = 1
+node_center = (-4.0, 1.0, 0.0)
+
+# node 3: right arm
+node_parent = 1
+node_center = (4.0, 1.0, 0.0)
+
+# node 4: left leg
+node_parent = 1
+node_center = (-2.5, -5.0, 1.0)
+
+# node 5: right leg
+node_parent = 1
+node_center = (2.5, -5.0, 1.0)
