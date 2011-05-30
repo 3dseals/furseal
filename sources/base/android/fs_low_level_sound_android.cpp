@@ -130,7 +130,7 @@ void fsLowLevelAPI::closeSoundDevice()
     {
         if (s_snd_mix_buf[i])
         {
-            ckFree(s_snd_mix_buf[i]);
+            fsFree(s_snd_mix_buf[i]);
             s_snd_mix_buf[i] = NULL;
         }
     }
