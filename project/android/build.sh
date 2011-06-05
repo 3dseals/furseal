@@ -9,5 +9,3 @@ cd `dirname $0`
 
 ndk-build
 
-cp bin/ndk/local/armeabi ../../library/
-

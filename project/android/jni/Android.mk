@@ -10,14 +10,56 @@
 
 LOCAL_PATH := $(call my-dir)
 
-#   Please change for your platform.
-_platform := android-4
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := furseal
+LOCAL_ARM_MODE := arm
 
 LOCAL_SRC_FILES := \
+	tremolo/bitwise.c      \
+	tremolo/bitwiseARM.s   \
+	tremolo/codebook.c     \
+	tremolo/dpen.s         \
+	tremolo/dsp.c          \
+	tremolo/floor0.c       \
+	tremolo/floor1.c       \
+	tremolo/floor1ARM.s    \
+	tremolo/floor1LARM.s   \
+	tremolo/floor_lookup.c \
+	tremolo/framing.c      \
+	tremolo/info.c         \
+	tremolo/mapping0.c     \
+	tremolo/mdct.c         \
+	tremolo/mdctARM.s      \
+	tremolo/mdctLARM.s     \
+	tremolo/misc.c         \
+	tremolo/res012.c       \
+	tremolo/speed.s        \
+	tremolo/vorbisfile.c   \
+	tremolo/speed.s        \
+	OpenAL32/alAuxEffectSlot.c \
+	OpenAL32/alBuffer.c        \
+	OpenAL32/alDatabuffer.c    \
+	OpenAL32/alEffect.c        \
+	OpenAL32/alError.c         \
+	OpenAL32/alExtension.c     \
+	OpenAL32/alFilter.c        \
+	OpenAL32/alListener.c      \
+	OpenAL32/alSource.c        \
+	OpenAL32/alState.c         \
+	OpenAL32/alThunk.c         \
+	Alc/ALc.c                  \
+	Alc/alcConfig.c            \
+	Alc/alcEcho.c              \
+	Alc/alcModulator.c         \
+	Alc/alcReverb.c            \
+	Alc/alcRing.c              \
+	Alc/alcThread.c            \
+	Alc/ALu.c                  \
+	Alc/android.c              \
+	Alc/bs2b.c                 \
+	Alc/null.c                 \
 	../../../sources/base/android/fs_low_level_sound_android.cpp \
 	../../../sources/base/android/fs_low_level_android.cpp \
 	../../../sources/base/fs_low_level_draw_opengl.cpp \
@@ -81,28 +123,41 @@ LOCAL_SRC_FILES := \
 	../../../sources/task/fs_task_mgr.cpp \
 
 LOCAL_C_INCLUDES := \
+	$(LOCAL_PATH) \
+	$(LOCAL_PATH)/include \
+	$(LOCAL_PATH)/OpenAL32/Include \
 	$(LOCAL_PATH)/../../../include \
 	$(LOCAL_PATH)/../../../project/include/zlib \
 	$(LOCAL_PATH)/../../../project/include/libpng \
 	$(LOCAL_PATH)/../../../project/include/freetype \
 
+LOCAL_CFLAGS   := -D_ARM_ASSEM_ -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES
 LOCAL_CXXFLAGS := -DNDEBUG -DFS_ANDROID
-
-LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -llog
+LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -llog -Wl,-s
 
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := hello_furseal
-LOCAL_SRC_FILES := main.cpp hello_furseal.cpp
+LOCAL_ARM_MODE  := arm
+LOCAL_SRC_FILES := \
+	main.cpp \
+	sound_mixer.cpp \
+	sound_monitor.cpp \
+
 LOCAL_C_INCLUDES := \
+	$(LOCAL_PATH) \
+	$(LOCAL_PATH)/include \
+	$(LOCAL_PATH)/tremolo \
+	$(LOCAL_PATH)/OpenAL32/Include \
 	$(LOCAL_PATH)/../../../include \
 	$(LOCAL_PATH)/../../../project/include/zlib \
 	$(LOCAL_PATH)/../../../project/include/libpng \
 	$(LOCAL_PATH)/../../../project/include/freetype \
-LOCAL_CXXFLAGS := -DNDEBUG -DCK_ANDROID
+LOCAL_CFLAGS   := -D_ARM_ASSEM_ -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES
+LOCAL_CXXFLAGS := -DNDEBUG -DFS_ANDROID
 LOCAL_STATIC_LIBRARIES := furseal
-LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -llog
+LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -llog -Wl,-s
 
 include $(BUILD_SHARED_LIBRARY)

@@ -88,7 +88,7 @@ using namespace fsBasicType;
     @ingroup fsDef
     furseal引擎版本.
 */
-const u32 FURSEAL_VERSION = 16; // 0.1.6
+const u32 FURSEAL_VERSION = 17; // 0.1.7
 
 
 /*!

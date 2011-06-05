@@ -25,7 +25,7 @@
 	Collision detection (sphere, box, triangle and ray)
 	Configuration file parser
 	3D model drawing (3DS)
-	*Sound playing
+	Sound playing
 	*Physical system
 	*2D effects drawing
 	*Motion playing (Skeletal animation)
@@ -78,7 +78,7 @@
 	碰撞检测 (球, 长方体, 三角 和雷射)
 	配置脚本
 	3D模型显示 (3DS)
-	*声音播放
+	声音播放
 	*物理系统
 	*2D特效显示
 	*动画播放 (骨骼动画)
