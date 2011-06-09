@@ -39,6 +39,37 @@ static bool s_is_mouse_visible;
 static bool (*s_update_func)();
 
 
+static void callKeyEventHandler(u16 vk, bool is_down)
+{
+	static const fsInputMgr::KeyType s_key_table[] =
+	{
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_HOME, fsInputMgr::KEY_ESCAPE, // 0-4
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_0, fsInputMgr::KEY_1, fsInputMgr::KEY_2, // 5-9
+		fsInputMgr::KEY_3, fsInputMgr::KEY_4, fsInputMgr::KEY_5, fsInputMgr::KEY_6, fsInputMgr::KEY_7, // 10-14
+		fsInputMgr::KEY_8, fsInputMgr::KEY_9, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_UP, // 15-19
+		fsInputMgr::KEY_DOWN, fsInputMgr::KEY_LEFT, fsInputMgr::KEY_RIGHT, fsInputMgr::KEY_ENTER, fsInputMgr::KEY_NONE, // 20-24
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_A, // 25-29
+		fsInputMgr::KEY_B, fsInputMgr::KEY_C, fsInputMgr::KEY_D, fsInputMgr::KEY_E, fsInputMgr::KEY_F, // 30-34
+		fsInputMgr::KEY_G, fsInputMgr::KEY_H, fsInputMgr::KEY_I, fsInputMgr::KEY_J, fsInputMgr::KEY_K, // 35-39
+		fsInputMgr::KEY_L, fsInputMgr::KEY_M, fsInputMgr::KEY_N, fsInputMgr::KEY_O, fsInputMgr::KEY_P, // 40-44
+		fsInputMgr::KEY_Q, fsInputMgr::KEY_R, fsInputMgr::KEY_S, fsInputMgr::KEY_T, fsInputMgr::KEY_U, // 45-49
+		fsInputMgr::KEY_V, fsInputMgr::KEY_W, fsInputMgr::KEY_X, fsInputMgr::KEY_Y, fsInputMgr::KEY_Z, // 50-54
+		fsInputMgr::KEY_SEPARATOR, fsInputMgr::KEY_DECIMAL, fsInputMgr::KEY_ALT, fsInputMgr::KEY_ALT, fsInputMgr::KEY_SHIFT, // 55-59
+		fsInputMgr::KEY_SHIFT, fsInputMgr::KEY_TAB, fsInputMgr::KEY_SPACE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, // 60-64
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_ENTER, fsInputMgr::KEY_DELETE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_SUBTRACT, // 65-69
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, // 70-74
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_DIVIDE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, // 75-79
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_ADD, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, // 80-84
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, fsInputMgr::KEY_NONE, // 85-89
+		fsInputMgr::KEY_NONE, fsInputMgr::KEY_MULTIPLY, fsInputMgr::KEY_PAGEUP, fsInputMgr::KEY_PAGEDOWN, fsInputMgr::KEY_NONE, // 90-94
+	};
+
+	static const u32 s_key_table_size = sizeof(s_key_table) / sizeof(fsInputMgr::KeyType);
+
+	(*s_key_event_handler)((vk < s_key_table_size) ? s_key_table[vk] : fsInputMgr::KEY_NONE, is_down);
+}
+
+
 static void destroyFramebuffer() {}
 
 
@@ -414,6 +445,16 @@ extern "C"
         default:
             break;
         }
+    }
+
+    JNIEXPORT void JNICALL Java_com_furseal_FursealView_nativeOnKeyDown(JNIEnv*, jobject, jint key_code)
+    {
+        callKeyEventHandler(static_cast<s16>(key_code), true);
+    }
+
+    JNIEXPORT void JNICALL Java_com_furseal_FursealView_nativeOnKeyUp(JNIEnv*, jobject, jint key_code)
+    {
+        callKeyEventHandler(static_cast<s16>(key_code), false);
     }
 }
 

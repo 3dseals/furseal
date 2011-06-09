@@ -141,23 +141,15 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := hello_furseal
 LOCAL_ARM_MODE  := arm
+
 LOCAL_SRC_FILES := \
 	main.cpp \
-	sound_mixer.cpp \
-	sound_monitor.cpp \
 
 LOCAL_C_INCLUDES := \
-	$(LOCAL_PATH) \
-	$(LOCAL_PATH)/include \
-	$(LOCAL_PATH)/tremolo \
-	$(LOCAL_PATH)/OpenAL32/Include \
 	$(LOCAL_PATH)/../../../include \
-	$(LOCAL_PATH)/../../../project/include/zlib \
-	$(LOCAL_PATH)/../../../project/include/libpng \
-	$(LOCAL_PATH)/../../../project/include/freetype \
-LOCAL_CFLAGS   := -D_ARM_ASSEM_ -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES
+
 LOCAL_CXXFLAGS := -DNDEBUG -DFS_ANDROID
 LOCAL_STATIC_LIBRARIES := furseal
-LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -llog -Wl,-s
+LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -lgcc -llog -Wl,-s
 
 include $(BUILD_SHARED_LIBRARY)

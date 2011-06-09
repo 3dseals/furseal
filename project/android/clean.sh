@@ -7,4 +7,4 @@
 cd `dirname $0`
 
 rm -f ../../library/libfurseal.a
-rm -rf libs bin
+rm -rf libs bin obj

@@ -6,6 +6,4 @@
 
 cd `dirname $0`
 
-rm -f ../../../sample/bin/*
-rm -f ../../../sample/sample*/*.o
-rm -f ../../../sample/sample*/makefile
+make clean

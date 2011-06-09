@@ -19,35 +19,50 @@ import java.io.OutputStream;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 
 public class HelloFursealActivity extends Activity
 {
-    private FursealView m_catcake = new FursealView("hello_furseal");
+    private FursealView m_furseal = new FursealView("hello_furseal");
 
-    @Override public void onCreate(Bundle savedInstanceState)
-    {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         copyAssets();
-        m_catcake.onCreate(this);
+        m_furseal.onCreate(this);
     }
 
-    @Override public void onPause()
-    {
+    @Override
+    public void onPause() {
         super.onPause();
-        m_catcake.onPause();
+        m_furseal.onPause();
     }
 
-    @Override public void onResume()
-    {
+    @Override
+    public void onResume() {
         super.onResume();
-        m_catcake.onResume();
+        m_furseal.onResume();
     }
 
-    @Override public void onDestroy()
-    {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
-        m_catcake.onDestroy();
+        m_furseal.onDestroy();
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	// TODO Auto-generated method stub
+    	m_furseal.onKeyDown(keyCode, event);
+    	return super.onKeyDown(keyCode, event);
+    }
+    
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    	// TODO Auto-generated method stub
+    	m_furseal.onKeyUp(keyCode, event);
+    	return super.onKeyUp(keyCode, event);
     }
     
     private void copyAssets() {
