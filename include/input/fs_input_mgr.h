@@ -92,6 +92,15 @@ public:
 
 
     /*!
+        重力感应事件类型.
+        @param[in] gravity_x  x方向.
+        @param[in] gravaty_y  y方向.
+        @param[in] gravity_z  z方向.
+    */
+    typedef void (*GravitySensorHandler)(r32 gravity_x, r32 gravity_y,r32 gravity_z);
+
+
+    /*!
         额外的事件类型.
         @param[in] val_index 值的索引.
         @param[in] value 额外的值.
@@ -146,11 +155,25 @@ public:
     */
     static MouseEventHandler getMouseEventHandlerN();
 
+
+    /*
+         返回重力感应事件类型,如果不存在则返回NULL.
+	 @return 重力感应事件类型. 
+    */
+    static GravitySensorHandler getGravitySensorHandlerN();
+
+
     /*!
         Sets the mouse event handler.
         @param[in] handler A mouse event handler.
     */
     static void setMouseEventHandler(MouseEventHandler handler);
+
+    /*
+       设置重力感应事件 handler
+       @param[in] 重力感应事件的handler
+    */
+    static void setGravitySensorHandler(GravitySensorHandler handler);
 
     /*!
         默认鼠标事件类型.
@@ -159,6 +182,13 @@ public:
     */
     static void defaultMouseEventHandler(s16 mouse_x, s16 mouse_y);
 
+    /*
+       默认重力感应事件类型.
+        @param[in] gravity_x  x方向.
+        @param[in] gravity_y  y方向.
+	@param[in] gravity_z  z方向.
+    */
+    static void defaultGravitySensorHandler(r32 gravity_x, r32 gravity_y,r32 gravity_z);
 
     /*!
         返回鼠标事件类型,如果不存在则返回NULL.
@@ -256,6 +286,25 @@ public:
     */
     static void setMouseVisible(bool is_visible);
 
+    /*! 
+        Returns the x of the gravity accelerometer.
+	@return The x of the gravity accelerometer.
+    */
+    static r32 getGravityAccelX();
+
+    /*! 
+      Returns the y of the gravity accelerometer.
+      @return The y of the gravity accelerometer.
+    */
+    static r32 getGravityAccelY();
+
+    /*! 
+      Returns the z of the gravity accelerometer.
+      @return The z of the gravity accelerometer.
+    */
+    static r32 getGravityAccelZ();
+
+
     /*!
         Returns the extra value as 32-bit integer number.
         @param[in] val_index The index of the extra value.
@@ -307,6 +356,7 @@ private:
 
     KeyEventHandler m_key_event_handler;
     MouseEventHandler m_mouse_event_handler;
+    GravitySensorHandler m_gravity_sensor_handler;
     ExtraEventHandler m_extra_event_handler;
     u8 m_key_flag[KEY_TYPE_NUM];
     r32 m_cur_ext_val[EXTRA_VALUE_NUM];
@@ -315,6 +365,9 @@ private:
     s16 m_mouse_y;
     s16 m_real_mouse_wheel;
     s16 m_cur_mouse_wheel;
+    r32 m_gravity_accel_x;
+    r32 m_gravity_accel_y;
+    r32 m_gravity_accel_z;
     fsInputDaemon* m_key_daemon;
 
     static fsInputMgr* m_instance;

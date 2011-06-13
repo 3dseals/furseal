@@ -71,9 +71,21 @@ fsInputMgr::MouseEventHandler fsInputMgr::getMouseEventHandlerN()
 }
 
 
+fsInputMgr::GravitySensorHandler fsInputMgr::getGravitySensorHandlerN()
+{
+    return instance()->m_gravity_sensor_handler;
+}
+
+
 void fsInputMgr::setMouseEventHandler(MouseEventHandler handler)
 {
     instance()->m_mouse_event_handler = handler;
+}
+
+
+void fsInputMgr::setGravitySensorHandler(GravitySensorHandler handler)
+{
+    instance()->m_gravity_sensor_handler = handler;	
 }
 
 
@@ -83,6 +95,16 @@ void fsInputMgr::defaultMouseEventHandler(s16 mouse_x, s16 mouse_y)
 
     ins->m_mouse_x = mouse_x;
     ins->m_mouse_y = mouse_y;
+}
+
+
+void fsInputMgr::defaultGravitySensorHandler(r32 gravity_accel_x, r32 gravity_accel_y, r32 gravity_accel_z)
+{
+    fsInputMgr* ins = fsInputMgr::instance();
+
+    ins->m_gravity_accel_x = gravity_accel_x;
+    ins->m_gravity_accel_y = gravity_accel_y;
+    ins->m_gravity_accel_z = gravity_accel_z;
 }
 
 
@@ -179,6 +201,24 @@ bool fsInputMgr::isMouseVisible()
 void fsInputMgr::setMouseVisible(bool is_visible)
 {
     return fsLowLevelAPI::setMouseVisible(is_visible);
+}
+
+
+r32 fsInputMgr::getGravityAccelX()
+{
+     return instance()->m_gravity_accel_x;	
+}
+
+
+r32 fsInputMgr::getGravityAccelY()
+{
+     return instance()->m_gravity_accel_y;	
+}
+
+
+r32 fsInputMgr::getGravityAccelZ()
+{
+     return instance()->m_gravity_accel_z;	
 }
 
 
@@ -303,6 +343,17 @@ static void lowLevelMouseEventHandler(s16 mouse_x, s16 mouse_y)
 }
 
 
+static void lowLevelGravitySensorHandler(r32 gravity_accel_x, r32 gravity_accel_y, r32 gravity_accel_z)
+{
+     fsInputMgr::GravitySensorHandler handler = fsInputMgr::getGravitySensorHandlerN();
+
+     if (handler)
+     {
+         (*handler)(gravity_accel_x, gravity_accel_y, gravity_accel_z);
+     }
+}
+
+
 static void lowLevelExtraEventHandler(u8 index, r32 value)
 {
 	fsInputMgr::ExtraEventHandler handler = fsInputMgr::getExtraEventHandlerN();
@@ -331,14 +382,19 @@ fsInputMgr::fsInputMgr()
 {
     fsLowLevelAPI::setKeyEventHandler(lowLevelKeyEventHandler);
     fsLowLevelAPI::setMouseEventHandler(lowLevelMouseEventHandler);
+    fsLowLevelAPI::setGravitySensorHandler(lowLevelGravitySensorHandler);
     fsLowLevelAPI::setExtraEventHandler(lowLevelExtraEventHandler);
 
     m_key_event_handler = defaultKeyEventHandler;
     m_mouse_event_handler = defaultMouseEventHandler;
+    m_gravity_sensor_handler = defaultGravitySensorHandler;
     m_extra_event_handler = defaultExtraEventHandler;
     m_mouse_x = 0;
     m_mouse_y = 0;
     m_real_mouse_wheel = m_cur_mouse_wheel = 0;
+    m_gravity_accel_x = 0.0;
+    m_gravity_accel_y = 0.0;
+    m_gravity_accel_z = 0.0;
 
     fsMemHelper::memset(m_key_flag, 0, sizeof(m_key_flag));
     fsMemHelper::memset(m_cur_ext_val, 0, sizeof(m_cur_ext_val));
@@ -359,6 +415,7 @@ fsInputMgr::~fsInputMgr()
 
     fsLowLevelAPI::setKeyEventHandler(NULL);
     fsLowLevelAPI::setMouseEventHandler(NULL);
+    fsLowLevelAPI::setGravitySensorHandler(NULL);
 }
 
 

@@ -28,6 +28,7 @@
 
 static fsLowLevelAPI::KeyEventHandler s_key_event_handler = NULL;
 static fsLowLevelAPI::MouseEventHandler s_mouse_event_handler = NULL;
+static fsLowLevelAPI::GravitySensorHandler s_gravity_sensor_handler = NULL;
 static fsLowLevelAPI::ExtraEventHandler s_extra_event_handler = NULL;
 
 static const char* s_app_name;
@@ -512,6 +513,11 @@ void fsLowLevelAPI::setKeyEventHandler(KeyEventHandler handler)
 void fsLowLevelAPI::setMouseEventHandler(MouseEventHandler handler)
 {
 	s_mouse_event_handler = handler;
+}
+
+void fsLowLevelAPI::setGravitySensorHandler(GravitySensorHandler handler)
+{
+    s_gravity_sensor_handler = handler;
 }
 
 

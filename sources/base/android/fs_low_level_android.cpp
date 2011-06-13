@@ -27,6 +27,7 @@
 
 static fsLowLevelAPI::KeyEventHandler s_key_event_handler = NULL;
 static fsLowLevelAPI::MouseEventHandler s_mouse_event_handler = NULL;
+static fsLowLevelAPI::GravitySensorHandler s_gravity_sensor_handler = NULL;
 static fsLowLevelAPI::ExtraEventHandler s_extra_event_handler = NULL;
 
 static const char* s_app_name;
@@ -181,6 +182,10 @@ void fsLowLevelAPI::setMouseEventHandler(MouseEventHandler handler)
     s_mouse_event_handler = handler;
 }
 
+void fsLowLevelAPI::setGravitySensorHandler(GravitySensorHandler handler)
+{
+    s_gravity_sensor_handler = handler;
+}
 
 void fsLowLevelAPI::setExtraEventHandler(ExtraEventHandler handler)
 {
@@ -455,6 +460,11 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_furseal_FursealView_nativeOnKeyUp(JNIEnv*, jobject, jint key_code)
     {
         callKeyEventHandler(static_cast<s16>(key_code), false);
+    }
+
+    JNIEXPORT void JNICALL Java_com_furseal_FursealView_nativeOnSensorChanged(JNIEnv*, jobject, jfloat x, jfloat y, jfloat z)
+    {
+	   (*s_gravity_sensor_handler)(static_cast<r32>(x), static_cast<r32>(y), static_cast<r32>(z));
     }
 }
 

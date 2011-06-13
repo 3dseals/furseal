@@ -60,10 +60,12 @@ public:
 
     typedef void (*KeyEventHandler)(u8 keycode, bool is_down);
     typedef void (*MouseEventHandler)(s16 mouse_x, s16 mouse_y);
+    typedef void (*GravitySensorHandler)(r32 gravity_x, r32 gravity_y, r32 gravity_z);
     typedef void (*ExtraEventHandler)(u8 index, r32 value);
 
     static void setKeyEventHandler(KeyEventHandler handler);
     static void setMouseEventHandler(MouseEventHandler handler);
+    static void setGravitySensorHandler(GravitySensorHandler handler);
     static void setExtraEventHandler(ExtraEventHandler handler);
     static void setMousePos(s16 mouse_x, s16 mouse_y);
     static bool isMouseVisible();

@@ -18,6 +18,10 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -26,6 +30,8 @@ public class FursealView
 {
     private FursealGLView m_view;
     private FursealViewRenderer m_renderer;
+    private SensorManager m_sensormgr;
+    Sensor m_sensor;
 
     public FursealView(String lib_name) {
         System.loadLibrary(lib_name);
@@ -40,6 +46,17 @@ public class FursealView
         m_renderer = new FursealViewRenderer();
 
         m_view.setRenderer(m_renderer);
+		m_sensormgr = (SensorManager) activity.getSystemService (Context.SENSOR_SERVICE);
+		m_sensor = m_sensormgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		SensorEventListener lsn = new SensorEventListener() {
+			public void onSensorChanged(SensorEvent e) {
+				nativeOnSensorChanged(e.values[SensorManager.DATA_X], e.values[SensorManager.DATA_Y], e.values[SensorManager.DATA_Z]);
+			}
+
+			public void onAccuracyChanged(Sensor s, int accuracy) {
+			}
+		};
+		m_sensormgr.registerListener(lsn, m_sensor, SensorManager.SENSOR_DELAY_GAME);
         activity.setContentView(m_view);
     }
 
@@ -55,15 +72,13 @@ public class FursealView
         nativeFinalize();
     }
 
-	public void onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		m_view.onKeyDown(keyCode, event);
-	}
+    public void onKeyDown(int keyCode, KeyEvent event) {
+    	m_view.onKeyDown(keyCode, event);
+    }
 
-	public void onKeyUp(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		m_view.onKeyUp(keyCode, event);
-	}
+    public void onKeyUp(int keyCode, KeyEvent event) {
+    	m_view.onKeyUp(keyCode, event);
+    }
 
     private static native void nativeInitialize();
     private static native void nativeUpdate();
@@ -71,10 +86,12 @@ public class FursealView
     private static native void nativePause();
     private static native void nativeResume();
     private static native void nativeTouch(int action, int x, int y);
+    private static native void nativeOnSensorChanged(float accle_x, float accle_y, float accle_z);
     private static native void nativeOnKeyDown(int key_code);
     private static native void nativeOnKeyUp(int key_code);
 
     private class FursealGLView extends GLSurfaceView {
+
         public FursealGLView(Context context) {
             super(context);
         }
@@ -86,15 +103,13 @@ public class FursealView
         
         @Override
         public void onResume() {
-        	// TODO Auto-generated method stub
-        	super.onResume();
+            super.onResume();
             nativeResume();
         }
         
         @Override
         public void onPause() {
-        	// TODO Auto-generated method stub
-        	super.onPause();
+            super.onPause();
             nativePause();
         }
 
@@ -106,30 +121,32 @@ public class FursealView
         
         @Override
         public boolean onKeyDown(int keyCode, KeyEvent event) {
-        	// TODO Auto-generated method stub
-        	nativeOnKeyDown(keyCode);
-        	return super.onKeyDown(keyCode, event);
+            nativeOnKeyDown(keyCode);
+            return super.onKeyDown(keyCode, event);
         }
         
         @Override
         public boolean onKeyUp(int keyCode, KeyEvent event) {
-        	// TODO Auto-generated method stub
-        	nativeOnKeyUp(keyCode);
-        	return super.onKeyUp(keyCode, event);
+            nativeOnKeyUp(keyCode);
+            return super.onKeyUp(keyCode, event);
         }
     }
 
     private class FursealViewRenderer implements Renderer {
-    	
         boolean m_is_first = true;
+
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {}
+
         public void onSurfaceChanged(GL10 gl, int width, int height) {}
 
         public void onDrawFrame(GL10 gl) {
             if (m_is_first) {
+
                 m_is_first = false;
+
                 nativeInitialize();
             }
+
             nativeUpdate();
         }
     }
