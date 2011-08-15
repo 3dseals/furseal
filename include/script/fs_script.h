@@ -74,6 +74,13 @@ public:
     */
     fsScriptEntry* getEntryFromFirstN(const char* ent_name) const;
 
+     /*!
+       save all entrys of the script to a file 
+       @param[in] filename the path of the file
+        
+    */
+    void  saveEntryFromFirstN(const char* filename) const;
+
     /*!
         Returns the specified entry. The entry is searched from the last. If the entry doesn't exist, returns NULL.
         @param[in] ent_name The name of an entry.     

@@ -75,6 +75,29 @@ s32 fsScriptEntry::getValue_s32(u16 index) const
 }
 
 
+void fsScriptEntry::setValue_s32(u16 index, s32 value) const
+{
+    if(index >= m_val_num)
+    {
+       return ;
+    }
+    ValueType type = m_val_type[index].getType();
+    switch (type)
+    {
+    case TYPE_S32:
+        m_val[index].val_s32 = value;
+        return ;
+
+    case TYPE_R32:
+        m_val[index].val_r32 =  static_cast<r32>(value);
+        return ;
+
+    default:
+        return ;
+    }
+}
+
+
 r32 fsScriptEntry::getValue_r32(u16 index) const
 {
     if (index >= m_val_num)
@@ -98,6 +121,29 @@ r32 fsScriptEntry::getValue_r32(u16 index) const
 }
 
 
+void fsScriptEntry::setValue_r32(u16 index, r32 value) const
+{
+    if(index >= m_val_num)
+    {
+       return ;
+    }
+    ValueType type = m_val_type[index].getType();
+    switch (type)
+    {
+    case TYPE_S32:
+        m_val[index].val_s32 =  static_cast<s32>(value);
+        return ;
+
+    case TYPE_R32:
+        m_val[index].val_r32 = value;
+        return ;
+
+    default:
+        return ;
+    }
+}
+
+
 const char* fsScriptEntry::getValue_string(u16 index) const
 {
     if (index >= m_val_num)
@@ -114,6 +160,27 @@ const char* fsScriptEntry::getValue_string(u16 index) const
 
     default:
         return "";
+    }
+}
+
+
+void fsScriptEntry::setValue_string(u16 index, char *value) const
+{
+    if (index >= m_val_num)
+    {
+        return ;
+    }
+     
+    ValueType type = m_val_type[index].getType();
+    switch (type)
+    {
+    case TYPE_STRING:
+	 fsFree((void *)m_val[index].val_str);
+	 m_val[index].val_str = value; 
+        return ;
+
+    default:
+        return ;
     }
 }
 

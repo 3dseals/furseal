@@ -103,6 +103,74 @@ fsScriptEntry* fsScript::getEntryFromFirstN(const char* ent_name) const
 }
 
 
+void fsScript::saveEntryFromFirstN(const char *filename) const
+{
+   void* fh;
+   fsTry 
+    { 
+        fh = fsMgr::openFile(filename, fsMgr::FILE_MODE_WRITE);
+    }
+    fsCatch(fsMgr::ExceptionCannotOpenFile)
+    {
+        fsThrow(ExceptionCannotOpenFile);
+    }
+    int j = 0;
+    for (fsList<fsScriptEntry>::Item* item = m_ent_list.getFirstN(); item; item = item->getNextN())
+    {
+         char line[1024]; 
+         char buf[1024];
+         fsScriptEntry* ent = item->getSelf();
+         int k = static_cast<int> (ent->getValueNum());
+         k = k; 
+         if(1 < k)
+	 {
+         fsMgr::sprintf(line,1024,"%s = (",ent->m_name.getString()); 
+         for(int i = 0; i < k; i++)
+	 {
+             if(i != 0)
+	     {
+                 fsMgr::sprintf(buf,1024,"%s",line);
+		 fsMgr::sprintf(line,1024,"%s, ",buf); 
+	     }
+             if(ent->getValueType(i) == fsScriptEntry::TYPE_S32 )
+             {
+		 fsMgr::sprintf(buf,1024,"%s",line);
+		 fsMgr::sprintf(line,1024,"%s%d",buf,ent->getValue_s32(i)); 
+                 
+             }else if(ent->getValueType(i) == fsScriptEntry::TYPE_R32)
+             {
+		 fsMgr::sprintf(buf,1024,"%s",line);
+		 fsMgr::sprintf(line,1024,"%s%f",buf,ent->getValue_r32(i)); 
+             }
+             else
+	     {
+		 fsMgr::sprintf(buf,1024,"%s",line);
+		 fsMgr::sprintf(line,1024,"%s\"%s\"",buf,ent->getValue_string(i)); 
+	     }
+	 }
+	 fsMgr::sprintf(buf,1024,"%s",line);
+         fsMgr::sprintf(line,1024,"%s)",buf); 
+	 } else{
+             if(ent->getValueType(0) == fsScriptEntry::TYPE_S32 )
+             {
+		 fsMgr::sprintf(line,1024,"%s = %d",ent->m_name.getString(),ent->getValue_s32(0)); 
+                 
+             }else if(ent->getValueType(0) == fsScriptEntry::TYPE_R32)
+             {
+		 fsMgr::sprintf(line,1024,"%s = %f",ent->m_name.getString(),ent->getValue_r32(0)); 
+             }
+             else
+		 fsMgr::sprintf(line,1024,"%s =  \"%s\"",ent->m_name.getString(),ent->getValue_string(0)); 
+	 }
+         fsMgr::sprintf(buf,1024,"%s",line); 
+	 fsMgr::sprintf(line,1024,"%s\n",buf); 
+	 fsLowLevelAPI::writeFile(j,line,fsUtil::strlen(line),fh);
+         j += fsUtil::strlen(line);      
+    }
+   fsLowLevelAPI::closeFile(fh);
+}
+
+
 fsScriptEntry* fsScript::getEntryFromLastN(const char* ent_name) const
 {
     if (!ent_name)

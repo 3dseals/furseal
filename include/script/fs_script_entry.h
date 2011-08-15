@@ -76,6 +76,14 @@ public:
     */
     s32 getValue_s32(u16 index) const;
 
+     /*!
+        set the specified value as 32-bit integer number.
+
+        @param[in] index The index of a value.
+        @param[in] value The value to set.
+    */
+    void setValue_s32(u16 index, s32 value) const ;
+
     /*!
         Returns the specified value as 32-bit floating point number.
         @param[in] index The index of a value.
@@ -83,12 +91,26 @@ public:
     */
     r32 getValue_r32(u16 index) const;
 
+   /*!
+        set the specified value as 32-bit floating point number.
+        @param[in] index The index of a value.
+        @param[in] value The value to set.
+    */
+    void setValue_r32(u16 index, r32 value) const;
+
     /*!
         Returns the specified value as string.
         @param[in] index The index of a value.
         @return The specified value.
     */
     const char* getValue_string(u16 index) const;
+
+    /*!
+        set the specified value as string.
+        @param[in] index The index of a value.
+        @param[in] value The value to set.
+    */
+    void setValue_string(u16 index, char* value) const;
 
 private:
     union Value
