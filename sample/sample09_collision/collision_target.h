@@ -18,6 +18,7 @@ public:
     enum Target1Type
     {
         TARGET1_SPHERE, //
+        TARGET1_CYLINDER, //
         TARGET1_BOX, //
         TARGET1_RAY, //
         TARGET1_NUM
@@ -26,6 +27,7 @@ public:
     enum Target2Type
     {
         TARGET2_SPHERE, //
+        TARGET2_CYLINDER, //
         TARGET2_BOX, //
         TARGET2_TRIANGLE, //
         TARGET2_NUM
@@ -35,6 +37,7 @@ public:
     {
         Target1Type type;
         fsCdt::Sph sph;
+        fsCdt::Cyl cyl;
         fsCdt::Box box;
         fsCdt::Ray ray;
     };
@@ -43,12 +46,13 @@ public:
     {
         Target2Type type;
         fsCdt::Sph sph;
+        fsCdt::Cyl cyl;
         fsCdt::Box box;
         fsCdt::Tri tri;
     };
 
-    static bool chefsTargetHit(const Target1& tgt1, const fsCdt::Ray& hit_ray);
-    static bool chefsTargetHit(const Target2& tgt2, const fsCdt::Ray& hit_ray);
+    static bool checkTargetHit(const Target1& tgt1, const fsCdt::Ray& hit_ray);
+    static bool checkTargetHit(const Target2& tgt2, const fsCdt::Ray& hit_ray);
 
     static void updateTarget(Target1* tgt1, const fsMat& world, const fsVec& size);
     static void updateTarget(Target2* tgt2, const fsMat& world, const fsVec& size);

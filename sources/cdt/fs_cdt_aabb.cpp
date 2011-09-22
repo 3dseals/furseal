@@ -35,7 +35,7 @@ void fsCdt::AABB::setBound(const fsVec& min, const fsVec& max)
 }
 
 
-bool fsCdt::chefsTouch(const AABB& aabb1, const AABB& aabb2)
+bool fsCdt::checkTouch(const AABB& aabb1, const AABB& aabb2)
 {
     if (aabb1.m_min.x <= aabb2.m_max.x && aabb1.m_min.y <= aabb2.m_max.y && aabb1.m_min.z <= aabb2.m_max.z && //
         aabb1.m_max.x >= aabb2.m_min.x && aabb1.m_max.y >= aabb2.m_min.y && aabb1.m_max.z >= aabb2.m_min.z)

@@ -121,7 +121,7 @@ void CollisionChefser::onUpdate()
     m_mouse_y = m_scr->framebufferYToScreenY(fsInputMgr::getMouseY());
 
     /*
-        chefs hit
+        check hit
     */
     fsVec hit_to(m_mouse_x, m_mouse_y, -m_scr->getFocusDist());
     hit_to *= 10.0f;
@@ -130,7 +130,7 @@ void CollisionChefser::onUpdate()
     fsCdt::Ray hit_ray;
     hit_ray.setPos(m_scr->view().trans, hit_to);
 
-    u8 hit_no = CollisionTarget::chefsTargetHit(m_tgt1, hit_ray) ? 1 : (CollisionTarget::chefsTargetHit(m_tgt2, hit_ray) ? 2 : 0);
+    u8 hit_no = CollisionTarget::checkTargetHit(m_tgt1, hit_ray) ? 1 : (CollisionTarget::checkTargetHit(m_tgt2, hit_ray) ? 2 : 0);
 
     /*
         drag object/camera
@@ -231,7 +231,7 @@ void CollisionChefser::onUpdate()
     CollisionTarget::updateTarget(&m_tgt2, m_tgt_world[1], m_tgt_size[1]);
 
     /*
-        chefs collision
+        check collision
     */
     if (m_tgt1.type == CollisionTarget::TARGET1_RAY)
     {

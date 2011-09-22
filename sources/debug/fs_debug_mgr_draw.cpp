@@ -125,6 +125,43 @@ void fsDebugMgr::drawPolygon(const fsVec& pos1, const fsVec& pos2, const fsVec& 
 }
 
 
+void fsDebugMgr::drawCircle(const fsMat& center, r32 radius, fsCol poly_col, fsCol line_col, fsID scr_id)
+{
+    if (!m_instance)
+    {
+        return;
+    }
+
+    if (scr_id == fsID::ZERO)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    fsScr* scr = fsDrawMgr::getScreen(scr_id);
+
+    fsVec pos1;
+    fsVec pos2 = center.trans + center.x_axis * (fsMath::cos_s32(24 * 14) * radius) + center.y_axis * (fsMath::sin_s32(24 * 14) * radius);
+    fsVec pos3 = center.trans;
+
+    for (s32 i = 0; i < 15; i++)
+    {
+        pos1 = pos2;
+        pos2 = center.trans + center.x_axis * (fsMath::cos_s32(24 * i) * radius) + center.y_axis * (fsMath::sin_s32(24 * i) * radius);
+
+        if (poly_col.a > 0)
+        {
+            drawPolygon(pos1, pos2, pos3, poly_col, scr_id);
+            drawPolygon(pos1, pos2, pos3, poly_col, scr_id);
+        }
+
+        if (line_col.a > 0)
+        {
+            drawLine(pos1, pos2, line_col, scr_id);
+        }
+    }
+}
+
+
 void fsDebugMgr::drawBox(const fsMat& center, const fsVec& size, fsCol poly_col, fsCol line_col, fsID scr_id)
 {
     if (!m_instance)
@@ -176,6 +213,51 @@ void fsDebugMgr::drawBox(const fsMat& center, const fsVec& size, fsCol poly_col,
         drawLine(pos5, pos1, line_col, scr_id);
         drawLine(pos2, pos6, line_col, scr_id);
         drawLine(pos8, pos4, line_col, scr_id);
+    }
+}
+
+
+void fsDebugMgr::drawCylinder(const fsMat& center, r32 radius, r32 height, fsCol poly_col, fsCol line_col, fsID scr_id)
+{
+    if (!m_instance)
+    {
+        return;
+    }
+
+    if (scr_id == fsID::ZERO)
+    {
+        fsThrow(ExceptionInvalidArgument);
+    }
+
+    s32 half_height = height / 2.0f;
+    fsMat top = center.translate(0, 0, half_height);
+    fsMat bottom = center.translate(0, 0, -half_height);
+
+    drawCircle(top, radius, poly_col, line_col, scr_id);
+    drawCircle(bottom, radius, poly_col, line_col, scr_id);
+
+    fsVec pos1;
+    fsVec pos2;
+    fsVec pos3 = top.trans + top.x_axis * (fsMath::cos_s32(24 * 14) * radius) + top.y_axis * (fsMath::sin_s32(24 * 14) * radius);
+    fsVec pos4 = bottom.trans + bottom.x_axis * (fsMath::cos_s32(24 * 14) * radius) + bottom.y_axis * (fsMath::sin_s32(24 * 14) * radius);
+
+    for (s32 i = 0; i < 15; i++)
+    {
+        pos1 = pos3;
+        pos2 = pos4;
+        pos3 = top.trans + top.x_axis * (fsMath::cos_s32(24 * i) * radius) + top.y_axis * (fsMath::sin_s32(24 * i) * radius);
+        pos4 = bottom.trans + bottom.x_axis * (fsMath::cos_s32(24 * i) * radius) + bottom.y_axis * (fsMath::sin_s32(24 * i) * radius);
+        if (poly_col.a > 0)
+        {
+            drawPolygon(pos1, pos2, pos3, pos4, poly_col, scr_id);
+            drawPolygon(pos1, pos2, pos3, pos4, poly_col, scr_id);
+        }
+
+        if (line_col.a > 0)
+        {
+            drawLine(pos1, pos2, line_col, scr_id);
+            drawLine(pos3, pos4, line_col, scr_id);
+        }
     }
 }
 

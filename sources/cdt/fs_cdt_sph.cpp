@@ -68,7 +68,7 @@ void fsCdt::Sph::updateAABB()
 
 bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph1, const Sph& sph2)
 {
-    if (!chefsTouch(sph1.m_aabb, sph2.m_aabb))
+    if (!checkTouch(sph1.m_aabb, sph2.m_aabb))
     {
         return false;
     }
@@ -95,9 +95,96 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph1, const Sph& sph2)
 }
 
 
+bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph, const Cyl& cyl)
+{
+    if (!checkTouch(sph.m_aabb, cyl.m_aabb))
+    {
+        return false;
+    }
+
+    fsVec diff = sph.m_pos - cyl.m_world.trans;
+	r32 sq_dist = diff.sqLength();
+    r32 y_dist = diff.dot(cyl.m_world.y_axis);
+
+    if (y_dist > cyl.m_half_height)
+    {
+    	// the sphere is above the cylinder
+    	r32 h_diff = y_dist - cyl.m_half_height;
+
+    	if(h_diff > sph.m_radius)
+    	{
+    		return false;
+    	}
+
+    	r32 h_radius = fsMath::sqrt(sph.m_radius * sph.m_radius - h_diff * h_diff);
+
+    	if(sq_dist - y_dist * y_dist > (h_radius + cyl.m_radius  - fsMath::EPSILON) * (h_radius + cyl.m_radius - fsMath::EPSILON))
+    	{
+    		return false;
+    	}
+
+        if (cdt_info)
+        {
+            r32 dist = fsMath::sqrt(sq_dist);
+
+            cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
+            cdt_info->bafs_dist = sph.m_radius - h_diff;
+            cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
+        }
+    }
+    else if (y_dist < -cyl.m_half_height)
+    {
+    	// the sphere is below the cylinder
+    	r32 h_diff = y_dist + cyl.m_half_height;
+
+    	if(h_diff > sph.m_radius)
+    	{
+    		return false;
+    	}
+
+    	r32 h_radius = fsMath::sqrt(sph.m_radius * sph.m_radius - h_diff * h_diff);
+
+    	if(sq_dist - y_dist * y_dist > (h_radius + cyl.m_radius - fsMath::EPSILON) * (h_radius + cyl.m_radius - fsMath::EPSILON))
+    	{
+    		return false;
+    	}
+
+        if (cdt_info)
+        {
+            r32 dist = fsMath::sqrt(sq_dist);
+
+            cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
+            cdt_info->bafs_dist = sph.m_radius - h_diff;
+            cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
+        }
+    }
+    else
+    {
+    	// the sphere is in the middle of the cylinder
+    	r32 sum_rad = sph.m_radius + cyl.m_radius;
+
+        if (sq_dist > (sum_rad - fsMath::EPSILON) * (sum_rad - fsMath::EPSILON))
+        {
+            return false;
+        }
+
+        if (cdt_info)
+        {
+            r32 dist = fsMath::sqrt(sq_dist);
+
+            cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
+            cdt_info->bafs_dist = sum_rad - dist;
+            cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
+        }
+    }
+
+	return true;
+}
+
+
 bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph, const Box& box)
 {
-    if (!chefsTouch(sph.m_aabb, box.m_aabb))
+    if (!checkTouch(sph.m_aabb, box.m_aabb))
     {
         return false;
     }
@@ -153,7 +240,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph, const Box& box)
 
 bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph, const Tri& tri)
 {
-    if (!chefsTouch(sph.m_aabb, tri.m_aabb))
+    if (!checkTouch(sph.m_aabb, tri.m_aabb))
     {
         return false;
     }
@@ -256,16 +343,4 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph, const Tri& tri)
     }
 
     return true;
-}
-
-bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph,const Plane& plane)
-{
-	bool res = collide(cdt_info, plane, sph);
-
-    if (cdt_info)
-    {
-        cdt_info->bafs_dir = -cdt_info->bafs_dir;
-    }
-
-    return res;
 }

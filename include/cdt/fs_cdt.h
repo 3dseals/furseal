@@ -107,6 +107,74 @@ public:
     };
 
     /*!
+        A cylinder collision.
+    */
+    class FS_API Cyl
+    {
+        friend class fsCdt;
+
+    public:
+        //! @cond
+        fsDefineException(ExceptionInvalidArgument);
+        //! @endcond
+
+        /*!
+            Constructs a cylinder collision.
+        */
+        Cyl();
+
+        /*!
+            Returns the aabb of this cylinder collision.
+            @return The aabb of this cylinder collision.
+        */
+        const AABB& getAABB() const;
+
+        /*!
+            Returns the world of this cylinder collision.
+            @return The world of this cylinder collision.
+        */
+        const fsMat& getWorld() const;
+
+        /*!
+            Sets the world of this cylinder collision.
+            @param[in] world The world of this cylinder collision.
+        */
+        void setWorld(const fsMat& world);
+
+        /*!
+            Returns the radius of this cylinder collision.
+            @return The radius of this cylinder collision.
+        */
+        r32 getRadius() const;
+
+        /*!
+            Sets the radius of this cylinder collision.
+            @param[in] radius The radius of a cylinder collision.
+        */
+        void setRadius(r32 radius);
+
+        /*!
+            Returns the half height of this cylinder collision.
+            @return The half height of this cylinder collision.
+        */
+        r32 getHalfHeight() const;
+
+        /*!
+            Sets the half height of this cylinder collision.
+            @param[in] half height The radius of a cylinder collision.
+        */
+        void setHalfHeight(r32 height);
+
+    private:
+        void updateAABB();
+
+        AABB m_aabb;
+        fsMat m_world;
+        r32 m_radius;
+        r32 m_half_height;
+    };
+
+    /*!
         A box collision.
     */
     class FS_API Box
@@ -235,50 +303,6 @@ public:
         fsVec m_pos3;
     };
 
-	    /*!
-        A plane collision.
-    */
-    class FS_API Plane
-    {
-		 friend class fsCdt;
-
-    public:
-        /*!
-            Constructs a plane collision.
-        */
-        Plane();
-
-        /*!
-            Returns the Normal vertex of this plane collision.
-            @return The Normal vertex of this plane collision.
-        */
-        const fsVec& getNormal() const;
-
-        /*!
-            Returns the Offset of this plane collision.Specifically, the object contains all points r for which r.dot(normal)
-            @return The Offset of this plane collision.
-        */
-        const r32& getOffset() const;
-
-        /*!
-            Sets the position of this plane collision.
-            @param[in] normal a vector normal to the plane, pointing outward from the surface
-            @param[in] offset the offset of the plane along the normal direction.  Specifically, the object contains all points r for which r.dot(normal)
-        */
-        void setPos(const fsVec& normal, const r32& offset);
-		/*!
-            Sets the vertices of this plane collision.
-            @param[in] normal a vector normal to the plane, pointing outward from the surface
-            @param[in] position the position of any point in the plane
-        */
-
-		void setPos(const fsVec& normal, const fsVec& position);
-
-    private:
-        fsVec m_normal;
-        r32 m_offset;
-    };
-
     /*!
         A ray collision.
     */
@@ -341,7 +365,7 @@ public:
         @param[in] aabb2 An aabb.
         @return Whether two aabb-s touch each other.
     */
-    static bool chefsTouch(const AABB& aabb1, const AABB& aabb2);
+    static bool checkTouch(const AABB& aabb1, const AABB& aabb2);
 
     /*!
         Calculates the result of collision.
@@ -351,6 +375,15 @@ public:
         @return Whether two collision touch each other.
     */
     static bool collide(CdtInfo* cdt_info, const Sph& sph1, const Sph& sph2);
+
+    /*!
+        Calculates the result of collision.
+        @param[out] cdt_info The result of collision.
+        @param[in] sph1 A sphere collision.
+        @param[in] cyl A cylinder collision.
+        @return Whether two collision touch each other.
+    */
+    static bool collide(CdtInfo* cdt_info, const Sph& sph, const Cyl& cyl);
 
     /*!
         Calculates the result of collision.
@@ -369,6 +402,42 @@ public:
         @return Whether two collision touch each other.
     */
     static bool collide(CdtInfo* cdt_info, const Sph& sph, const Tri& tri);
+
+    /*!
+        Calculates the result of collision.
+        @param[out] cdt_info The result of collision.
+        @param[in] cyl1 A cylinder collision.
+        @param[in] cyl2 A cylinder collision.
+        @return Whether two collision touch each other.
+    */
+    static bool collide(CdtInfo* cdt_info, const Cyl& cyl1, const Cyl& cyl2);
+
+    /*!
+        Calculates the result of collision.
+        @param[out] cdt_info The result of collision.
+        @param[in] cyl A cylinder collision.
+        @param[in] sph A sphere collision.
+        @return Whether two collision touch each other.
+    */
+    static bool collide(CdtInfo* cdt_info, const Cyl& cyl, const Sph& sph);
+
+    /*!
+        Calculates the result of collision.
+        @param[out] cdt_info The result of collision.
+        @param[in] cyl A cylinder collision.
+        @param[in] box A box collision.
+        @return Whether two collision touch each other.
+    */
+    static bool collide(CdtInfo* cdt_info, const Cyl& cyl, const Box& box);
+
+    /*!
+        Calculates the result of collision.
+        @param[out] cdt_info The result of collision.
+        @param[in] cyl A cylinder collision.
+        @param[in] tri A triangle collision.
+        @return Whether two collision touch each other.
+    */
+    static bool collide(CdtInfo* cdt_info, const Cyl& cyl, const Tri& tri);
 
     /*!
         Calculates the result of collision.
@@ -392,28 +461,19 @@ public:
         Calculates the result of collision.
         @param[out] cdt_info The result of collision.
         @param[in] box A box collision.
+        @param[in] cyl A cylinder collision.
+        @return Whether two collision touch each other.
+    */
+    static bool collide(CdtInfo* cdt_info, const Box& box, const Cyl& cyl);
+
+    /*!
+        Calculates the result of collision.
+        @param[out] cdt_info The result of collision.
+        @param[in] box A box collision.
         @param[in] tri A triangle collision.
         @return Whether two collision touch each other.
     */
     static bool collide(CdtInfo* cdt_info, const Box& box, const Tri& tri);
-
-	/*!
-        Calculates the result of collision.
-        @param[out] cdt_info The result of collision.
-        @param[in] plane A Plane collision.
-        @param[in] sph A Sph collision.
-        @return Whether two collision touch each other.
-    */
-	static bool collide(CdtInfo* cdt_info, const Plane& plane, const Sph& sph);
-
-	/*!
-        Calculates the result of collision.
-        @param[out] cdt_info The result of collision.
-        @param[in] sph A Sph collision.
-		@param[in] plane A Plane collision.
-        @return Whether two collision touch each other.
-    */
-	static bool collide(CdtInfo* cdt_info, const Sph& sph, const Plane& plane);
 
     /*!
         Calculates the intersection.
@@ -423,6 +483,15 @@ public:
         @return Whether intersects.
     */
     static bool intersect(fsVec* pos, const Ray& ray, const Sph& sph);
+
+    /*!
+        Calculates the intersection.
+        @param[out] pos The intersection.
+        @param[in] ray A ray collision.
+        @param[in] cyl A cylinder collision.
+        @return Whether intersects.
+    */
+    static bool intersect(fsVec* pos, const Ray& ray, const Cyl& Cyl);
 
     /*!
         Calculates the intersection.

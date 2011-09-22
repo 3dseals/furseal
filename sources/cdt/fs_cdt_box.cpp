@@ -93,7 +93,7 @@ void fsCdt::Box::updateAABB()
 
 bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
 {
-    if (!chefsTouch(box1.m_aabb, box2.m_aabb))
+    if (!checkTouch(box1.m_aabb, box2.m_aabb))
     {
         return false;
     }
@@ -117,7 +117,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
     // L = AX
     // L = AY
     // L = AZ
-#define CHEFS_BAFS_DIST(ra, rb, tl, axis) \
+#define CHECk_BACK_DIST(ra, rb, tl, axis) \
     do \
     { \
         r32 cur_bafs_dist = (ra) + (rb) - fsMath::abs(tl); \
@@ -134,49 +134,49 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
     } \
     while (false)
 
-#define CHEFS_SEPARATING_AXIS(compo, axis) \
+#define CHECK_SEPARATING_AXIS(compo, axis) \
     do \
     { \
         r32 ra = size_a.compo; \
         r32 rb = abs_local_b.x_axis.compo * size_b.x + abs_local_b.y_axis.compo * size_b.y + abs_local_b.z_axis.compo * size_b.z; \
         r32 tl = t.compo; \
     \
-        CHEFS_BAFS_DIST(ra, rb, tl, axis); \
+        CHECk_BACK_DIST(ra, rb, tl, axis); \
     } \
     while (false)
 
-    CHEFS_SEPARATING_AXIS(x, box1.m_world.x_axis);
-    CHEFS_SEPARATING_AXIS(y, box1.m_world.y_axis);
-    CHEFS_SEPARATING_AXIS(z, box1.m_world.z_axis);
+    CHECK_SEPARATING_AXIS(x, box1.m_world.x_axis);
+    CHECK_SEPARATING_AXIS(y, box1.m_world.y_axis);
+    CHECK_SEPARATING_AXIS(z, box1.m_world.z_axis);
 
-#undef CHEFS_SEPARATING_AXIS
+#undef CHECK_SEPARATING_AXIS
 
     // L=BX
     // L=BY
     // L=BZ
-#define CHEFS_SEPARATING_AXIS(compo1, compo2, axis) \
+#define CHECK_SEPARATING_AXIS(compo1, compo2, axis) \
     do \
     { \
         r32 ra = abs_local_b.compo2.dot(size_a); \
         r32 rb = size_b.compo1; \
         r32 tl = t.dot(local_b.compo2); \
     \
-        CHEFS_BAFS_DIST(ra, rb, tl, axis); \
+        CHECk_BACK_DIST(ra, rb, tl, axis); \
     } \
     while (false)
 
-    CHEFS_SEPARATING_AXIS(x, x_axis, box2.m_world.x_axis);
-    CHEFS_SEPARATING_AXIS(y, y_axis, box2.m_world.y_axis);
-    CHEFS_SEPARATING_AXIS(z, z_axis, box2.m_world.z_axis);
+    CHECK_SEPARATING_AXIS(x, x_axis, box2.m_world.x_axis);
+    CHECK_SEPARATING_AXIS(y, y_axis, box2.m_world.y_axis);
+    CHECK_SEPARATING_AXIS(z, z_axis, box2.m_world.z_axis);
 
-#undef CHEFS_BAFS_DIST
-#undef CHEFS_SEPARATING_AXIS
+#undef CHECk_BACK_DIST
+#undef CHECK_SEPARATING_AXIS
 
     fsVec sa_bafs_dir[9];
     r32 sa_bafs_dist[9];
     u8 sa_num = 0;
 
-#define CHEFS_SEPARATING_AXIS(lx, ly, lz) \
+#define CHECK_SEPARATING_AXIS(lx, ly, lz) \
     do \
     { \
         r32 tl = t.x * (lx) + t.y * (ly) + t.z * (lz); \
@@ -201,7 +201,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.y * abs_local_b.x_axis.z + size_a.z * abs_local_b.x_axis.y;
         r32 rb = size_b.y * abs_local_b.z_axis.x + size_b.z * abs_local_b.y_axis.x;
 
-        CHEFS_SEPARATING_AXIS(0.0f, -local_b.x_axis.z, local_b.x_axis.y);
+        CHECK_SEPARATING_AXIS(0.0f, -local_b.x_axis.z, local_b.x_axis.y);
     }
 
     // L = AX * BY
@@ -210,7 +210,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.y * abs_local_b.y_axis.z + size_a.z * abs_local_b.y_axis.y;
         r32 rb = size_b.x * abs_local_b.z_axis.x + size_b.z * abs_local_b.x_axis.x;
 
-        CHEFS_SEPARATING_AXIS(0.0f, -local_b.y_axis.z, local_b.y_axis.y);
+        CHECK_SEPARATING_AXIS(0.0f, -local_b.y_axis.z, local_b.y_axis.y);
     }
 
     // L = AX * BZ
@@ -219,7 +219,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.y * abs_local_b.z_axis.z + size_a.z * abs_local_b.z_axis.y;
         r32 rb = size_b.x * abs_local_b.y_axis.x + size_b.y * abs_local_b.x_axis.x;
 
-        CHEFS_SEPARATING_AXIS(0.0f, -local_b.z_axis.z, local_b.z_axis.y);
+        CHECK_SEPARATING_AXIS(0.0f, -local_b.z_axis.z, local_b.z_axis.y);
     }
 
     // L = AY * BX
@@ -228,7 +228,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.x * abs_local_b.x_axis.z + size_a.z * abs_local_b.x_axis.x;
         r32 rb = size_b.y * abs_local_b.z_axis.y + size_b.z * abs_local_b.y_axis.y;
 
-        CHEFS_SEPARATING_AXIS(local_b.x_axis.z, 0.0f, -local_b.x_axis.x);
+        CHECK_SEPARATING_AXIS(local_b.x_axis.z, 0.0f, -local_b.x_axis.x);
     }
 
     // L = AY * BY
@@ -237,7 +237,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.x * abs_local_b.y_axis.z + size_a.z * abs_local_b.y_axis.x;
         r32 rb = size_b.x * abs_local_b.z_axis.y + size_b.z * abs_local_b.x_axis.y;
 
-        CHEFS_SEPARATING_AXIS(local_b.y_axis.z, 0.0f, -local_b.y_axis.x);
+        CHECK_SEPARATING_AXIS(local_b.y_axis.z, 0.0f, -local_b.y_axis.x);
     }
 
     // L = AY * BZ
@@ -246,7 +246,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.x * abs_local_b.z_axis.z + size_a.z * abs_local_b.z_axis.x;
         r32 rb = size_b.x * abs_local_b.y_axis.y + size_b.y * abs_local_b.x_axis.y;
 
-        CHEFS_SEPARATING_AXIS(local_b.z_axis.z, 0.0f, -local_b.z_axis.x);
+        CHECK_SEPARATING_AXIS(local_b.z_axis.z, 0.0f, -local_b.z_axis.x);
     }
 
     // L = AZ * BX
@@ -255,7 +255,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.x * abs_local_b.x_axis.y + size_a.y * abs_local_b.x_axis.x;
         r32 rb = size_b.y * abs_local_b.z_axis.z + size_b.z * abs_local_b.y_axis.z;
 
-        CHEFS_SEPARATING_AXIS(-local_b.x_axis.y, local_b.x_axis.x, 0.0f);
+        CHECK_SEPARATING_AXIS(-local_b.x_axis.y, local_b.x_axis.x, 0.0f);
     }
 
     // L = AZ * BY
@@ -264,7 +264,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.x * abs_local_b.y_axis.y + size_a.y * abs_local_b.y_axis.x;
         r32 rb = size_b.x * abs_local_b.z_axis.z + size_b.z * abs_local_b.x_axis.z;
 
-        CHEFS_SEPARATING_AXIS(-local_b.y_axis.y, local_b.y_axis.x, 0.0f);
+        CHECK_SEPARATING_AXIS(-local_b.y_axis.y, local_b.y_axis.x, 0.0f);
     }
 
     // L = AZ * BZ
@@ -273,10 +273,10 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box1, const Box& box2)
         r32 ra = size_a.x * abs_local_b.z_axis.y + size_a.y * abs_local_b.z_axis.x;
         r32 rb = size_b.x * abs_local_b.y_axis.z + size_b.y * abs_local_b.x_axis.z;
 
-        CHEFS_SEPARATING_AXIS(-local_b.z_axis.y, local_b.z_axis.x, 0.0f);
+        CHECK_SEPARATING_AXIS(-local_b.z_axis.y, local_b.z_axis.x, 0.0f);
     }
 
-#undef CHEFS_SEPARATING_AXIS
+#undef CHECK_SEPARATING_AXIS
 #undef IS_VALID_AXIS
 
     if (!cdt_info)
@@ -488,10 +488,22 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Sph& sph)
     return res;
 }
 
+bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Cyl& cyl)
+{
+    bool res = collide(cdt_info, cyl, box);
+
+    if (cdt_info)
+    {
+        cdt_info->bafs_dir = -cdt_info->bafs_dir;
+    }
+
+    return res;
+}
+
 
 bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
 {
-    if (!chefsTouch(box.m_aabb, tri.m_aabb))
+    if (!checkTouch(box.m_aabb, tri.m_aabb))
     {
         return false;
     }
@@ -510,7 +522,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
 
     r32 min_dist, max_dist;
 
-#define CHEFS_SEPARATING_AXIS(compo, axis) \
+#define CHECK_SEPARATING_AXIS(compo, axis) \
     do \
     { \
         min_dist = (a.compo < b.compo && a.compo < c.compo) ? a.compo : ((b.compo < c.compo) ? b.compo : c.compo); \
@@ -545,11 +557,11 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
     } \
     while (false)
 
-    CHEFS_SEPARATING_AXIS(x, box.m_world.x_axis);
-    CHEFS_SEPARATING_AXIS(y, box.m_world.y_axis);
-    CHEFS_SEPARATING_AXIS(z, box.m_world.z_axis);
+    CHECK_SEPARATING_AXIS(x, box.m_world.x_axis);
+    CHECK_SEPARATING_AXIS(y, box.m_world.y_axis);
+    CHECK_SEPARATING_AXIS(z, box.m_world.z_axis);
 
-#undef CHEFS_SEPARATING_AXIS
+#undef CHECK_SEPARATING_AXIS
 
     fsVec p = center.toLocalOf(box.m_world);
 
@@ -581,7 +593,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
         sa_num = 1;
     }
 
-#define CHEFS_SEPARATING_AXIS(lx, ly, lz, abs_lx, abs_ly, abs_lz) \
+#define CHECK_SEPARATING_AXIS(lx, ly, lz, abs_lx, abs_ly, abs_lz) \
     do \
     { \
         if (abs_lx > fsMath::EPSILON || abs_ly > fsMath::EPSILON || abs_lz > fsMath::EPSILON) \
@@ -611,12 +623,12 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
     } \
     while (false)
 
-#define CHEFS_SEPARATING_AXIES(edge) \
+#define CHECK_SEPARATING_AXIES(edge) \
     do \
     { \
-        CHEFS_SEPARATING_AXIS(0.0f, -(edge).z, (edge).y, 0.0f, fsMath::abs((edge).z), fsMath::abs((edge).y)); \
-        CHEFS_SEPARATING_AXIS((edge).z, 0.0f, -(edge).x, fsMath::abs((edge).z), 0.0f, fsMath::abs((edge).x)); \
-        CHEFS_SEPARATING_AXIS(-(edge).y, (edge).x, 0.0f, fsMath::abs((edge).y), fsMath::abs((edge).x), 0.0f); \
+        CHECK_SEPARATING_AXIS(0.0f, -(edge).z, (edge).y, 0.0f, fsMath::abs((edge).z), fsMath::abs((edge).y)); \
+        CHECK_SEPARATING_AXIS((edge).z, 0.0f, -(edge).x, fsMath::abs((edge).z), 0.0f, fsMath::abs((edge).x)); \
+        CHECK_SEPARATING_AXIS(-(edge).y, (edge).x, 0.0f, fsMath::abs((edge).y), fsMath::abs((edge).x), 0.0f); \
     } \
     while (false)
 
@@ -624,22 +636,22 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
     // L = Box.Y * AB
     // L = Box.Z * AB
     fsVec ab = b - a;
-    CHEFS_SEPARATING_AXIES(ab);
+    CHECK_SEPARATING_AXIES(ab);
 
     // L = Box.X * BC
     // L = Box.Y * BC
     // L = Box.Z * BC
     fsVec bc = c - b;
-    CHEFS_SEPARATING_AXIES(bc);
+    CHECK_SEPARATING_AXIES(bc);
 
     // L = Box.X * CA
     // L = Box.Y * CA
     // L = Box.Z * CA
     fsVec ca = a - c;
-    CHEFS_SEPARATING_AXIES(ca);
+    CHECK_SEPARATING_AXIES(ca);
 
-#undef CHEFS_SEPARATING_AXIES
-#undef CHEFS_SEPARATING_AXIS
+#undef CHECK_SEPARATING_AXIES
+#undef CHECK_SEPARATING_AXIS
 
     if (!cdt_info)
     {
@@ -685,7 +697,7 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
 
     fsVec box_half_size2 = box.m_half_size * BOX_ENLARGEMENT_RATE;
 
-#define CHEFS_VERT_IN_BOX(local_vert, global_vert) \
+#define CHECK_VERT_IN_BOX(local_vert, global_vert) \
     do \
     { \
         if ((local_vert).x <= box_half_size2.x && (local_vert).x >= -box_half_size2.x && /**/ \
@@ -723,9 +735,9 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Box& box, const Tri& tri)
     } \
     while (false)
 
-    CHEFS_VERT_IN_BOX(a, tri.m_pos1);
-    CHEFS_VERT_IN_BOX(b, tri.m_pos2);
-    CHEFS_VERT_IN_BOX(c, tri.m_pos3);
+    CHECK_VERT_IN_BOX(a, tri.m_pos1);
+    CHECK_VERT_IN_BOX(b, tri.m_pos2);
+    CHECK_VERT_IN_BOX(c, tri.m_pos3);
 
     CALC_INTERSECT_POS();
 

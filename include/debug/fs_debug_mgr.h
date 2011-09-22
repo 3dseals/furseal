@@ -111,6 +111,16 @@ public:
     static void drawPolygon(const fsVec& pos1, const fsVec& pos2, const fsVec& pos3, const fsVec& pos4, fsCol col, fsID scr_id);
 
     /*!
+        Draws a Circle.
+        @param[in] center The center of a box.
+        @param[in] size The size of a box.
+        @param[in] poly_col The color of the faces.
+        @param[in] line_col The color of the sides.
+        @param[in] scr_id The ID of a target screen.
+    */
+    static void drawCircle(const fsMat& center, r32 radius, fsCol poly_col, fsCol line_col, fsID scr_id);
+
+    /*!
         Draws a box.
         @param[in] center The center of a box.
         @param[in] size The size of a box.
@@ -119,6 +129,16 @@ public:
         @param[in] scr_id The ID of a target screen.
     */
     static void drawBox(const fsMat& center, const fsVec& size, fsCol poly_col, fsCol line_col, fsID scr_id);
+
+    /*!
+        Draws a Cylinder.
+        @param[in] center The center of a box.
+        @param[in] size The size of a box.
+        @param[in] poly_col The color of the faces.
+        @param[in] line_col The color of the sides.
+        @param[in] scr_id The ID of a target screen.
+    */
+    static void drawCylinder(const fsMat& center, r32 radius, r32 height, fsCol poly_col, fsCol line_col, fsID scr_id);
 
     /*!
         Draws a sphere.

@@ -70,7 +70,7 @@ LOCAL_SRC_FILES := \
 	../../../sources/base/fs_low_level_util_libpng.cpp \
 	../../../sources/cdt/fs_cdt_aabb.cpp \
 	../../../sources/cdt/fs_cdt_box.cpp \
-	../../../sources/cdt/fs_cdt_plane.cpp \
+	../../../sources/cdt/fs_cdt_cyl.cpp \
 	../../../sources/cdt/fs_cdt_ray.cpp \
 	../../../sources/cdt/fs_cdt_sph.cpp \
 	../../../sources/cdt/fs_cdt_tri.cpp \

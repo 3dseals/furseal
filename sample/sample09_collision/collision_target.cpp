@@ -18,6 +18,12 @@ static void drawSphere(const fsCdt::Sph sph, fsCol poly_col, fsCol line_col)
 }
 
 
+static void drawCylinder(const fsCdt::Cyl cyl, fsCol poly_col, fsCol line_col)
+{
+    fsDebugMgr::drawCylinder(cyl.getWorld(), cyl.getRadius(), cyl.getHalfHeight() * 2.0f, poly_col, line_col, fsDrawMgr::DEFAULT_3D_SCREEN_ID);
+}
+
+
 static void drawBox(const fsCdt::Box box, fsCol poly_col, fsCol line_col)
 {
     fsDebugMgr::drawBox(box.getWorld(), box.getHalfSize() * 2.0f, poly_col, line_col, fsDrawMgr::DEFAULT_3D_SCREEN_ID);
@@ -49,12 +55,15 @@ static void drawAABB(const fsCdt::AABB aabb, fsCol line_col)
 }
 
 
-bool CollisionTarget::chefsTargetHit(const Target1& tgt1, const fsCdt::Ray& hit_ray)
+bool CollisionTarget::checkTargetHit(const Target1& tgt1, const fsCdt::Ray& hit_ray)
 {
     switch (tgt1.type)
     {
     case TARGET1_SPHERE:
         return fsCdt::intersect(NULL, hit_ray, tgt1.sph);
+
+    case TARGET1_CYLINDER:
+        return fsCdt::intersect(NULL, hit_ray, tgt1.cyl);
 
     case TARGET1_BOX:
         return fsCdt::intersect(NULL, hit_ray, tgt1.box);
@@ -80,12 +89,15 @@ bool CollisionTarget::chefsTargetHit(const Target1& tgt1, const fsCdt::Ray& hit_
 }
 
 
-bool CollisionTarget::chefsTargetHit(const Target2& tgt2, const fsCdt::Ray& hit_ray)
+bool CollisionTarget::checkTargetHit(const Target2& tgt2, const fsCdt::Ray& hit_ray)
 {
     switch (tgt2.type)
     {
     case TARGET2_SPHERE:
         return fsCdt::intersect(NULL, hit_ray, tgt2.sph);
+
+    case TARGET2_CYLINDER:
+        return fsCdt::intersect(NULL, hit_ray, tgt2.cyl);
 
     case TARGET2_BOX:
         return fsCdt::intersect(NULL, hit_ray, tgt2.box);
@@ -104,6 +116,10 @@ void CollisionTarget::updateTarget(Target1* tgt1, const fsMat& world, const fsVe
     tgt1->sph.setPos(world.trans);
     tgt1->sph.setRadius(size.y / 2.0f);
 
+    tgt1->cyl.setWorld(world);
+    tgt1->cyl.setRadius(size.y / 2.0f);
+    tgt1->cyl.setHalfHeight(size.z / 2.0f);
+
     tgt1->box.setWorld(world);
     tgt1->box.setSize(size.x, size.y, size.z);
 
@@ -117,6 +133,10 @@ void CollisionTarget::updateTarget(Target2* tgt2, const fsMat& world, const fsVe
 {
     tgt2->sph.setPos(world.trans);
     tgt2->sph.setRadius(size.x / 2.0f);
+
+    tgt2->cyl.setWorld(world);
+    tgt2->cyl.setRadius(size.y / 2.0f);
+    tgt2->cyl.setHalfHeight(size.z / 2.0f);
 
     tgt2->box.setWorld(world);
     tgt2->box.setSize(size.x, size.y, size.z);
@@ -135,6 +155,11 @@ void CollisionTarget::drawTarget(const Target1& tgt1, fsCol poly_col, fsCol line
     case TARGET1_SPHERE:
         drawSphere(tgt1.sph, poly_col, line_col);
         drawAABB(tgt1.sph.getAABB(), aabb_col);
+        break;
+
+    case TARGET1_CYLINDER:
+        drawCylinder(tgt1.cyl, poly_col, line_col);
+        drawAABB(tgt1.cyl.getAABB(), aabb_col);
         break;
 
     case TARGET1_BOX:
@@ -162,6 +187,11 @@ void CollisionTarget::drawTarget(const Target2& tgt2, fsCol poly_col, fsCol line
         drawAABB(tgt2.sph.getAABB(), aabb_col);
         break;
 
+    case TARGET1_CYLINDER:
+        drawCylinder(tgt2.cyl, poly_col, line_col);
+        drawAABB(tgt2.cyl.getAABB(), aabb_col);
+        break;
+
     case TARGET2_BOX:
         drawBox(tgt2.box, poly_col, line_col);
         drawAABB(tgt2.box.getAABB(), aabb_col);
@@ -187,11 +217,34 @@ bool CollisionTarget::collide(fsCdt::CdtInfo* cdt_info, const Target1& tgt1, con
         case TARGET2_SPHERE:
             return fsCdt::collide(cdt_info, tgt1.sph, tgt2.sph);
 
+        case TARGET2_CYLINDER:
+            return fsCdt::collide(cdt_info, tgt1.sph, tgt2.cyl);
+
         case TARGET2_BOX:
             return fsCdt::collide(cdt_info, tgt1.sph, tgt2.box);
 
         case TARGET2_TRIANGLE:
             return fsCdt::collide(cdt_info, tgt1.sph, tgt2.tri);
+
+        default:
+            return false;
+        }
+    }
+    else if (tgt1.type == TARGET1_CYLINDER)
+    {
+        switch (tgt2.type)
+        {
+        case TARGET2_SPHERE:
+            return fsCdt::collide(cdt_info, tgt1.cyl, tgt2.sph);
+
+        case TARGET2_CYLINDER:
+            return fsCdt::collide(cdt_info, tgt1.cyl, tgt2.cyl);
+
+        case TARGET2_BOX:
+            return fsCdt::collide(cdt_info, tgt1.cyl, tgt2.box);
+
+        case TARGET2_TRIANGLE:
+            return fsCdt::collide(cdt_info, tgt1.cyl, tgt2.tri);
 
         default:
             return false;
@@ -203,6 +256,9 @@ bool CollisionTarget::collide(fsCdt::CdtInfo* cdt_info, const Target1& tgt1, con
         {
         case TARGET2_SPHERE:
             return fsCdt::collide(cdt_info, tgt1.box, tgt2.sph);
+
+        case TARGET2_CYLINDER:
+            return fsCdt::collide(cdt_info, tgt1.box, tgt2.cyl);
 
         case TARGET2_BOX:
             return fsCdt::collide(cdt_info, tgt1.box, tgt2.box);
@@ -227,6 +283,9 @@ bool CollisionTarget::intersect(fsVec* pos, const Target1& tgt1, const Target2& 
         {
         case TARGET2_SPHERE:
             return fsCdt::intersect(pos, tgt1.ray, tgt2.sph);
+
+        case TARGET2_CYLINDER:
+            return fsCdt::intersect(pos, tgt1.ray, tgt2.cyl);
 
         case TARGET2_BOX:
             return fsCdt::intersect(pos, tgt1.ray, tgt2.box);

@@ -89,7 +89,7 @@ void fsCdt::Ray::updateAABB()
 
 bool fsCdt::intersect(fsVec* pos, const Ray& ray, const Sph& sph)
 {
-    if (!chefsTouch(ray.m_aabb, sph.m_aabb))
+    if (!checkTouch(ray.m_aabb, sph.m_aabb))
     {
         return false;
     }
@@ -143,9 +143,20 @@ bool fsCdt::intersect(fsVec* pos, const Ray& ray, const Sph& sph)
 }
 
 
+bool fsCdt::intersect(fsVec* pos, const Ray& ray, const Cyl& cyl)
+{
+    if (!checkTouch(ray.m_aabb, cyl.m_aabb))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
 bool fsCdt::intersect(fsVec* pos, const Ray& ray, const Box& box)
 {
-    if (!chefsTouch(ray.m_aabb, box.m_aabb))
+    if (!checkTouch(ray.m_aabb, box.m_aabb))
     {
         return false;
     }
@@ -174,7 +185,7 @@ bool fsCdt::intersect(fsVec* pos, const Ray& ray, const Box& box)
 
 bool fsCdt::intersect(fsVec* pos, const Ray& ray, const Tri& tri)
 {
-    if (!chefsTouch(ray.m_aabb, tri.m_aabb))
+    if (!checkTouch(ray.m_aabb, tri.m_aabb))
     {
         return false;
     }
