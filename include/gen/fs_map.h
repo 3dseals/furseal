@@ -615,16 +615,30 @@ public:
 
 		if (getN(key))
 		{
-			getN(key)->addLast(&data);
+			MultiMapItem* new_item = fsNew(MultiMapItem);
+
+			new_item->self = data;
+			new_item->list_item.init(&new_item->self);
+			new_item->order_item.init(new_item);
+			new_item->hash_item.init(new_item);
+			new_item->key = key;
+			get(key)->addLast(&new_item->list_item);
+
+			m_order_list.addLast(&new_item->order_item);
+
+			s32 index = key % m_hash_size;
+			m_hash_list[(index < 0) ? -index : index].addLast(&new_item->hash_item);
 		}
 		else
 		{
 			MultiMapItem* new_item = fsNew(MultiMapItem);
 
+			new_item->self = data;
+			new_item->list_item.init(&new_item->self);
 			new_item->order_item.init(new_item);
 			new_item->hash_item.init(new_item);
 			new_item->key = key;
-			new_item->data.addLast(&data);
+			new_item->data.addLast(&new_item->list_item);
 
 			m_order_list.addLast(&new_item->order_item);
 
@@ -865,7 +879,9 @@ public:
 private:
 	struct MultiMapItem
 	{
+		D self;
 		fsList<D> data; // This data member must be at the top of this structure.
+		typename fsList<D>::Item list_item;
 		typename fsList<MultiMapItem>::Item order_item;
 		typename fsList<MultiMapItem>::Item hash_item;
 		K key;
