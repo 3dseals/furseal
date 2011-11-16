@@ -319,7 +319,7 @@ void CollisionTarget::drawAxis(fsCol col)
 {
     const r32 AXIS_LENGTH = 10000.0f;
 
-    fsDebugMgr::drawLine(fsVec::X_UNIT * AXIS_LENGTH, fsVec::X_UNIT * -AXIS_LENGTH, col, fsDrawMgr::DEFAULT_3D_SCREEN_ID);
-    fsDebugMgr::drawLine(fsVec::Y_UNIT * AXIS_LENGTH, fsVec::Y_UNIT * -AXIS_LENGTH, col, fsDrawMgr::DEFAULT_3D_SCREEN_ID);
-    fsDebugMgr::drawLine(fsVec::Z_UNIT * AXIS_LENGTH, fsVec::Z_UNIT * -AXIS_LENGTH, col, fsDrawMgr::DEFAULT_3D_SCREEN_ID);
+    fsDebugMgr::drawLine(fsVec::X_UNIT * AXIS_LENGTH, fsVec::X_UNIT * -AXIS_LENGTH, fsCol(255, 0, 0, 255), fsDrawMgr::DEFAULT_3D_SCREEN_ID);
+    fsDebugMgr::drawLine(fsVec::Y_UNIT * AXIS_LENGTH, fsVec::Y_UNIT * -AXIS_LENGTH, fsCol(0, 255, 0, 255), fsDrawMgr::DEFAULT_3D_SCREEN_ID);
+    fsDebugMgr::drawLine(fsVec::Z_UNIT * AXIS_LENGTH, fsVec::Z_UNIT * -AXIS_LENGTH, fsCol(0, 0, 255, 255), fsDrawMgr::DEFAULT_3D_SCREEN_ID);
 }

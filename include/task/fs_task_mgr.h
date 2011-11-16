@@ -2,7 +2,7 @@
  * fs_task_mgr.h
  *
  *  Created on: 2011-3-4
- *      Author: administrator
+ *      Author: Lional King
  *
  *  Copyright (c) 2011 netsurfers
  */

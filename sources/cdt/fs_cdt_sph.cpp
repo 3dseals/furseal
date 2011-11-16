@@ -106,74 +106,55 @@ bool fsCdt::collide(CdtInfo* cdt_info, const Sph& sph, const Cyl& cyl)
 	r32 sq_dist = diff.sqLength();
     r32 y_dist = diff.dot(cyl.m_world.y_axis);
 
-    if (y_dist > cyl.m_half_height)
-    {
-    	// the sphere is above the cylinder
-    	r32 h_diff = y_dist - cyl.m_half_height;
-
-    	if(h_diff > sph.m_radius)
-    	{
-    		return false;
-    	}
-
-    	r32 h_radius = fsMath::sqrt(sph.m_radius * sph.m_radius - h_diff * h_diff);
-
-    	if(sq_dist - y_dist * y_dist > (h_radius + cyl.m_radius  - fsMath::EPSILON) * (h_radius + cyl.m_radius - fsMath::EPSILON))
-    	{
-    		return false;
-    	}
-
-        if (cdt_info)
-        {
-            r32 dist = fsMath::sqrt(sq_dist);
-
-            cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
-            cdt_info->bafs_dist = sph.m_radius - h_diff;
-            cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
-        }
-    }
-    else if (y_dist < -cyl.m_half_height)
-    {
-    	// the sphere is below the cylinder
-    	r32 h_diff = y_dist + cyl.m_half_height;
-
-    	if(h_diff > sph.m_radius)
-    	{
-    		return false;
-    	}
-
-    	r32 h_radius = fsMath::sqrt(sph.m_radius * sph.m_radius - h_diff * h_diff);
-
-    	if(sq_dist - y_dist * y_dist > (h_radius + cyl.m_radius - fsMath::EPSILON) * (h_radius + cyl.m_radius - fsMath::EPSILON))
-    	{
-    		return false;
-    	}
-
-        if (cdt_info)
-        {
-            r32 dist = fsMath::sqrt(sq_dist);
-
-            cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
-            cdt_info->bafs_dist = sph.m_radius - h_diff;
-            cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
-        }
-    }
-    else
+    if (y_dist < cyl.m_half_height || y_dist > -cyl.m_half_height)
     {
     	// the sphere is in the middle of the cylinder
     	r32 sum_rad = sph.m_radius + cyl.m_radius;
+    	r32 sq_sum_dist = sq_dist - y_dist * y_dist;
 
-        if (sq_dist > (sum_rad - fsMath::EPSILON) * (sum_rad - fsMath::EPSILON))
+        if (sq_sum_dist > (sum_rad - fsMath::EPSILON) * (sum_rad - fsMath::EPSILON))
         {
             return false;
         }
 
         if (cdt_info)
         {
-            r32 dist = fsMath::sqrt(sq_dist);
+        	r32 dist = fsMath::sqrt(sq_dist);
+            r32 sum_dist = fsMath::sqrt(sq_sum_dist);
 
             cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
-            cdt_info->bafs_dist = sum_rad - dist;
+            cdt_info->bafs_dist = sum_rad - sum_dist;
+            cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
+        }
+    }
+    else
+    {
+    	// the sphere is above the cylinder
+    	r32 h_diff = fsMath::abs(y_dist) - cyl.m_half_height;
+    	if(h_diff > sph.m_radius)
+    	{
+    		return false;
+    	}
+
+    	r32 h_dist = fsMath::sqrt(sq_dist - y_dist * y_dist);
+    	if(h_dist > sph.m_radius + cyl.m_radius)
+    	{
+    		return false;
+    	}
+
+    	r32 h_radius = fsMath::sqrt(sph.m_radius * sph.m_radius - h_diff * h_diff);
+
+    	if(h_dist - cyl.m_radius > h_radius - fsMath::EPSILON)
+    	{
+    		return false;
+    	}
+
+        if (cdt_info)
+        {
+        	r32 dist = fsMath::sqrt(sq_dist);
+
+            cdt_info->bafs_dir = (dist > fsMath::EPSILON) ? diff / dist : fsVec::X_UNIT;
+            cdt_info->bafs_dist = sph.m_radius - dist * h_diff / fsMath::abs(y_dist);
             cdt_info->pos = sph.m_pos - cdt_info->bafs_dir * (sph.m_radius - cdt_info->bafs_dist / 2.0f);
         }
     }

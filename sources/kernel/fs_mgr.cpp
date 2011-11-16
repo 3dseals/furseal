@@ -16,6 +16,7 @@
 #include "fs_mem_all.h"
 #include "fs_task_all.h"
 #include "fs_input_all.h"
+#include "fs_physics_all.h"
 #include "fs_res_all.h"
 #include "fs_draw_all.h"
 #include "fs_script_all.h"
@@ -269,6 +270,7 @@ void fsMgr::createAfterMem(const char* title, u16 width, u16 height, u16 aim_fps
 
     fsTaskMgr::createAfterSys(aim_fps);
     fsInputMgr::createAfterTask();
+    fsPhysicsMgr::createAfterTask();
     fsResMgr::createAfterTask();
     fsScriptMgr::createAfterRes();
     fsDrawMgr::createAfterRes();
@@ -286,6 +288,7 @@ void fsMgr::destroyBeforeMem()
     fsDrawMgr::destroyBeforeRes();
     fsScriptMgr::destroyBeforeRes();
     fsResMgr::destroyBeforeSys();
+    fsPhysicsMgr::destroyBeforeSys();
     fsInputMgr::destroyBeforeSys();
 
     if (m_instance)
@@ -361,6 +364,8 @@ void fsMgr::updateForEngine(bool render)
 
 
     fsTaskMgr::updateForEngine();
+    fsPhysicsMgr::updateForEngine();
+
     if(render)
     {
     fsTaskMgr::measureRenderTimeForEngine(fsDrawMgr::renderForEngine);

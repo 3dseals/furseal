@@ -14,6 +14,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := furseal
+
 LOCAL_ARM_MODE := arm
 
 LOCAL_SRC_FILES := \
@@ -132,7 +133,9 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../../../project/include/freetype \
 
 LOCAL_CFLAGS   := -D_ARM_ASSEM_ -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES
+
 LOCAL_CXXFLAGS := -DNDEBUG -DFS_ANDROID
+
 LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -llog -Wl,-s
 
 include $(BUILD_STATIC_LIBRARY)
@@ -140,7 +143,8 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := hello_furseal
-LOCAL_ARM_MODE  := arm
+
+#LOCAL_ARM_MODE  := arm
 
 LOCAL_SRC_FILES := \
 	main.cpp \
@@ -149,7 +153,9 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../../../include \
 
 LOCAL_CXXFLAGS := -DNDEBUG -DFS_ANDROID
+
 LOCAL_STATIC_LIBRARIES := furseal
+
 LOCAL_LDLIBS :=  -L$(LOCAL_PATH)/../library -lfreetype -lpng -lz -lGLESv1_CM -lgcc -llog -Wl,-s
 
 include $(BUILD_SHARED_LIBRARY)
